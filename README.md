@@ -1,1 +1,9 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=17624743&assignment_repo_type=AssignmentRepo)
+Voici le repos du groupe pour le projet Final EasyPortal !
+
+Trello : https://trello.com/b/0rJY5Std/easyportal-projet
+
+Cahier des charges : https://drive.google.com/file/d/1jTqu-DFb7wzD0Egm1XIkNRtG2iQ96qns/view
+
+Drive Ressource du Groupe (Diagramme UML/Objectifs Etudiants) : https://drive.google.com/drive/folders/113utU2sftZKCHBuI6aiLEg9IuT4zaUXk
+
+
