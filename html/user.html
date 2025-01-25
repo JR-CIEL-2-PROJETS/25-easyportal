@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>easyPortal - Utilisateurs</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #EDF4EC;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .header .user-name {
+            font-size: 1rem;
+            color: #555;
+            margin-right: 500px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 220px;
+            background-color: #fff;
+            height: 100vh;
+            position: fixed;
+            padding: 2rem 1rem;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            scroll-margin: 0;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #333;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #EDF4EC;
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        .main {
+            margin-left: 240px;
+            padding: 2rem;
+        }
+
+        .main .title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #EDF4EC;
+            border: 1px solid #dcdcdc;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-bar input {
+            flex-grow: 1;
+            border: none;
+            background: none;
+            outline: none;
+            font-size: 1rem;
+            margin-left: 0.5rem;
+        }
+
+        .btn-add {
+            background-color: #6AE38C;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-add:hover {
+            background-color: #5AD17D;
+        }
+
+        /* Table */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .table th, .table td {
+            padding: 1rem;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #EDF4EC;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .table tr:not(:last-child) {
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .table td {
+            font-size: 1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: white;
+            border-radius: 5px;
+            background-color: #6AE38C;
+        }
+
+        .btn {
+            background-color: #EDF4EC;
+            color: #333;
+            border: 1px solid #dcdcdc;
+            padding: 0.3rem 0.8rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #dcdcdc;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">✦Easy Portal</div>
+        <div class="user-name">Marwan Merdji</div>
+    </div>
+
+    <div class="sidebar">
+        <a  >Dashboard</a>
+        <a href="#" class="active">Utilisateurs</a>
+        <a href="#">Admin</a>
+        <a href="#">Plaques</a>
+        <a href="#">Portail</a>
+        <a href="#">Logs</a>
+    </div>
+
+    <div class="main">
+        <div class="title">Utilisateurs</div>
+
+        <div class="search-bar">
+            <span>🔍</span>
+            <input type="text" placeholder="Rechercher">
+        </div>
+
+        <button class="btn-add">Ajouter</button>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Temps d'accès</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Vivian Reyes</td>
+                    <td>vivian@acme.com</td>
+                    <td><span class="badge">Personnel</span></td>
+                    <td>Illimité</td>
+                    <td><button class="btn">Voir plaque(s)</button></td>
+                </tr>
+                <tr>
+                    <td>Evelyn White</td>
+                    <td>evelyn@acme.com</td>
+                    <td><span class="badge">Personnel</span></td>
+                    <td>Illimité</td>
+                    <td><button class="btn">Voir plaque(s)</button></td>
+                </tr>
+                <tr>
+                    <td>Adrian Davis</td>
+                    <td>adrian@acme.com</td>
+                    <td><span class="badge">Personnel</span></td>
+                    <td>Illimité</td>
+                    <td><button class="btn">Voir plaque(s)</button></td>
+                </tr>
+                <tr>
+                    <td>Riley Jackson</td>
+                    <td>riley@acme.com</td>
+                    <td><span class="badge">Personnel</span></td>
+                    <td>Illimité</td>
+                    <td><button class="btn">Voir plaque(s)</button></td>
+                </tr>
+                <tr>
+                    <td>Jessa Brown</td>
+                    <td>jessa@acme.com</td>
+                    <td><span class="badge">Personnel</span></td>
+                    <td>Illimité</td>
+                    <td><button class="btn">Voir plaque(s)</button></td>
+                </tr>
+                <tr>
+                    <td>Taylor Miller</td>
+                    <td>taylor@acme.com</td>
+                    <td><span class="badge">Personnel</span></td>
+                    <td>Illimité</td>
+                    <td><button class="btn">Voir plaque(s)</button></td>
+                </tr>
+                <tr>
+                    <td>Alexis Green</td>
+                    <td>alexis@acme.com</td>
+                    <td><span class="badge" style="background-color: #5AD17D;">Intervenant</span></td>
+                    <td>Du 16/05/2025 au 17/05/2025</td>
+                    <td><button class="btn">Voir plaque(s)</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

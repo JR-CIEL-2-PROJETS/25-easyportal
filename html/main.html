@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy Portal</title>
+    
+    <style>
+ body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column; /* Permet d'afficher les éléments en colonne */
+            justify-content: flex-start; /* Aligne les éléments en haut de la page */
+            align-items: center;
+            height: 100vh;
+            background-color: #EDF4EC;
+        }
+        .header {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .container {
+            text-align: center;
+            margin-top: 8%; /* Ajoute un espacement entre le titre et le formulaire */
+        }
+        .logo {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 2rem; /* Espacement entre la section logo et les autres items */
+        }
+        .title {
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin-bottom: 4rem; /* Espacement sous le titre */
+        }
+        .input-group {
+            margin-bottom: 3rem; /* Espacement entre chaque champ de formulaire */
+        }
+        input {
+            width: 300px;
+            padding: 0.75rem;
+            border: 1px solid #dcdcdc;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            outline: none;
+        }
+        .input-group.password {
+            position: relative; /* Nécessaire pour positionner l'icône correctement */
+        }
+        .input-group.password input {
+            padding-right: 2.5rem; /* Ajoute de l'espace pour l'icône de mot de passe */
+        }
+        .toggle-password {
+            position: relative; /* Positionne l'icône à l'intérieur du champ */
+            right: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+        .btn {
+            background-color: #6AE38C;
+            width: 350px;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s; /* Ajoute une transition pour un effet au survol */
+            margin-top: 2rem; /* Espacement entre le dernier champ et le bouton */
+        }
+        .btn:hover {
+            background-color: #5AD17D; /* Change la couleur au survol */
+            
+        }
+        .mdp{
+            width: 280px;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">✦Easy Portal</div>
+    <div class="container">
+        <div class="title">Connexion</div>
+        <div class="input-group">
+            <input  type="text" placeholder="Nom Admin">
+        </div>
+        <div class="input-group password">
+            <input class= "mdp" type="password" placeholder="Mot de passe">
+            <span class="toggle-password">👁</span>
+        </div>
+        <button class="btn">Se connecter</button>
+    </div>
+</body>
+</html>
