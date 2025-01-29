@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>easyPortal - Utilisateurs</title>
+    <title>easyPortal - Admin</title>
     <style>
         body {
             margin: 0;
@@ -171,7 +171,17 @@
         .btn:hover {
             background-color: #dcdcdc;
         }
-        .user-name{
+
+        .delete-button {
+            color: red;
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            text-decoration: underline;
+        }
+
+        .user-name {
             color: black;
             position: center;
         }
@@ -180,25 +190,24 @@
 <body>
     <div class="header">
         <div class="logo">✦Easy Portal</div>
-        <div class="user-name" id="userName">Chargement...</div>
+        <div class="user-name" id="userName">Marwan Merdji</div>
     </div>
 
     <div class="sidebar">
-        <a>Dashboard</a>
-        <a href="#" class="active">Utilisateurs</a>
-        <a href="admin.html">Admin</a>
-        <a href="plaques.html">Plaques</a>
-        <a href="portail.html">Portail</a>
-        <a href="log.html">Logs</a>
+        <a href="#">Dashboard</a>
+        <a href="user.html">Utilisateurs</a>
+        <a href="#" class="active">Admin</a>
+        <a href="#">Plaques</a>
+        <a href="#">Portail</a>
+        <a href="#">Logs</a>
     </div>
 
     <div class="main">
-        <div class="title">Utilisateurs</div>
+        <div class="title">Admin</div>
 
         <div class="search-container">
             <button class="btn-add">Ajouter</button> <!-- Bouton au-dessus de la barre de recherche -->
             <div class="search-bar">
-                <span>🔍</span>
                 <input type="text" placeholder="Rechercher">
             </div>
         </div>
@@ -209,64 +218,37 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Role</th>
-                    <th>Temps d'accès</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Vivian Reyes</td>
-                    <td>vivian@acme.com</td>
-                    <td><span class="badge">Personnel</span></td>
-                    <td>Illimité</td>
-                    <td><button class="btn">Voir plaque(s)</button></td>
+                    <td>Marwan Merdji</td>
+                    <td>marwan@acme.com</td>
+                    <td><span class="badge">Super Admin</span></td>
+                    
                 </tr>
                 <tr>
-                    <td>Evelyn White</td>
-                    <td>evelyn@acme.com</td>
-                    <td><span class="badge">Personnel</span></td>
-                    <td>Illimité</td>
-                    <td><button class="btn">Voir plaque(s)</button></td>
+                    <td>Meddy Kalleche</td>
+                    <td>meddy@acme.com</td>
+                    <td><span class="badge">Admin</span></td>
+                    <td class="delete-button">Supprimer</td>
                 </tr>
                 <tr>
-                    <td>Adrian Davis</td>
-                    <td>adrian@acme.com</td>
-                    <td><span class="badge">Personnel</span></td>
-                    <td>Illimité</td>
-                    <td><button class="btn">Voir plaque(s)</button></td>
+                    <td>François Ballet</td>
+                    <td>francois@acme.com</td>
+                    <td><span class="badge">Admin</span></td>
+                    <td class="delete-button">Supprimer</td>
                 </tr>
                 <tr>
-                    <td>Riley Jackson</td>
-                    <td>riley@acme.com</td>
-                    <td><span class="badge">Personnel</span></td>
-                    <td>Illimité</td>
-                    <td><button class="btn">Voir plaque(s)</button></td>
-                </tr>
-                <tr>
-                    <td>Jessa Brown</td>
-                    <td>jessa@acme.com</td>
-                    <td><span class="badge">Personnel</span></td>
-                    <td>Illimité</td>
-                    <td><button class="btn">Voir plaque(s)</button></td>
-                </tr>
-                <tr>
-                    <td>Taylor Miller</td>
-                    <td>taylor@acme.com</td>
-                    <td><span class="badge">Personnel</span></td>
-                    <td>Illimité</td>
-                    <td><button class="btn">Voir plaque(s)</button></td>
-                </tr>
-                <tr>
-                    <td>Alexis Green</td>
-                    <td>alexis@acme.com</td>
-                    <td><span class="badge" style="background-color: #E8F2E8;">Intervenant</span></td>
-                    <td>Du 16/05/2025 au 17/05/2025</td>
-                    <td><button class="btn">Voir plaque(s)</button></td>
+                    <td>Ivan Surnin</td>
+                    <td>ivan@acme.com</td>
+                    <td><span class="badge">Admin</span></td>
+                    <td class="delete-button">Supprimer</td>
                 </tr>
             </tbody>
         </table>
     </div>
-
     <script src="js/dejaconnecter.js"></script>
 </body>
 
