@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f8fbf9">
+
+    <!-- Bouton Retour -->
+    <ImageView
+        android:id="@+id/back_button"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/fleche"
+        android:layout_alignParentStart="true"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- Titre -->
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:text="Welcome to ✦EasyPortal"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#0e1b11" />
+
+    <!-- Formulaire d'inscription -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginTop="24dp"
+        android:padding="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans"
+            android:text="Nom"
+            android:textColor="#0e1b11"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/nom"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_input"
+            android:fontFamily="sans-serif"
+            android:hint="Nom"
+            android:padding="12dp"
+            android:textColorHint="#4f9661" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans"
+            android:text="Prénom"
+            android:textColor="#0e1b11"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/prenom"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Prénom"
+            android:background="@drawable/rounded_input"
+            android:padding="12dp"
+            android:textColorHint="#4f9661" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans"
+            android:text="Email"
+            android:textColor="#0e1b11"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Email"
+            android:background="@drawable/rounded_input"
+            android:padding="12dp"
+            android:textColorHint="#4f9661" />
+
+        <!-- Champ de mot de passe avec icône d'affichage -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans"
+            android:text="Mot de passe"
+            android:textColor="#0e1b11"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Mot de passe"
+                android:background="@drawable/rounded_input"
+                android:padding="12dp"
+                android:textColorHint="#4f9661"
+                android:inputType="textPassword" />
+
+            <ImageView
+                android:id="@+id/show_password"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/oeil"
+                android:clickable="true"
+                android:focusable="true"/>
+        </RelativeLayout>
+
+        <!-- Champ de confirmation de mot de passe avec icône d'affichage -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans"
+            android:text="Confirmer le mot de passe"
+            android:textColor="#0e1b11"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Confirmer le mot de passe"
+                android:background="@drawable/rounded_input"
+                android:padding="12dp"
+                android:textColorHint="#4f9661"
+                android:inputType="textPassword" />
+
+            <ImageView
+                android:id="@+id/show_confirm_password"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/oeil"
+                android:clickable="true"
+                android:focusable="true"/>
+        </RelativeLayout>
+
+        <!-- Bouton d'inscription -->
+        <Button
+            android:id="@+id/register_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_button1"
+            android:text="Register"
+            android:textColor="#0e1b11"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</RelativeLayout>

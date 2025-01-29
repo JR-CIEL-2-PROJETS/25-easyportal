@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Image de fond -->
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fleur" />
+
+    <!-- Contenu principal -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:background="@android:color/white"
+        android:padding="16dp">
+
+        <!-- Icône de validation -->
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ok" />
+
+        <!-- Message de succès -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Merci de votre inscription"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:paddingTop="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vous serez contactés par mails dans de brefs délais"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:paddingTop="8dp"/>
+
+        <!-- Bouton Retour -->
+        <Button
+            android:id="@+id/btnRetourAccueil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Retour à l'accueil"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_button2"/>
+    </LinearLayout>
+
+</RelativeLayout>

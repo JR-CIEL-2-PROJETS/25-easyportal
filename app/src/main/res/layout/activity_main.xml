@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f8fbf9">
+
+    <!-- En-tête avec une image de fond et superposition -->
+    <ImageView
+        android:id="@+id/background_image"
+        android:layout_width="match_parent"
+        android:layout_height="475dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="24dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/princpal" />
+
+    <!-- Superposition de dégradé -->
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="475dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/gradient_overlay" />
+
+    <!-- Titre principal -->
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_alignTop="@id/background_image"
+        android:layout_alignBottom="@id/background_image"
+        android:translationY="25dp"
+    android:fontFamily="@font/noto_sans"
+    android:gravity="center"
+    android:text="Welcome to \nEasyPortal"
+    android:textColor="#FFFFFF"
+    android:textSize="28sp"
+    android:textStyle="bold" />
+
+    <!-- Section de texte pour connexion ou inscription -->
+    <TextView
+        android:id="@+id/instruction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/background_image"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="6dp"
+        android:fontFamily="@font/noto_sans"
+        android:text="Please login or register for an \naccount"
+        android:textColor="#121111"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+    <!-- Conteneur pour les boutons -->
+    <LinearLayout
+        android:id="@+id/button_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/instruction"
+        android:layout_marginTop="18dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!-- Bouton Login -->
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="329dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_button"
+            android:backgroundTint="#60eb83"
+            android:text="Login"
+            android:textColor="#0e1b11"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- Bouton Register -->
+        <Button
+            android:id="@+id/register_button"
+            android:layout_width="333dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button_register"
+            android:backgroundTint="#FFFFFF"
+            android:text="Register"
+            android:textColor="#0e1b11"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>
