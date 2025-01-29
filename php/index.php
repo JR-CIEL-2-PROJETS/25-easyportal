@@ -11,23 +11,13 @@ $id = isset($_GET['id']) ? $_GET['id'] : null;
 switch ($method) {
     case 'POST':
         $data = json_decode(file_get_contents("php://input"), true);
+
         if (isset($data['numero'])) {
             echo json_encode(['message' => ajouterPlaque($data['numero'], 'actif', $pdo)]);
+        } elseif (isset($data['id']) && isset($data['statut'])) {
+            echo json_encode(['message' => modifierPlaque($data['id'], $data['statut'], $pdo)]);
         } else {
-            echo json_encode(['error' => 'Numéro de plaque manquant']);
-        }
-        break;
-
-    case 'PUT':
-        if ($id) {
-            $data = json_decode(file_get_contents("php://input"), true);
-            if (isset($data['statut'])) {
-                echo json_encode(['message' => modifierPlaque($id, $data['statut'], $pdo)]);
-            } else {
-                echo json_encode(['error' => 'Statut manquant']);
-            }
-        } else {
-            echo json_encode(['error' => 'ID manquant']);
+            echo json_encode(['error' => 'Données manquantes pour l\'ajout ou la modification']);
         }
         break;
 
