@@ -1,5 +1,7 @@
 <?php
-include 'config.php';
+
+include '../php/config.php'; 
+include '../Plaque/fonctions.php'; 
 
 function ajouterPlaque($numero, $statut = 'actif') {
     global $pdo;
