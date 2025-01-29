@@ -1,9 +1,6 @@
 <?php
-// Informations de connexion à la base de données
-$host = '127.0.0.1'; // Adresse du serveur
-$dbname = 'Easy-portal'; // Nom de la base de données
-$username = 'root'; // Nom d'utilisateur MySQL
-$password = ''; // Mot de passe MySQL
+
+include 'config.php';
 
 try {
     // Connexion à la base de données avec PDO
@@ -16,35 +13,36 @@ try {
 // Vérification si le formulaire a été soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Vérification si toutes les données sont présentes
-    if (isset($_POST['pseudo'], $_POST['prenom'], $_POST['nom'], $_POST['plaques'], $_POST['date'])) {
-        // Récupération des données du formulaire
-        $pseudo = htmlspecialchars(trim($_POST['pseudo']));
-        $prenom = htmlspecialchars(trim($_POST['prenom']));
+    if (isset($_POST['nom'], $_POST['prenom'], $_POST['email'], $_POST['mot_de_passe'])) {
+        // Récupération et validation des données du formulaire
         $nom = htmlspecialchars(trim($_POST['nom']));
-        $plaques = htmlspecialchars(trim($_POST['plaques']));
-        $date = $_POST['date'];
+        $prenom = htmlspecialchars(trim($_POST['prenom']));
+        $email = htmlspecialchars(trim($_POST['email']));
+        $mot_de_passe = htmlspecialchars(trim($_POST['mot_de_passe']));
 
-        // Validation simple des plaques (par exemple, format alphanumérique)
-        if (!preg_match("/^[A-Za-z0-9-]+$/", $plaques)) {
-            echo "Erreur : Format des plaques d'immatriculation invalide.";
+        // Validation de l'email
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo "Erreur : Format d'email invalide.";
             exit;
         }
 
-        // Préparation de la requête SQL
-        $sql = "INSERT INTO users (pseudo, prénom, nom, plaques, date) VALUES (:pseudo, :prenom, :nom, :plaques, :date)";
+        // Hachage du mot de passe pour plus de sécurité
+        $mot_de_passe_hache = password_hash($mot_de_passe, PASSWORD_DEFAULT);
+
+        // Préparation de la requête SQL (la colonne "date" est gérée par la base de données)
+        $sql = "INSERT INTO users (nom, prénom, email, mot_de_passe) VALUES (:nom, :prenom, :email, :mot_de_passe)";
 
         try {
             $stmt = $pdo->prepare($sql);
             // Exécution de la requête avec les données du formulaire
             $stmt->execute([
-                ':pseudo' => $pseudo,
-                ':prenom' => $prenom,
                 ':nom' => $nom,
-                ':plaques' => $plaques,
-                ':date' => $date,
+                ':prenom' => $prenom,
+                ':email' => $email,
+                ':mot_de_passe' => $mot_de_passe_hache,
             ]);
 
-            echo "Données insérées avec succès !";
+            echo "Utilisateur ajouté avec succès !";
         } catch (PDOException $e) {
             echo "Erreur lors de l'insertion des données : " . $e->getMessage();
         }
