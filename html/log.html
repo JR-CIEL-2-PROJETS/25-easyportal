@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>easyPortal - Logs</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #EDF4EC;
+            color: #333;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background-color: #F7FAF7;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            height: 60px;
+        }
+
+        .header .logo {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .sidebar {
+            width: 220px;
+            background-color: #F7FAF7;
+            height: calc(100vh - 60px);
+            position: fixed;
+            top: 60px;
+            left: 0;
+            padding: 1rem 0.5rem;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #333;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.5rem 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #EDF4EC;
+            font-weight: bold;
+        }
+
+        .main {
+            margin-left: 240px;
+            padding: 1rem;
+        }
+
+        .logs-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #F7FAF7;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">✦Easy Portal</div>
+        <div class="user-name">Marwan Merdji</div>
+    </div>
+
+    <div class="sidebar">
+        <a href="#">Dashboard</a>
+        <a href="#">Users</a>
+        <a href="#">Admin</a>
+        <a href="#">Plaques</a>
+        <a href="#">Portail</a>
+        <a href="#" class="active">Logs</a>
+    </div>
+
+    <div class="main">
+        <h2>Logs</h2>
+        <div class="logs-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Date</th>
+                        <th>Plaques</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Vivian Rayes</td>
+                        <td>2024-12-01 15:45</td>
+                        <td>AB-123-CD</td>
+                        <td>a ouvert le portail via l’app</td>
+                    </tr>
+                    <tr>
+                        <td>Adrian Davis</td>
+                        <td>2024-12-01 12:45</td>
+                        <td>EF-456-GD</td>
+                        <td>a déclenché l’ouverture</td>
+                    </tr>
+                    <tr>
+                        <td>Taylor Miller</td>
+                        <td>2024-12-01 10:15</td>
+                        <td>ST-654-UV</td>
+                        <td>a déclenché l’ouverture</td>
+                    </tr>
+                    <tr>
+                        <td>Alexis Green</td>
+                        <td>2024-12-01 08:10</td>
+                        <td>WX-987-YZ</td>
+                        <td>a déclenché l’ouverture</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
