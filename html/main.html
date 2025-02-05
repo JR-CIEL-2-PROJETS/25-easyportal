@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Easy Portal</title>
-    
     <style>
         body {
             margin: 0;
@@ -25,6 +23,7 @@
         .container {
             text-align: center;
             margin-top: 8%;
+            display: none; /* Cacher le contenu par défaut */
         }
         .title {
             font-weight: bold;
@@ -54,7 +53,6 @@
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
-            margin-left: 500px;
         }
         .btn {
             background-color: #6AE38C;
@@ -83,9 +81,28 @@
             color: red;
             margin-top: 1rem;
         }
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Assurez-vous que le chargement est au-dessus du contenu */
+        }
+        #loading-screen img {
+            width: 1500px; /* Ajustez la taille selon vos besoins, par exemple 150px */
+            /* Vous pouvez aussi utiliser height si vous voulez garder un ratio */
+        }
     </style>
 </head>
 <body>
+    <div id="loading-screen">
+        <img src="image/logo.jpg" alt="Chargement..."> <!-- Utiliser une image PNG -->
+    </div>
     <div class="header">✦Easy Portal</div>
     <div class="container">
         <div class="title">Connexion</div>
@@ -130,11 +147,6 @@
                 if (data.administrateur && Array.isArray(data.administrateur) && data.administrateur.length > 0) {
                     const user = data.administrateur[0];
 
-                    console.log('Email saisi:', email);
-                    console.log('Mot de passe saisi:', password);
-                    console.log('Email de l\'API:', user.email);
-                    console.log('Mot de passe de l\'API:', user.password);
-
                     if (email === user.email && password === user.password) {
                         displayMessage('Connexion réussie !', false);
                         window.location.href = 'user.html';
@@ -149,6 +161,14 @@
                 displayMessage('Erreur de connexion. Veuillez réessayer.');
             }
         }
+
+        window.onload = function() {
+            // Simuler un temps de chargement
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.display = 'none';
+                document.querySelector('.container').style.display = 'block';
+            }, 1000); // 2000 millisecondes (2 secondes) pour le chargement
+        };
 
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
