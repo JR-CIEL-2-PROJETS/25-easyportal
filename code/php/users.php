@@ -1,19 +1,22 @@
 <?php
-
-include 'config.php';
+include 'config.php';  // Inclure la configuration de la base de données
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['nom'], $_POST['prenom'], $_POST['email'], $_POST['mot_de_passe'])) {
+        
+        // Sécurisation des entrées
         $nom = htmlspecialchars(trim($_POST['nom']));
         $prenom = htmlspecialchars(trim($_POST['prenom']));
         $email = htmlspecialchars(trim($_POST['email']));
         $mot_de_passe = password_hash(htmlspecialchars(trim($_POST['mot_de_passe'])), PASSWORD_DEFAULT);
 
+        // Validation de l'email
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             echo "Erreur : Format d'email invalide.";
             exit;
         }
 
+        // Requête SQL pour insérer les données de l'utilisateur
         $sql = "INSERT INTO users (nom, prenom, email, mot_de_passe) VALUES (:nom, :prenom, :email, :mot_de_passe)";
         
         try {
