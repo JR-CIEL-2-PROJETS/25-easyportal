@@ -65,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
         // Tentative de connexion pour les utilisateurs
         val urlUser = "https://4db7e0eb-4ed7-4f36-8568-cbdb4e93af75.mock.pstmn.io/connexion/user1?email=$email&password=$password"
         // Tentative de connexion pour l'admin
-        val urlAdmin = "https://4db7e0eb-4ed7-4f36-8568-cbdb4e93af75.mock.pstmn.io/connexion/admin1?username=admin&password=admin"
+        val urlAdmin = "https://4db7e0eb-4ed7-4f36-8568-cbdb4e93af75.mock.pstmn.io/connexion/admin1?email=admin@gmail.com&password=admin"
 
         val requestQueue = Volley.newRequestQueue(this)
 

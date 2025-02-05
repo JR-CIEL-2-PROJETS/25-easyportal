@@ -1,20 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.widget.ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f8fbf9">
+    android:background="#E8F2E8">
 
-    <!-- Titre du tableau de bord Admin -->
-    <TextView
-        android:id="@+id/welcome_text"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:text="Bienvenue, Admin !"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="#0e1b11" />
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <!-- Vous pouvez ajouter des boutons ou des sections supplémentaires ici -->
-</RelativeLayout>
+        <!-- Top bar with title and admin icon -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="#FFFFFF"
+            android:padding="16dp">
+
+            <!-- Back button -->
+            <ImageView
+                android:id="@+id/back_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/fleche" />
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Admin Dashboard"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#000000" />
+
+            <!-- Admin icon -->
+            <ImageView
+                android:id="@+id/admin_image"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/administrator" />
+        </RelativeLayout>
+
+        <!-- Dashboard buttons -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:columnCount="2"
+            android:gravity="center"
+            android:padding="16dp"
+            android:rowCount="2">
+
+            <!-- Camera Button -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/camera" />
+
+                <Button
+                    android:id="@+id/btn_camera"
+                    android:layout_width="150dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/rounded_button1"
+                    android:text="Camera"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- Gestion de Plaque Button -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/voiture" />
+
+                <Button
+                    android:id="@+id/btn_plaques"
+                    android:layout_width="150dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/rounded_button1"
+                    android:text="Gestion de Plaque"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- Logs Button -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/logs" />
+
+                <Button
+                    android:id="@+id/btn_logs"
+                    android:layout_width="150dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/rounded_button1"
+                    android:text="Logs"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- Ouvrir le portail Button -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/portail" />
+
+                <Button
+                    android:id="@+id/btn_portail"
+                    android:layout_width="150dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/rounded_button1"
+                    android:text="Ouvrir le portail"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </GridLayout>
+
+    </LinearLayout>
+
+</android.widget.ScrollView>
