@@ -10,48 +10,47 @@
             font-family: Arial, sans-serif;
             background-color: #EDF4EC;
             color: #333;
-            overflow: hidden; /* Empêche le défilement */
+            overflow: hidden;
         }
 
-        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.5rem 1rem; /* Réduit le padding */
+            padding: 0.5rem 1rem;
             background-color: #F7FAF7;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            height: 60px; /* Hauteur de l'en-tête */
+            height: 60px;
         }
 
         .header .logo {
-            font-size: 1rem; /* Réduit la taille de la police */
+            font-size: 1rem;
             font-weight: bold;
         }
 
         .header .user-name {
-            font-size: 0.9rem; /* Réduit la taille de la police */
+            font-size: 0.9rem;
             color: #555;
         }
 
-        /* Sidebar */
         .sidebar {
             width: 220px;
             background-color: #F7FAF7;
-            height: calc(100vh - 60px); /* Ajuste la hauteur de la barre latérale */
-            position: fixed; /* Fixe la barre latérale */
-            top: 60px; /* Positionne en dessous de l'en-tête */
-            left: 0; /* Positionne à gauche */
-            padding: 1rem 0.5rem; /* Réduit le padding */
+            height: calc(100vh - 60px);
+            position: fixed;
+            top: 60px;
+            left: 0;
+            padding: 1rem 0.5rem;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
         }
 
         .sidebar a {
             display: block;
             color: #333;
             text-decoration: none;
-            font-size: 0.9rem; /* Réduit la taille de la police */
-            padding: 0.5rem 0.5rem; /* Réduit le padding */
+            font-size: 0.9rem;
+            padding: 0.5rem 0.5rem;
             margin-bottom: 0.5rem;
             border-radius: 5px;
             transition: background-color 0.3s;
@@ -62,34 +61,31 @@
             font-weight: bold;
         }
 
-        /* Main Content */
         .main {
-            margin-left: 240px; /* Espace pour la barre latérale fixe */
-            padding: 1rem; /* Réduit le padding */
-            background-color: #F7FAF7;
-            height: calc(100vh - 60px); /* Ajuste la hauteur du contenu principal */
-            overflow-y: auto; /* Permet le défilement vertical si nécessaire */
+            margin-left: 240px;
+            padding: 1rem;
         }
 
-        .main .title {
-            font-size: 1.2rem; /* Réduit la taille de la police */
+
+        .title {
+            font-size: 1.2rem;
             font-weight: bold;
             margin-bottom: 1rem;
         }
 
         .search-container {
             display: flex;
-            flex-direction: column; /* Aligne les éléments verticalement */
-            margin-bottom: 1rem; /* Ajuste l'espace */
+            flex-direction: column;
+            margin-bottom: 1rem;
         }
 
         .search-bar {
             display: flex;
             align-items: center;
-            background-color: #E8F2E8;
-            border: 1px solid #dcdcdc;
+            background-color: #F7FAF7;
+            border: 1px solid grey;
             border-radius: 5px;
-            padding: 0.3rem 0.5rem; /* Réduit le padding */
+            padding: 0.3rem 0.5rem;
         }
 
         .search-bar input {
@@ -97,27 +93,26 @@
             border: none;
             background: none;
             outline: none;
-            font-size: 0.9rem; /* Réduit la taille de la police */
-            margin-left: 0.3rem; /* Réduit l'espace */
+            font-size: 0.9rem;
+            margin-left: 0.3rem;
         }
 
         .btn-add {
             background-color: #EDF4EC;
             color: black;
             border: none;
-            padding: 0.3rem 0.5rem; /* Réduit le padding */
+            padding: 0.3rem 0.5rem;
             border-radius: 5px;
-            font-size: 0.9rem; /* Réduit la taille de la police */
+            font-size: 0.9rem;
             cursor: pointer;
-            align-self: flex-end; /* Aligne le bouton à droite */
-            margin-bottom: 0.5rem; /* Ajout d'un petit espace en bas du bouton */
+            align-self: flex-end;
+            margin-bottom: 0.5rem;
         }
 
         .btn-add:hover {
             background-color: #5AD17D;
         }
 
-        /* Table */
         .table {
             width: 100%;
             border-collapse: collapse;
@@ -125,26 +120,23 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            
         }
 
         .table th, .table td {
-            padding: 0.5rem; /* Réduit le padding */
+            padding: 0.5rem;
             text-align: left;
         }
 
         .table th {
-            background-color: #EDF4EC;
+            background-color: #F7FAF7;
             font-size: 0.9rem;
             font-weight: bold;
             text-transform: uppercase;
         }
 
         .table tr:not(:last-child) {
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .table td {
-            font-size: 0.9rem; /* Réduit la taille de la police */
+            border-bottom: 1px solid grey;
         }
 
         .badge {
@@ -157,33 +149,27 @@
             background-color: #E8F2E8;
         }
 
-        .btn {
-            background-color: #EDF4EC;
-            color: #333;
-            border: 1px solid #dcdcdc;
-            padding: 0.3rem 0.8rem;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .btn:hover {
-            background-color: #dcdcdc;
-        }
-
         .delete-button {
-            color: red;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
             cursor: pointer;
         }
 
         .delete-button:hover {
-            text-decoration: underline;
+            background-color: darkred;
         }
 
-        .user-name {
-            color: black;
-            position: center;
+        .alert {
+            background-color: #ffcccc;
+            color: red;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
         }
     </style>
 </head>
@@ -194,62 +180,108 @@
     </div>
 
     <div class="sidebar">
-        <a href="#">Dashboard</a>
+        <a>Dashboard</a>
         <a href="user.html">Utilisateurs</a>
-        <a href="#" class="active">Admin</a>
-        <a href="#">Plaques</a>
-        <a href="#">Portail</a>
-        <a href="#">Logs</a>
+        <a href="admin.html" class="active">Admin</a>
+        <a href="plaques.html">Plaques</a>
+        <a href="portail.html">Portail</a>
+        <a href="log.html">Logs</a>
     </div>
 
     <div class="main">
         <div class="title">Admin</div>
+        <div id="alert-container"></div>
 
         <div class="search-container">
-            <a   <button href="ajoutAdmin.html" class="btn-add">Ajouter</button> </a> <!-- Bouton au-dessus de la barre de recherche -->
+            <a href="ajoutAdmin.html" class="btn-add">Ajouter</a>
             <div class="search-bar">
-                <input type="text" placeholder="Rechercher">
+                <input type="text" id="prenomAdminInput" placeholder="Prénom" oninput="filterAdmins()">
+                <input type="text" id="nomAdminInput" placeholder="Nom" oninput="filterAdmins()">
+                <input type="text" id="emailAdminInput" placeholder="Email" oninput="filterAdmins()">
+                <input type="text" id="roleAdminInput" placeholder="Rôle" oninput="filterAdmins()">
             </div>
         </div>
 
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Nom</th>
                     <th>Email</th>
-                    <th>Role</th>
+                    <th>Rôle</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>Marwan Merdji</td>
-                    <td>marwan@acme.com</td>
-                    <td><span class="badge">Super Admin</span></td>
-                    
-                </tr>
-                <tr>
-                    <td>Meddy Kalleche</td>
-                    <td>meddy@acme.com</td>
-                    <td><span class="badge">Admin</span></td>
-                    <td class="delete-button">Supprimer</td>
-                </tr>
-                <tr>
-                    <td>François Ballet</td>
-                    <td>francois@acme.com</td>
-                    <td><span class="badge">Admin</span></td>
-                    <td class="delete-button">Supprimer</td>
-                </tr>
-                <tr>
-                    <td>Ivan Surnin</td>
-                    <td>ivan@acme.com</td>
-                    <td><span class="badge">Admin</span></td>
-                    <td class="delete-button">Supprimer</td>
-                </tr>
-            </tbody>
+            <tbody id="adminTableBody"></tbody>
         </table>
     </div>
+
+    <script>
+        let adminsData = []; // Pour stocker les administrateurs récupérés
+
+        async function fetchAdmins() {
+            try {
+                const response = await fetch('https://4db7e0eb-4ed7-4f36-8568-cbdb4e93af75.mock.pstmn.io/connexion/admin1?email=admin@gmail.com&password=admin');
+                
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP : ${response.status}`);
+                }
+
+                const data = await response.json();
+                adminsData = data.administrateur; // Stocke les administrateurs pour la recherche
+                if (!Array.isArray(adminsData)) {
+                    throw new Error("Format de réponse incorrect");
+                }
+                displayAdmins(adminsData);
+
+            } catch (error) {
+                console.error("Erreur :", error);
+            }
+        }
+
+        function displayAdmins(admins) {
+            const tbody = document.getElementById("adminTableBody");
+            tbody.innerHTML = ""; // Efface les anciennes lignes
+
+            admins.forEach(admin => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${admin.prenom} ${admin.nom}</td>
+                    <td>${admin.email}</td>
+                    <td><span class="badge">${admin.role}</span></td>
+                    <td>
+                        ${admin.role !== "Super Admin" 
+                            ? `<button class="delete-button" onclick="deleteAdmin('${admin.prenom}', '${admin.nom}')">Supprimer</button>` 
+                            : `<span style="color:gray;">Non supprimable</span>`
+                        }
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function filterAdmins() {
+            const prenomInput = document.getElementById("prenomAdminInput").value.toLowerCase();
+            const nomInput = document.getElementById("nomAdminInput").value.toLowerCase();
+            const emailInput = document.getElementById("emailAdminInput").value.toLowerCase();
+            const roleInput = document.getElementById("roleAdminInput").value.toLowerCase();
+
+            const filteredAdmins = adminsData.filter(admin => {
+                return admin.prenom.toLowerCase().includes(prenomInput) &&
+                       admin.nom.toLowerCase().includes(nomInput) &&
+                       admin.email.toLowerCase().includes(emailInput) &&
+                       admin.role.toLowerCase().includes(roleInput);
+            });
+            displayAdmins(filteredAdmins);
+        }
+
+        function deleteAdmin(prenom, nom) {
+            const alertContainer = document.getElementById("alert-container");
+            alertContainer.innerHTML = `<div class="alert">Administrateur ${prenom} ${nom} supprimé !</div>`;
+            setTimeout(() => alertContainer.innerHTML = "", 3000); // Efface l'alerte après 3 secondes
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchAdmins);
+    </script>
     <script src="js/dejaconnecter.js"></script>
 </body>
-
 </html>

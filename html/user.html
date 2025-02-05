@@ -5,53 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>easyPortal - Utilisateurs</title>
     <style>
-        body {
+         body {
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: #EDF4EC;
             color: #333;
-            overflow: hidden; /* Empêche le défilement */
         }
 
-        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.5rem 1rem; /* Réduit le padding */
+            padding: 0.5rem 1rem;
             background-color: #F7FAF7;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            height: 60px; /* Hauteur de l'en-tête */
+            height: 60px;
         }
 
         .header .logo {
-            font-size: 1rem; /* Réduit la taille de la police */
+            font-size: 1rem;
             font-weight: bold;
         }
 
-        .header .user-name {
-            font-size: 0.9rem; /* Réduit la taille de la police */
-            color: #555;
-        }
-
-        /* Sidebar */
         .sidebar {
             width: 220px;
             background-color: #F7FAF7;
-            height: calc(100vh - 60px); /* Ajuste la hauteur de la barre latérale */
-            position: fixed; /* Fixe la barre latérale */
-            top: 60px; /* Positionne en dessous de l'en-tête */
-            left: 0; /* Positionne à gauche */
-            padding: 1rem 0.5rem; /* Réduit le padding */
+            height: calc(100vh - 60px);
+            position: fixed;
+            top: 60px;
+            left: 0;
+            padding: 1rem 0.5rem;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
         }
 
         .sidebar a {
             display: block;
             color: #333;
             text-decoration: none;
-            font-size: 0.9rem; /* Réduit la taille de la police */
-            padding: 0.5rem 0.5rem; /* Réduit le padding */
+            font-size: 0.9rem;
+            padding: 0.5rem 0.5rem;
             margin-bottom: 0.5rem;
             border-radius: 5px;
             transition: background-color 0.3s;
@@ -61,35 +54,32 @@
             background-color: #EDF4EC;
             font-weight: bold;
         }
-
-        /* Main Content */
         .main {
-            margin-left: 240px; /* Espace pour la barre latérale fixe */
-            padding: 1rem; /* Réduit le padding */
-            background-color: #F7FAF7;
-            height: calc(100vh - 60px); /* Ajuste la hauteur du contenu principal */
-            overflow-y: auto; /* Permet le défilement vertical si nécessaire */
+            margin-left: 240px;
+            padding: 1rem;
         }
 
-        .main .title {
-            font-size: 1.2rem; /* Réduit la taille de la police */
+
+
+        .title {
+            font-size: 1.2rem;
             font-weight: bold;
             margin-bottom: 1rem;
         }
 
         .search-container {
             display: flex;
-            flex-direction: column; /* Aligne les éléments verticalement */
-            margin-bottom: 1rem; /* Ajuste l'espace */
+            flex-direction: column;
+            margin-bottom: 1rem;
         }
 
         .search-bar {
             display: flex;
             align-items: center;
-            background-color: #E8F2E8;
-            border: 1px solid #dcdcdc;
+            background-color: #F7FAF7;
+            border: 1px solid grey;
             border-radius: 5px;
-            padding: 0.3rem 0.5rem; /* Réduit le padding */
+            padding: 0.3rem 0.5rem;
         }
 
         .search-bar input {
@@ -97,27 +87,26 @@
             border: none;
             background: none;
             outline: none;
-            font-size: 0.9rem; /* Réduit la taille de la police */
-            margin-left: 0.3rem; /* Réduit l'espace */
+            font-size: 0.9rem;
+            margin-left: 0.3rem;
         }
 
         .btn-add {
             background-color: #EDF4EC;
             color: black;
             border: none;
-            padding: 0.3rem 0.5rem; /* Réduit le padding */
+            padding: 0.3rem 0.5rem;
             border-radius: 5px;
-            font-size: 0.9rem; /* Réduit la taille de la police */
+            font-size: 0.9rem;
             cursor: pointer;
-            align-self: flex-end; /* Aligne le bouton à droite */
-            margin-bottom: 0.5rem; /* Ajout d'un petit espace en bas du bouton */
+            align-self: flex-end;
+            margin-bottom: 0.5rem;
         }
 
         .btn-add:hover {
             background-color: #5AD17D;
         }
 
-        /* Table */
         .table {
             width: 100%;
             border-collapse: collapse;
@@ -128,23 +117,19 @@
         }
 
         .table th, .table td {
-            padding: 0.5rem; /* Réduit le padding */
+            padding: 0.5rem;
             text-align: left;
         }
 
         .table th {
-            background-color: #EDF4EC;
+            background-color: #F7FAF7;
             font-size: 0.9rem;
             font-weight: bold;
             text-transform: uppercase;
         }
 
         .table tr:not(:last-child) {
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .table td {
-            font-size: 0.9rem; /* Réduit la taille de la police */
+            border-bottom: 1px solid grey;
         }
 
         .badge {
@@ -154,27 +139,33 @@
             font-weight: bold;
             color: black;
             border-radius: 5px;
-            background-color: #E8F2E8;
+            background-color: #F7FAF7;
         }
 
-        .btn {
-            background-color: #EDF4EC;
-            color: #333;
-            border: 1px solid #dcdcdc;
-            padding: 0.3rem 0.8rem;
+        .delete-button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
             border-radius: 5px;
-            font-size: 0.9rem;
             cursor: pointer;
-            transition: background-color 0.3s;
         }
 
-        .btn:hover {
-            background-color: #dcdcdc;
+        .delete-button:hover {
+            background-color: darkred;
         }
-        .user-name{
-            color: black;
-            position: center;
+
+        .alert {
+            background-color: #ffcccc;
+            color: red;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
         }
+
+        
     </style>
 </head>
 <body>
@@ -185,7 +176,7 @@
 
     <div class="sidebar">
         <a>Dashboard</a>
-        <a href="#" class="active">Utilisateurs</a>
+        <a href="user.html" class="active">Utilisateurs</a>
         <a href="admin.html">Admin</a>
         <a href="plaques.html">Plaques</a>
         <a href="portail.html">Portail</a>
@@ -194,80 +185,86 @@
 
     <div class="main">
         <div class="title">Utilisateurs</div>
+        <div id="alertContainer"></div>
 
         <div class="search-container">
-            <a   <button href="ajouterUser.html" class="btn-add">Ajouter</button> </a> <!-- Bouton au-dessus de la barre de recherche -->
+            <a href="ajouterUser.html" class="btn-add">Ajouter</a>
             <div class="search-bar">
-                <span>🔍</span>
-                <input type="text" placeholder="Rechercher">
+                <input type="text" id="prenomInput" placeholder="Prénom" oninput="filterUsers()">
+                <input type="text" id="nomInput" placeholder="Nom" oninput="filterUsers()">
+                <input type="text" id="emailInput" placeholder="Email" oninput="filterUsers()">
+                <input type="text" id="roleInput" placeholder="Rôle" oninput="filterUsers()">
             </div>
         </div>
 
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
                     <th>Email</th>
-                    <th>Role</th>
+                    <th>Rôle</th>
                     <th>Temps d'accès</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>Vivian Reyes</td>
-                    <td>vivian@acme.com</td>
-                    <td><span class="badge">Personnel</span></td>
-                    <td>Illimité</td>
-                    <td><button class="btn">Voir plaque(s)</button></td>
-                </tr>
-                <tr>
-                    <td>Evelyn White</td>
-                    <td>evelyn@acme.com</td>
-                    <td><span class="badge">Personnel</span></td>
-                    <td>Illimité</td>
-                    <td><button class="btn">Voir plaque(s)</button></td>
-                </tr>
-                <tr>
-                    <td>Adrian Davis</td>
-                    <td>adrian@acme.com</td>
-                    <td><span class="badge">Personnel</span></td>
-                    <td>Illimité</td>
-                    <td><button class="btn">Voir plaque(s)</button></td>
-                </tr>
-                <tr>
-                    <td>Riley Jackson</td>
-                    <td>riley@acme.com</td>
-                    <td><span class="badge">Personnel</span></td>
-                    <td>Illimité</td>
-                    <td><button class="btn">Voir plaque(s)</button></td>
-                </tr>
-                <tr>
-                    <td>Jessa Brown</td>
-                    <td>jessa@acme.com</td>
-                    <td><span class="badge">Personnel</span></td>
-                    <td>Illimité</td>
-                    <td><button class="btn">Voir plaque(s)</button></td>
-                </tr>
-                <tr>
-                    <td>Taylor Miller</td>
-                    <td>taylor@acme.com</td>
-                    <td><span class="badge">Personnel</span></td>
-                    <td>Illimité</td>
-                    <td><button class="btn">Voir plaque(s)</button></td>
-                </tr>
-                <tr>
-                    <td>Alexis Green</td>
-                    <td>alexis@acme.com</td>
-                    <td><span class="badge" style="background-color: #E8F2E8;">Intervenant</span></td>
-                    <td>Du 16/05/2025 au 17/05/2025</td>
-                    <td><button class="btn">Voir plaque(s)</button></td>
-                </tr>
-            </tbody>
+            <tbody id="userTableBody"></tbody>
         </table>
     </div>
+    <script>
+        let usersData = []; // Pour stocker les utilisateurs récupérés
 
+        async function fetchUsers() {
+            try {
+                const response = await fetch("https://4db7e0eb-4ed7-4f36-8568-cbdb4e93af75.mock.pstmn.io/connexion/user1?email=medy@gmail.com&password=medy77230");
+                const data = await response.json();
+                usersData = data.user; // Stocke les utilisateurs pour la recherche
+                displayUsers(usersData);
+            } catch (error) {
+                console.error("Erreur lors de la récupération des utilisateurs", error);
+            }
+        }
+
+        function displayUsers(users) {
+            const tableBody = document.getElementById("userTableBody");
+            tableBody.innerHTML = "";
+            users.forEach(user => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${user.prenom}</td>
+                    <td>${user.nom}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role}</td>
+                    <td>${user["Temps d'accès"]}</td>
+                    <td><button class="delete-button" onclick="deleteUser('${user.prenom}', '${user.nom}')">Supprimer</button></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function filterUsers() {
+            const prenomInput = document.getElementById("prenomInput").value.toLowerCase();
+            const nomInput = document.getElementById("nomInput").value.toLowerCase();
+            const emailInput = document.getElementById("emailInput").value.toLowerCase();
+            const roleInput = document.getElementById("roleInput").value.toLowerCase();
+
+            const filteredUsers = usersData.filter(user => {
+                return user.prenom.toLowerCase().includes(prenomInput) &&
+                       user.nom.toLowerCase().includes(nomInput) &&
+                       user.email.toLowerCase().includes(emailInput) &&
+                       user.role.toLowerCase().includes(roleInput);
+            });
+            displayUsers(filteredUsers);
+        }
+
+        function deleteUser(prenom, nom) {
+            const alertContainer = document.getElementById("alertContainer");
+            alertContainer.innerHTML = `<div class="alert">Utilisateur ${prenom} ${nom} supprimé !</div>`;
+            setTimeout(() => alertContainer.innerHTML = "", 3000); // Efface l'alerte après 3 secondes
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchUsers);
+    </script>
     <script src="js/dejaconnecter.js"></script>
 </body>
-
 </html>

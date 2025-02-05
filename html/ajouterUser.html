@@ -8,18 +8,30 @@
         html, body {
             height: 100%; /* Prendre toute la hauteur de la fenêtre */
             margin: 0; /* Supprimer la marge par défaut */
+            zoom: 0.93; /* Dézoomer à 93 % */
         }
         body {
             background: linear-gradient(to bottom, #ffffff, #e0ffe0); /* Dégradé de blanc vers vert clair */
+            overflow: hidden;
         }
         .wrapper {
             width: 600px;
-            margin: 0 auto;
-            margin-top: 50px;
+            margin: 0px auto; /* Ajouter de l'espace au-dessus */
+        }
+        #accessTimeGroup {
+            display: none; /* Cacher le groupe de temps d'accès par défaut */
+        }
+        .logo {
+            position: absolute; /* Positionner en haut à gauche */
+            top: 10px; /* Ajuster la distance du haut */
+            left: 10px; /* Ajuster la distance de la gauche */
+            font-size: 24px; /* Taille de la police */
+            font-weight: bold; /* Gras */
         }
     </style>
 </head>
 <body>
+    <div class="logo">✦Easy Portal</div> <!-- Ajout de la marque en haut à gauche -->
     <div class="wrapper">
         <div class="container-fluid">
             <div class="row">
@@ -43,6 +55,18 @@
                             <input type="password" name="password" id="password" class="form-control" required>
                             <small class="form-text text-muted">Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule et un caractère spécial.</small>
                         </div>
+                        <div class="form-group">
+                            <label>Rôle</label>
+                            <select id="role" class="form-control" required>
+                                <option value="">Choisissez un rôle</option>
+                                <option value="personnel">Personnel</option>
+                                <option value="intervenant">Intervenant</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="accessTimeGroup">
+                            <label>Temps d'accès</label>
+                            <input type="datetime-local" name="accessTime" id="accessTime" class="form-control">
+                        </div>
                         <button type="submit" class="btn btn-success">Ajouter</button>
                         <a href="user.html" class="btn btn-secondary ml-2">Annuler</a>
                     </form>
@@ -53,6 +77,15 @@
     </div>
 
     <script>
+        document.getElementById("role").addEventListener("change", function() {
+            const accessTimeGroup = document.getElementById("accessTimeGroup");
+            if (this.value === "intervenant") {
+                accessTimeGroup.style.display = "block"; // Afficher le groupe de temps d'accès
+            } else {
+                accessTimeGroup.style.display = "none"; // Cacher le groupe de temps d'accès
+            }
+        });
+
         document.getElementById("userForm").addEventListener("submit", function(event) {
             event.preventDefault();
 
@@ -60,6 +93,8 @@
             let prenom = document.getElementById("prenom").value;
             let email = document.getElementById("email").value;
             let password = document.getElementById("password").value;
+            let role = document.getElementById("role").value;
+            let accessTime = role === "intervenant" ? document.getElementById("accessTime").value : null;
 
             // Validation du mot de passe
             const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
@@ -68,7 +103,7 @@
                 return;
             }
 
-            let url = `https://4db7e0eb-4ed7-4f36-8568-cbdb4e93af75.mock.pstmn.io/connexion/register?nom=${nom}&prenom=${prenom}&email=${email}&password=${password}`;
+            let url = `https://4db7e0eb-4ed7-4f36-8568-cbdb4e93af75.mock.pstmn.io/connexion/register?nom=${nom}&prenom=${prenom}&email=${email}&password=${password}&role=${role}&accessTime=${accessTime}`;
 
             fetch(url, {
                 method: "GET",  // Changer la méthode en GET
@@ -80,6 +115,7 @@
             .then(data => {
                 document.getElementById("message").innerHTML = `<div class="alert alert-success">Utilisateur ajouté avec succès !</div>`;
                 document.getElementById("userForm").reset();
+                document.getElementById("accessTimeGroup").style.display = "none"; // Réinitialiser l'affichage du groupe de temps d'accès
             })
             .catch(error => {
                 document.getElementById("message").innerHTML = `<div class="alert alert-danger">Erreur lors de l'ajout.</div>`;

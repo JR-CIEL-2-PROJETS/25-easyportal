@@ -8,6 +8,8 @@
         html, body {
             height: 100%; /* Prendre toute la hauteur de la fenêtre */
             margin: 0; /* Supprimer la marge par défaut */
+            zoom: 0.99;
+            overflow: hidden;
         }
         body {
             background: linear-gradient(to bottom, #ffffff, #e0ffe0); /* Dégradé de blanc vers vert clair */
@@ -19,9 +21,17 @@
         .message {
             margin-top: 20px;
         }
+        .logo {
+            position: absolute; /* Positionner en haut à gauche */
+            top: 10px; /* Ajuster la distance du haut */
+            left: 10px; /* Ajuster la distance de la gauche */
+            font-size: 24px; /* Taille de la police */
+            font-weight: bold; /* Gras */
+        }
     </style>
 </head>
 <body>
+    <div class="logo">✦Easy Portal</div> <!-- Ajout de la marque en haut à gauche -->
     <div class="wrapper">
         <div class="container-fluid">
             <div class="row">

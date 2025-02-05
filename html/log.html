@@ -35,6 +35,8 @@
             top: 60px;
             left: 0;
             padding: 1rem 0.5rem;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
         }
 
         .sidebar a {
@@ -52,7 +54,6 @@
             background-color: #EDF4EC;
             font-weight: bold;
         }
-
         .main {
             margin-left: 240px;
             padding: 1rem;
@@ -79,26 +80,40 @@
         th {
             background-color: #F7FAF7;
         }
+
+        .search-container {
+            margin-bottom: 1rem;
+        }
+
+        .search-container input {
+            padding: 0.5rem;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="logo">✦Easy Portal</div>
-        <div class="user-name">Marwan Merdji</div>
+        <div class="user-name" id="userName">Chargement...</div>
     </div>
 
     <div class="sidebar">
-        <a href="#">Dashboard</a>
-        <a href="#">Users</a>
-        <a href="#">Admin</a>
-        <a href="#">Plaques</a>
-        <a href="#">Portail</a>
-        <a href="#" class="active">Logs</a>
+        <a>Dashboard</a>
+        <a href="user.html" >Utilisateurs</a>
+        <a href="admin.html">Admin</a>
+        <a href="plaques.html">Plaques</a>
+        <a href="portail.html">Portail</a>
+        <a href="log.html" class="active">Logs</a>
     </div>
 
     <div class="main">
         <h2>Logs</h2>
         <div class="logs-container">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Rechercher par email ou plaque" />
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -108,34 +123,56 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Vivian Rayes</td>
-                        <td>2024-12-01 15:45</td>
-                        <td>AB-123-CD</td>
-                        <td>a ouvert le portail via l’app</td>
-                    </tr>
-                    <tr>
-                        <td>Adrian Davis</td>
-                        <td>2024-12-01 12:45</td>
-                        <td>EF-456-GD</td>
-                        <td>a déclenché l’ouverture</td>
-                    </tr>
-                    <tr>
-                        <td>Taylor Miller</td>
-                        <td>2024-12-01 10:15</td>
-                        <td>ST-654-UV</td>
-                        <td>a déclenché l’ouverture</td>
-                    </tr>
-                    <tr>
-                        <td>Alexis Green</td>
-                        <td>2024-12-01 08:10</td>
-                        <td>WX-987-YZ</td>
-                        <td>a déclenché l’ouverture</td>
-                    </tr>
-                </tbody>
+                <tbody id="logsTableBody"></tbody>
             </table>
         </div>
     </div>
+    <script src="js/dejaconnecter.js"></script>
+    <script>
+        async function fetchLogs() {
+            try {
+                const response = await fetch('https://a2493df4-dfa9-40f1-9e2c-8ba80cc2216c.mock.pstmn.io/dashboard/logs');
+                
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP : ${response.status}`);
+                }
+
+                const logs = await response.json();
+                console.log(logs); // Affiche les logs dans la console
+                displayLogs(logs);
+
+                // Ajouter l'événement de recherche
+                document.getElementById('searchInput').addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    const filteredLogs = logs.filter(log => 
+                        log.email.toLowerCase().includes(searchTerm) || 
+                        log.plaque.toLowerCase().includes(searchTerm)
+                    );
+                    displayLogs(filteredLogs);
+                });
+
+            } catch (error) {
+                console.error("Erreur :", error);
+            }
+        }
+
+        function displayLogs(logs) {
+            const tbody = document.getElementById("logsTableBody");
+            tbody.innerHTML = ""; // Efface les anciennes lignes
+
+            logs.forEach(log => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${log.email}</td>
+                    <td>${log.date_connexion} ${log.heure_connexion}</td>
+                    <td>${log.plaque}</td>
+                    <td>a ouvert le portail</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchLogs);
+    </script>
 </body>
 </html>
