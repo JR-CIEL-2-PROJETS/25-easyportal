@@ -56,10 +56,9 @@ switch ($method) {
  * Ajouter un utilisateur Admin
  */
 function ajouterAdminUser($email, $mot_de_passe, $is_super_admin, $pdo) {
-    $hashed_password = password_hash($mot_de_passe, PASSWORD_BCRYPT);
-
+    // On ne hache plus le mot de passe, on le garde en clair
     $query = $pdo->prepare("INSERT INTO AdminUsers (email, mot_de_passe, is_super_admin) VALUES (?, ?, ?)");
-    if ($query->execute([$email, $hashed_password, $is_super_admin])) {
+    if ($query->execute([$email, $mot_de_passe, $is_super_admin])) {
         return "Utilisateur ajouté avec succès.";
     }
     return "Erreur lors de l'ajout de l'utilisateur.";

@@ -1,7 +1,7 @@
 <?php
 // config.php
 
-$host = '127.0.0.1'; // Adresse du serveur
+$host = 'mysql'; // Adresse du serveur
 $dbname = 'Easy-portal'; // Nom de la base de données
 $username = 'root'; // Nom d'utilisateur MySQL
 $password = 'root'; // Mot de passe MySQL
