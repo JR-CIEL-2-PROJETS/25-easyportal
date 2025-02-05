@@ -6,32 +6,37 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         html, body {
-            height: 100%; /* Prendre toute la hauteur de la fenêtre */
-            margin: 0; /* Supprimer la marge par défaut */
-            zoom: 0.93; /* Dézoomer à 93 % */
+            height: 100%;
+            margin: 0;
+            zoom: 0.93;
         }
         body {
-            background: linear-gradient(to bottom, #ffffff, #e0ffe0); /* Dégradé de blanc vers vert clair */
+            background: linear-gradient(to bottom, #ffffff, #e0ffe0);
             overflow: hidden;
         }
         .wrapper {
             width: 600px;
-            margin: 0px auto; /* Ajouter de l'espace au-dessus */
+            margin: 0 auto;
         }
         #accessTimeGroup {
-            display: none; /* Cacher le groupe de temps d'accès par défaut */
+            display: none;
         }
         .logo {
-            position: absolute; /* Positionner en haut à gauche */
-            top: 10px; /* Ajuster la distance du haut */
-            left: 10px; /* Ajuster la distance de la gauche */
-            font-size: 24px; /* Taille de la police */
-            font-weight: bold; /* Gras */
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .eye-icon {
+            cursor: pointer;
+            font-size: 1.5rem;
+            padding: 0.0009rem;
         }
     </style>
 </head>
 <body>
-    <div class="logo">✦Easy Portal</div> <!-- Ajout de la marque en haut à gauche -->
+    <div class="logo">✦Easy Portal</div>
     <div class="wrapper">
         <div class="container-fluid">
             <div class="row">
@@ -52,7 +57,12 @@
                         </div>
                         <div class="form-group">
                             <label>Mot de passe</label>
-                            <input type="password" name="password" id="password" class="form-control" required>
+                            <div class="input-group">
+                                <input type="password" name="password" id="password" class="form-control" required>
+                                <div class="input-group-append">
+                                    <span class="input-group-text eye-icon" id="togglePassword">👁️</span>
+                                </div>
+                            </div>
                             <small class="form-text text-muted">Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule et un caractère spécial.</small>
                         </div>
                         <div class="form-group">
@@ -121,6 +131,19 @@
                 document.getElementById("message").innerHTML = `<div class="alert alert-danger">Erreur lors de l'ajout.</div>`;
                 console.error("Erreur :", error);
             });
+        });
+
+        // Fonction pour afficher/masquer le mot de passe
+        document.getElementById("togglePassword").addEventListener("click", function() {
+            const passwordField = document.getElementById("password");
+            const passwordFieldType = passwordField.getAttribute("type");
+
+            // Basculer entre 'password' et 'text'
+            if (passwordFieldType === "password") {
+                passwordField.setAttribute("type", "text");
+            } else {
+                passwordField.setAttribute("type", "password");
+            }
         });
     </script>
 </body>

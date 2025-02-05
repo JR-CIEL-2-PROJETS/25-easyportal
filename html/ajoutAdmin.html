@@ -28,6 +28,11 @@
             font-size: 24px; /* Taille de la police */
             font-weight: bold; /* Gras */
         }
+        .eye-icon {
+            cursor: pointer;
+            font-size: 1.5rem; /* Taille de l'icône */
+            padding: 0.009rem; /* Espacement autour de l'icône */
+        }
     </style>
 </head>
 <body>
@@ -53,7 +58,12 @@
                         </div>
                         <div class="form-group">
                             <label>Mot de passe</label>
-                            <input type="password" name="password" id="password" class="form-control" required>
+                            <div class="input-group">
+                                <input type="password" name="password" id="password" class="form-control" required>
+                                <div class="input-group-append">
+                                    <span class="input-group-text eye-icon" id="togglePassword">👁️</span>
+                                </div>
+                            </div>
                             <small class="form-text text-muted">Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule et un caractère spécial.</small>
                         </div>
                         <input type="submit" class="btn btn-success" value="Ajouter">
@@ -108,6 +118,19 @@
                 console.error("Erreur :", error);
                 const messageDiv = document.getElementById("message");
                 messageDiv.innerHTML = "<div class='alert alert-danger'>Une erreur est survenue. Veuillez réessayer.</div>";
+            }
+        });
+
+        // Fonction pour afficher/masquer le mot de passe
+        document.getElementById("togglePassword").addEventListener("click", function() {
+            const passwordField = document.getElementById("password");
+            const passwordFieldType = passwordField.getAttribute("type");
+
+            // Basculer entre 'password' et 'text'
+            if (passwordFieldType === "password") {
+                passwordField.setAttribute("type", "text");
+            } else {
+                passwordField.setAttribute("type", "password");
             }
         });
     </script>

@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>easyPortal - Utilisateurs</title>
+    <title>EasyPortal - Admin</title>
     <style>
-         body {
+        body {
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: #EDF4EC;
@@ -37,6 +37,7 @@
             padding: 1rem 0.5rem;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
             margin-top: 30px;
+            border: 2px solid #A3E4A0;
         }
 
         .sidebar a {
@@ -54,12 +55,11 @@
             background-color: #EDF4EC;
             font-weight: bold;
         }
+
         .main {
             margin-left: 240px;
             padding: 1rem;
         }
-
-
 
         .title {
             font-size: 1.2rem;
@@ -92,15 +92,16 @@
         }
 
         .btn-add {
-            background-color: #EDF4EC;
+            background-color: #93e788;
             color: black;
             border: none;
-            padding: 0.3rem 0.5rem;
+            padding: 0.39rem 0.59rem;
             border-radius: 5px;
             font-size: 0.9rem;
             cursor: pointer;
             align-self: flex-end;
             margin-bottom: 0.5rem;
+            text-decoration: none;
         }
 
         .btn-add:hover {
@@ -119,6 +120,7 @@
         .table th, .table td {
             padding: 0.5rem;
             text-align: left;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .table th {
@@ -126,10 +128,6 @@
             font-size: 0.9rem;
             font-weight: bold;
             text-transform: uppercase;
-        }
-
-        .table tr:not(:last-child) {
-            border-bottom: 1px solid grey;
         }
 
         .badge {
@@ -149,6 +147,7 @@
             padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.377);
         }
 
         .delete-button:hover {
@@ -164,8 +163,6 @@
             font-weight: bold;
             text-align: center;
         }
-
-        
     </style>
 </head>
 <body>
@@ -176,95 +173,96 @@
 
     <div class="sidebar">
         <a>Dashboard</a>
-        <a href="user.html" class="active">Utilisateurs</a>
-        <a href="admin.html">Admin</a>
+        <a href="user.html">Utilisateurs</a>
+        <a href="admin.html" class="active">Admin</a>
         <a href="plaques.html">Plaques</a>
         <a href="portail.html">Portail</a>
         <a href="log.html">Logs</a>
     </div>
 
     <div class="main">
-        <div class="title">Utilisateurs</div>
+        <div class="title">Admin</div>
         <div id="alertContainer"></div>
 
         <div class="search-container">
-            <a href="ajouterUser.html" class="btn-add">Ajouter</a>
+            <a href="ajouterAdmin.html" class="btn-add">Ajouter</a>
             <div class="search-bar">
-                <input type="text" id="prenomInput" placeholder="Prénom" oninput="filterUsers()">
-                <input type="text" id="nomInput" placeholder="Nom" oninput="filterUsers()">
-                <input type="text" id="emailInput" placeholder="Email" oninput="filterUsers()">
-                <input type="text" id="roleInput" placeholder="Rôle" oninput="filterUsers()">
+                <span>🔎</span>
+                <input type="text" id="searchInput" placeholder="Rechercher un administrateur" oninput="filterAdmins()">
             </div>
         </div>
 
         <table class="table">
             <thead>
                 <tr>
-                    <th>Prénom</th>
                     <th>Nom</th>
                     <th>Email</th>
                     <th>Rôle</th>
-                    <th>Temps d'accès</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody id="userTableBody"></tbody>
+            <tbody id="adminTableBody"></tbody>
         </table>
     </div>
+    <script src="js/dejaconnecter.js"></script>
     <script>
-        let usersData = []; // Pour stocker les utilisateurs récupérés
+        let adminsData = [];
 
-        async function fetchUsers() {
+        async function fetchAdmins() {
             try {
-                const response = await fetch("https://4db7e0eb-4ed7-4f36-8568-cbdb4e93af75.mock.pstmn.io/connexion/user1?email=medy@gmail.com&password=medy77230");
+                const response = await fetch('https://4db7e0eb-4ed7-4f36-8568-cbdb4e93af75.mock.pstmn.io/connexion/admin1?email=admin@gmail.com&password=admin');
+                if (!response.ok) throw new Error(`Erreur HTTP : ${response.status}`);
+
                 const data = await response.json();
-                usersData = data.user; // Stocke les utilisateurs pour la recherche
-                displayUsers(usersData);
+                adminsData = data.administrateur;
+                if (!Array.isArray(adminsData)) throw new Error("Format de réponse incorrect");
+
+                displayAdmins(adminsData);
             } catch (error) {
-                console.error("Erreur lors de la récupération des utilisateurs", error);
+                console.error("Erreur :", error);
             }
         }
 
-        function displayUsers(users) {
-            const tableBody = document.getElementById("userTableBody");
-            tableBody.innerHTML = "";
-            users.forEach(user => {
+        function displayAdmins(admins) {
+            const tbody = document.getElementById("adminTableBody");
+            tbody.innerHTML = "";
+
+            admins.forEach(admin => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                    <td>${user.prenom}</td>
-                    <td>${user.nom}</td>
-                    <td>${user.email}</td>
-                    <td>${user.role}</td>
-                    <td>${user["Temps d'accès"]}</td>
-                    <td><button class="delete-button" onclick="deleteUser('${user.prenom}', '${user.nom}')">Supprimer</button></td>
+                    <td>${admin.nom}</td>
+                    <td>${admin.email}</td>
+                    <td><span class="badge">${admin.role}</span></td>
+                    <td>
+                        ${admin.role !== "Super Admin" 
+                            ? `<button class="delete-button" onclick="deleteAdmin('${admin.nom}')">Supprimer</button>` 
+                            : `<span style="color:gray;">Non supprimable</span>`}
+                    </td>
                 `;
-                tableBody.appendChild(row);
+                tbody.appendChild(row);
             });
         }
 
-        function filterUsers() {
-            const prenomInput = document.getElementById("prenomInput").value.toLowerCase();
-            const nomInput = document.getElementById("nomInput").value.toLowerCase();
-            const emailInput = document.getElementById("emailInput").value.toLowerCase();
-            const roleInput = document.getElementById("roleInput").value.toLowerCase();
+        function deleteAdmin(nom) {
+            if (confirm(`Êtes-vous sûr de vouloir supprimer l'administrateur ${nom} ?`)) {
+                document.getElementById("alertContainer").innerHTML = `<div class="alert">Administrateur ${nom} supprimé !</div>`;
+                setTimeout(() => document.getElementById("alertContainer").innerHTML = "", 3000);
+            }
+        }
 
-            const filteredUsers = usersData.filter(user => {
-                return user.prenom.toLowerCase().includes(prenomInput) &&
-                       user.nom.toLowerCase().includes(nomInput) &&
-                       user.email.toLowerCase().includes(emailInput) &&
-                       user.role.toLowerCase().includes(roleInput);
+        function filterAdmins() {
+            const searchInput = document.getElementById("searchInput").value.toLowerCase();
+            const filteredAdmins = adminsData.filter(admin => {
+                return (
+                    admin.nom.toLowerCase().includes(searchInput) ||
+                    admin.email.toLowerCase().includes(searchInput) ||
+                    admin.role.toLowerCase().includes(searchInput)
+                );
             });
-            displayUsers(filteredUsers);
+            displayAdmins(filteredAdmins);
         }
 
-        function deleteUser(prenom, nom) {
-            const alertContainer = document.getElementById("alertContainer");
-            alertContainer.innerHTML = `<div class="alert">Utilisateur ${prenom} ${nom} supprimé !</div>`;
-            setTimeout(() => alertContainer.innerHTML = "", 3000); // Efface l'alerte après 3 secondes
-        }
-
-        document.addEventListener("DOMContentLoaded", fetchUsers);
+        document.addEventListener("DOMContentLoaded", fetchAdmins);
     </script>
-    <script src="js/dejaconnecter.js"></script>
 </body>
 </html>

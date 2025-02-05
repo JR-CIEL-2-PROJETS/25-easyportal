@@ -1,0 +1,50 @@
+html, body {
+    height: 100%; /* Prendre toute la hauteur de la fenêtre */
+    margin: 0; /* Supprimer la marge par défaut */
+    overflow: hidden;
+}
+
+body {
+    background: linear-gradient(to bottom, #ffffff, #e0ffe0); /* Dégradé de blanc vers vert clair */
+    zoom: 0.93; /* Ajuster le zoom */
+}
+
+.wrapper {
+    width: 600px;
+    margin: 0 auto; /* Centrer le contenu */
+}
+
+.logo {
+    position: absolute; /* Positionner en haut à gauche */
+    top: 10px; /* Ajuster la distance du haut */
+    left: 10px; /* Ajuster la distance de la gauche */
+    font-size: 24px; /* Taille de la police */
+    font-weight: bold; /* Gras */
+}
+
+.eye-icon {
+    cursor: pointer;
+    font-size: 1.5rem; /* Taille de l'icône */
+    padding: 0.009rem; /* Espacement autour de l'icône */
+}
+
+.message {
+    margin-top: 20px; /* Espace au-dessus du message */
+}
+
+/* Cacher le groupe de temps d'accès par défaut */
+#accessTimeGroup {
+    display: none; 
+}
+
+.form-group {
+    margin-bottom: 1rem; /* Espace entre les groupes de formulaire */
+}
+
+.form-text {
+    color: #6c757d; /* Couleur pour le texte d'aide */
+}
+
+.btn {
+    margin-top: 10px; /* Espace au-dessus des boutons */
+}
