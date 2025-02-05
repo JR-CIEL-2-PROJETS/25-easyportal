@@ -2,19 +2,97 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f8fbf9">
+    android:background="#E8F2E8"
+    android:padding="0dp">
 
-    <!-- Titre du tableau de bord Utilisateur -->
+    <!-- Barre du haut avec fond blanc -->
+    <RelativeLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#FFFFFF"
+        android:padding="8dp">
+
+        <!-- Bouton Retour -->
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/fleche"
+           />
+
+        <!-- Titre Easy Portail -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="✦Easy Portail"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+    </RelativeLayout>
+
+    <!-- Sous-titre Welcome (MAINTENANT AU-DESSUS DU PORTAIL) -->
     <TextView
-        android:id="@+id/welcome_text"
+        android:id="@+id/subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/top_bar"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:text="Bienvenue, Utilisateur !"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="#0e1b11" />
+        android:layout_marginTop="16dp"
+        android:text="Welcome to the gate control app"
+        android:textColor="#000000"
+        android:textSize="24sp" />
 
-    <!-- Vous pouvez ajouter des boutons ou des sections supplémentaires ici -->
+    <!-- Image Portail -->
+    <ImageView
+        android:id="@+id/portail_image"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_below="@id/subtitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/portail" />
+
+    <!-- Bouton Ouvrir le portail -->
+    <Button
+        android:id="@+id/open_gate_button"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/portail_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_button1"
+        android:text="Ouvrir le portail"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- Image Voiture -->
+    <ImageView
+        android:id="@+id/voiture_image"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_below="@id/open_gate_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/voiture" />
+
+    <!-- Bouton Voir mes plaques -->
+    <Button
+        android:id="@+id/view_plates_button"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/voiture_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_button1"
+        android:text="Voir mes plaques"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
 </RelativeLayout>

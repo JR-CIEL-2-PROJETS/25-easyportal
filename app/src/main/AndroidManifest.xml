@@ -4,6 +4,8 @@
 
     <!-- Ajout de la permission INTERNET -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Si tu veux vérifier l'état du réseau, tu peux ajouter cette permission -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +18,7 @@
         android:theme="@style/Theme.EasyPortal"
         tools:targetApi="31">
 
+        <!-- Activité principale qui s'exécute au lancement de l'application -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -27,27 +30,33 @@
             </intent-filter>
         </activity>
 
-        <!-- Ajout des nouvelles activités -->
+        <!-- Activité pour la connexion -->
         <activity android:name=".LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.EasyPortal"/>
 
+        <!-- Activité pour l'enregistrement -->
         <activity android:name=".RegisterActivity"
             android:exported="true"
             android:theme="@style/Theme.EasyPortal"/>
 
+        <!-- Activité de succès après l'enregistrement -->
         <activity android:name=".SuccessActivity"
             android:exported="true"
             android:theme="@style/Theme.EasyPortal"/>
 
-        <!-- Ajout des activités du tableau de bord -->
+        <!-- Activités pour le tableau de bord -->
         <activity android:name=".AdminDashboardActivity"
             android:exported="true"
             android:theme="@style/Theme.EasyPortal"/>
 
+        <!-- Activité du tableau de bord utilisateur -->
         <activity android:name=".UserDashboardActivity"
             android:exported="true"
             android:theme="@style/Theme.EasyPortal"/>
+
+
+
     </application>
 
 </manifest>
