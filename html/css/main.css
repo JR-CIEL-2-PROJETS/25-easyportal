@@ -1,0 +1,110 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    background-color: #EDF4EC;
+}
+
+.header {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.container {
+    text-align: center;
+    margin-top: 8%;
+    display: none;
+    /* Cacher le contenu par défaut */
+}
+
+.title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 4rem;
+}
+
+.input-group {
+    margin-bottom: 3rem;
+}
+
+input {
+    width: 300px;
+    padding: 0.75rem;
+    border: 1px solid #dcdcdc;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    outline: none;
+}
+
+.input-group.password {
+    position: relative;
+}
+
+.input-group.password input {
+    padding-right: 2.5rem;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.btn {
+    background-color: #6AE38C;
+    width: 370px;
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 2rem;
+    margin-left: 5px;
+}
+
+.btn:hover {
+    background-color: #5AD17D;
+}
+
+#password {
+    width: 280px;
+    margin-left: 25px;
+}
+
+#email {
+    margin-left: 20px;
+}
+
+.message {
+    color: red;
+    margin-top: 1rem;
+}
+
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    /* Assurez-vous que le chargement est au-dessus du contenu */
+}
+
+#loading-screen img {
+    width: 1500px;
+    /* Ajustez la taille selon vos besoins, par exemple 150px */
+    /* Vous pouvez aussi utiliser height si vous voulez garder un ratio */
+}
