@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nom = htmlspecialchars(trim($_POST['nom']));
         $prenom = htmlspecialchars(trim($_POST['prenom']));
         $email = htmlspecialchars(trim($_POST['email']));
-        $mot_de_passe = htmlspecialchars(trim($_POST['mot_de_passe'])); // On ne hache plus le mot de passe
+        $mot_de_passe = password_hash(htmlspecialchars(trim($_POST['mot_de_passe'])), PASSWORD_DEFAULT);
 
         // Validation de l'email
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':nom' => $nom,
                 ':prenom' => $prenom,
                 ':email' => $email,
-                ':mot_de_passe' => $mot_de_passe,  // On insère directement le mot de passe en clair
+                ':mot_de_passe' => $mot_de_passe,
             ]);
 
             echo "Utilisateur ajouté avec succès !";
