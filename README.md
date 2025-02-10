@@ -117,4 +117,8 @@ Easy Portal est un projet de gestion et de contrôle d’accès pour un portail 
 - Intégration d’un système de logs pour suivre les demandes d’accès.
 - Mise en production sur un serveur cloud.
 
+<<<<<<< HEAD
 ---
+=======
+---
+>>>>>>> origin/Marwan

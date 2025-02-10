@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/plaques.css">
+    <title>Easy Portal - Plaques</title>
+    
+</head>
+<body>
+    <div class="header">
+        <div class="logo">✦Easy Portal</div>
+        <div class="user-name" id="userName">Chargement...</div>
+    </div>
+
+    <div class="sidebar">
+        <a>Dashboard</a>
+        <a href="user.html">Utilisateurs</a>
+        <a href="admin.html">Admin</a>
+        <a href="plaques.html" class="active">Plaques</a>
+        <a href="portail.html">Portail</a>
+        <a href="log.html">Logs</a>
+    </div>
+
+    <div class="main">
+        <div class="title">Plaques</div>
+
+        <div class="plate-container">
+            <img src="image/plaque.png" alt="Plaque d'immatriculation" class="plate-image">
+            
+            <div class="file-input">
+                <input type="file" id="csvFileInput" accept=".csv">
+                <button onclick="importCSV()">📤</button>
+            </div>
+            
+            <button class="btn" id="downloadAuthorized">📥 Télécharger les plaques autorisées</button>
+            <button class="btn" id="downloadUnauthorized">📥 Télécharger les plaques non-autorisées</button>
+        </div>
+    </div>
+    
+    <script src="js/dejaconnecter.js"></script>
+    <script>
+        document.getElementById('downloadAuthorized').addEventListener('click', function() {
+            fetch('https://c3c95c30-efc4-476d-9d5c-3489b76ee34b.mock.pstmn.io/Dashboard/exportationcsv1')
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'plaques_autorisees.csv';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                })
+                .catch(error => console.error('Erreur lors du téléchargement des plaques autorisées:', error));
+        });
+
+        document.getElementById('downloadUnauthorized').addEventListener('click', function() {
+            fetch('https://c3c95c30-efc4-476d-9d5c-3489b76ee34b.mock.pstmn.io/Dashboard/exportationcsv_unauthorized')
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'plaques_non_autorisees.csv';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                })
+                .catch(error => console.error('Erreur lors du téléchargement des plaques non autorisées:', error));
+        });
+
+        function importCSV() {
+            const fileInput = document.getElementById('csvFileInput');
+            const file = fileInput.files[0];
+            if (file) {
+                const url = `http://fichierCSV`; // Remplacez par l'URL réelle
+                const formData = new FormData();
+                formData.append('file', file);
+
+                fetch(`/Dashboard/CSV_import?url="${encodeURIComponent(url)}"`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Importation réussie:', data);
+                })
+                .catch(error => console.error('Erreur lors de l\'importation:', error));
+            } else {
+                alert('Veuillez sélectionner un fichier CSV à importer.');
+            }
+        }
+    </script>
+</body>
+</html>
