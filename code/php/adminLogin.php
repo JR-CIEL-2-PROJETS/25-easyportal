@@ -4,16 +4,14 @@ include 'config.php';
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode(file_get_contents("php://input"), true);
+$data = json_decode(file_get_contents("php://input"), true);
 
-    if (isset($data['email'], $data['password'])) {
-        echo json_encode(['message' => verifierConnexion($data['email'], $data['mot_de_passe'], $pdo)]);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['email'], $_POST['mot_de_passe'])) {
+        echo json_encode(['message' => verifierConnexion($_POST['email'], $_POST['mot_de_passe'], $pdo)]);
     } else {
-        echo json_encode(['error' => 'Email ou mot de passe manquant.']);
+        echo json_encode(['error' => 'encore un flop']);
     }
-} else {
-    echo json_encode(['error' => 'Méthode non autorisée.']);
 }
 
 /**
