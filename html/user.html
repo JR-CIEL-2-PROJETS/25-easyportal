@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/user-admin.css">
     <title>Easy Portal - Utilisateurs</title>
-    
 </head>
 <body>
     <div class="header">
@@ -14,7 +13,7 @@
     </div>
 
     <div class="sidebar">
-        <a >Dashboard</a>
+        <a>Dashboard</a>
         <a href="user.html" class="active">Utilisateurs</a>
         <a href="admin.html">Admin</a>
         <a href="plaques.html">Plaques</a>
@@ -49,9 +48,24 @@
         </table>
     </div>
 
+    <!-- Modal for plaques -->
+    <div id="plaquesModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Modifier les plaques</h2>
+            <p>Vous pouvez ajouter jusqu'à 5 plaques.</p>
+            <form id="plaquesForm" onsubmit="submitPlaques(event)">
+                <div id="plaquesInputContainer"></div>
+                <button type="button" id="addPlaqueButton" class="btn-add" onclick="addPlaqueField()">Ajouter une plaque</button>
+                <button type="submit" class="btn-add">Valider</button>
+            </form>
+        </div>
+    </div>
+
     <script src="js/dejaconnecter.js"></script>
     <script>
         let usersData = [];
+        let plaquesCount = 0;
 
         async function fetchUsers() {
             try {
@@ -75,7 +89,10 @@
                     <td>${user.email}</td>
                     <td>${user.role}</td>
                     <td>${user["Temps d'accès"]}</td>
-                    <td><button class="delete-button" onclick="deleteUser('${user.prenom}', '${user.nom}')">Supprimer</button></td>
+                    <td>
+                        <button class="delete-button" onclick="deleteUser('${user.prenom}', '${user.nom}')">Supprimer</button>
+                        <button class="plaques-button" onclick="viewPlaques('${user.email}')">Plaques</button>
+                    </td>
                 `;
                 tableBody.appendChild(row);
             });
@@ -87,6 +104,52 @@
                 alertContainer.innerHTML = `<div class="alert">Utilisateur ${prenom} ${nom} supprimé !</div>`;
                 setTimeout(() => alertContainer.innerHTML = "", 3000);
             }
+        }
+
+        function viewPlaques(email) {
+            const modal = document.getElementById("plaquesModal");
+            modal.style.display = "block";
+            plaquesCount = 0; // Réinitialiser le compteur à chaque ouverture du modal
+
+            // Réinitialiser les champs
+            const plaquesInputContainer = document.getElementById("plaquesInputContainer");
+            plaquesInputContainer.innerHTML = '';
+
+            // Supposons que les plaques soient récupérées avec les données de l'utilisateur
+            const user = usersData.find(user => user.email === email);
+            if (user && user.plaques && user.plaques.length > 0) {
+                user.plaques.forEach((plaque, index) => {
+                    addPlaqueField(plaque, index);
+                });
+            }
+        }
+
+        function addPlaqueField(plaqueValue = '', index) {
+            if (plaquesCount < 5) {
+                plaquesCount++;
+                const inputContainer = document.getElementById("plaquesInputContainer");
+                const plaqueField = document.createElement("input");
+                plaqueField.type = "text";
+                plaqueField.name = `plaque${plaquesCount}`;
+                plaqueField.placeholder = `Plaque ${plaquesCount}`;
+                plaqueField.className = "plaque-input"; // Ajout de classe pour le style
+                plaqueField.value = plaqueValue; // Ajouter la valeur si elle est fournie
+                inputContainer.appendChild(plaqueField);
+            } else {
+                alert("Vous pouvez ajouter seulement 5 plaques.");
+            }
+        }
+
+        function submitPlaques(event) {
+            event.preventDefault();
+            // Traitement des plaques ici
+            alert("Plaques enregistrées !");
+            closeModal();
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("plaquesModal");
+            modal.style.display = "none";
         }
 
         function filterUsers() {
