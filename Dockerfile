@@ -1,5 +1,13 @@
 FROM php:8.3-fpm-alpine
-RUN docker-php-ext-install mysqli pdo pdo_mysql
+
+# Installe les dépendances système nécessaires (Pour les Requetes en SQL)
+RUN apk add --no-cache \
+    mysql-client \
+    php8-pdo \
+    php8-pdo_mysql \
+    php8-pdo_sqlite
+
+RUN docker-php-ext-install pdo pdo_mysql pdo_sqlite
 
 # Démarrage de PHP-FPM lorsque le conteneur démarre
 CMD ["php-fpm"]
