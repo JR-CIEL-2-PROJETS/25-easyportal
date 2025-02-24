@@ -29,9 +29,8 @@ CREATE TABLE `AdminUsers` (
   `is_super_admin` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `only_one_super_admin` (`is_super_admin`),
-  CONSTRAINT `unique_super_admin` CHECK ((`is_super_admin` <= 1))
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
+  UNIQUE KEY `only_one_super_admin` (`is_super_admin`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -138,4 +137,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-13 11:02:57
+-- Dump completed on 2025-02-24 17:37:57
