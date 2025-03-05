@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mysql
--- Généré le : mer. 12 fév. 2025 à 09:18
+-- Généré le : mer. 05 mars 2025 à 09:15
 -- Version du serveur : 8.4.4
 -- Version de PHP : 8.2.27
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `Easy-portal`
+-- Base de données : `EasyPortal`
 --
 
 -- --------------------------------------------------------
@@ -32,7 +32,7 @@ CREATE TABLE `AdminUsers` (
   `email` varchar(255) NOT NULL,
   `mot_de_passe` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `is_super_admin` tinyint(1) NOT NULL DEFAULT '0'
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `AdminUsers`
@@ -136,7 +136,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `AdminUsers`
 --
 ALTER TABLE `AdminUsers`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `logs`
