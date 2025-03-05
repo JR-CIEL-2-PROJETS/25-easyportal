@@ -68,15 +68,15 @@
         let plaquesCount = 0;
 
         async function fetchUsers() {
-            try {
-                const response = await fetch("https://4db7e0eb-4ed7-4f36-8568-cbdb4e93af75.mock.pstmn.io/connexion/user1?email=medy@gmail.com&password=medy77230");
-                const data = await response.json();
-                usersData = data.user;
-                displayUsers(usersData);
-            } catch (error) {
-                console.error("Erreur lors de la récupération des utilisateurs", error);
-            }
-        }
+    try {
+        const response = await fetch("https://17caa7ce-64f2-4a8e-936c-e333267801c6.mock.pstmn.io/Dashboard/GestionUser/liste_user");
+        const data = await response.json();
+        usersData = data; // Correction ici
+        displayUsers(usersData);
+    } catch (error) {
+        console.error("Erreur lors de la récupération des utilisateurs", error);
+    }
+}
 
         function displayUsers(users) {
             const tableBody = document.getElementById("userTableBody");
