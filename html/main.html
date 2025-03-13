@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css">
     <title>Easy Portal</title>
-    
 </head>
 <body>
     <div id="loading-screen">
-        <img src="image/logo.jpg" alt="Chargement..."> <!-- Utiliser une image PNG -->
+        <img src="image/logo.jpg" alt="Chargement...">
     </div>
+
     <div class="header">✦Easy Portal</div>
     <div class="container">
         <div class="title">Connexion</div>
@@ -22,7 +22,7 @@
             <span class="toggle-password" onclick="togglePassword()">👁</span>
         </div>
         <div><button class="btn" onclick="login()">Se connecter</button></div>
-        <div id="message" class="message"></div> <!-- Div pour afficher les messages -->
+        <div id="message" class="message"></div> <!-- Message d'erreur ou succès -->
     </div>
 
     <script>
@@ -43,26 +43,24 @@
             const password = document.getElementById('password').value;
 
             try {
-                const response = await fetch('https://4db7e0eb-4ed7-4f36-8568-cbdb4e93af75.mock.pstmn.io/connexion/admin?');
-
-                if (!response.ok) {
-                    throw new Error('Erreur de connexion');
-                }
+                const response = await fetch('php/login.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
 
                 const data = await response.json();
-                console.log('Données de l\'API:', data);
+                console.log('Réponse du serveur:', data);
 
-                if (data.administrateur && Array.isArray(data.administrateur) && data.administrateur.length > 0) {
-                    const user = data.administrateur[0];
-
-                    if (email === user.email && password === user.password) {
+                if (data.success) {
+                    if (data.role === 'admin' || data.role === 'super_admin') {
                         displayMessage('Connexion réussie !', false);
-                        window.location.href = 'user.html';
+                        window.location.href = 'admin.html';
                     } else {
-                        displayMessage('Email ou mot de passe incorrect !');
+                        displayMessage('Accès refusé : vous devez être administrateur.');
                     }
                 } else {
-                    displayMessage('Aucun administrateur trouvé dans la réponse de l\'API.');
+                    displayMessage(data.message);
                 }
             } catch (error) {
                 console.error('Erreur:', error);
@@ -71,11 +69,10 @@
         }
 
         window.onload = function() {
-            // Simuler un temps de chargement
             setTimeout(() => {
                 document.getElementById('loading-screen').style.display = 'none';
                 document.querySelector('.container').style.display = 'block';
-            }, 1000); // 2000 millisecondes (2 secondes) pour le chargement
+            }, 1000);
         };
 
         document.addEventListener('keydown', function(event) {

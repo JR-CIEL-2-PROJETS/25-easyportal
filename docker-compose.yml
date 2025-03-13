@@ -1,37 +1,43 @@
 version: '3'
+
 services:
   nginx:
-    build: .
+    image: nginx:1.22-alpine
     ports:
       - "8080:80"
     volumes:
-      - ./html:/usr/share/nginx/html
+      - ./html:/var/www/html
       - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - php
+
+  php:
+    build: .
+    volumes:
+      - ./html:/var/www/html
     depends_on:
       - mysql
 
+
   mysql:
-    image: mysql:latest
-    container_name: mysql_db
-    restart: always
+    image: mysql:8
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_ROOT_PASSWORD: root  # ⚠️ Change en prod !
       MYSQL_DATABASE: easyportal
-      MYSQL_USER: marwan
-      MYSQL_PASSWORD: userpassword
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
     volumes:
-      - mysql_data:/var/lib/mysql
-      - ./backup:/backup
-    command: --init-file /docker-entrypoint-initdb.d/backup.sh
+      - dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
 
   phpmyadmin:
-    image: phpmyadmin:latest
-    restart: always
-    ports:
-      - "8081:80"
+    image: phpmyadmin/phpmyadmin
     environment:
       PMA_HOST: mysql
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8081:80"
 
 volumes:
-  mysql_data:
+  dbdata:
