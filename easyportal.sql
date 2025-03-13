@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mysql
--- Généré le : mer. 05 mars 2025 à 09:15
+-- Généré le : jeu. 13 mars 2025 à 10:57
 -- Version du serveur : 8.4.4
 -- Version de PHP : 8.2.27
 
@@ -18,29 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `EasyPortal`
+-- Base de données : `easyportal`
 --
-
--- --------------------------------------------------------
-
---
--- Structure de la table `AdminUsers`
---
-
-CREATE TABLE `AdminUsers` (
-  `id` int NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `mot_de_passe` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `is_super_admin` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Déchargement des données de la table `AdminUsers`
---
-
-INSERT INTO `AdminUsers` (`id`, `email`, `mot_de_passe`, `is_super_admin`) VALUES
-(1, 'francois.b@gmail.com', 'test1', 1),
-(5, 'testadmin@gmail.com', 'motdepasse', 0);
 
 -- --------------------------------------------------------
 
@@ -54,7 +33,7 @@ CREATE TABLE `logs` (
   `plaque` varchar(9) NOT NULL,
   `date_entree` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `action` enum('ouverture automatique','ouverture manuelle') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -64,11 +43,11 @@ CREATE TABLE `logs` (
 
 CREATE TABLE `plaques` (
   `id` int NOT NULL,
-  `numero` varchar(9) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `numero` varchar(9) NOT NULL,
   `user_id` int DEFAULT NULL,
   `statut` enum('actif','bloqué') DEFAULT 'actif',
   `date_ajout` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -78,33 +57,27 @@ CREATE TABLE `plaques` (
 
 CREATE TABLE `users` (
   `id` int NOT NULL,
-  `nom` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `prenom` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `mot_de_passe` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `nom` varchar(100) NOT NULL,
+  `prenom` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `mot_de_passe` varchar(255) NOT NULL,
+  `role` enum('utilisateur','admin','super_admin') NOT NULL DEFAULT 'utilisateur'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `nom`, `prenom`, `email`, `mot_de_passe`) VALUES
-(1, 'Ballet', 'Francois', 'francois.b@gmail.com', 'azerty1!'),
-(2, 'Merdji', 'Marwan', 'merdji.m@gmail.com', 'djidji93'),
-(3, 'Surnin', 'Ivan', 'surnin.i@gmail.com', 'IvanMonkaOpp'),
-(4, 'Kalleche', 'Medy', 'kalleche.m@gmail.com', 'med12');
+INSERT INTO `users` (`id`, `nom`, `prenom`, `email`, `mot_de_passe`, `role`) VALUES
+(1, 'Ballet', 'Francois', 'francois.b@gmail.com', 'azerty1!', 'super_admin'),
+(2, 'Merdji', 'Marwan', 'merdji.m@gmail.com', 'djidji93', 'utilisateur'),
+(3, 'Surnin', 'Ivan', 'surnin.i@gmail.com', 'IvanMonkaOpp', 'utilisateur'),
+(4, 'Kalleche', 'Medy', 'kalleche.m@gmail.com', 'med12', 'utilisateur'),
+(5, 'Admin', 'Test', 'testadmin@gmail.com', 'motdepasse', 'admin');
 
 --
 -- Index pour les tables déchargées
 --
-
---
--- Index pour la table `AdminUsers`
---
-ALTER TABLE `AdminUsers`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `only_one_super_admin` (`is_super_admin`);
 
 --
 -- Index pour la table `logs`
@@ -133,12 +106,6 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT pour la table `AdminUsers`
---
-ALTER TABLE `AdminUsers`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
 -- AUTO_INCREMENT pour la table `logs`
 --
 ALTER TABLE `logs`
@@ -154,7 +121,7 @@ ALTER TABLE `plaques`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Contraintes pour les tables déchargées
