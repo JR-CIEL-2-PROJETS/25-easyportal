@@ -1,0 +1,80 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #EDF4EC;
+    color: #333;
+}
+
+header {
+    background: #EDF4EC;
+    padding: 10px;
+    text-align: left;
+    border: 2px solid #000;
+    border-radius: 10px;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+    color: #333;
+}
+
+h1 {
+    font-size: 2rem; /* Taille réduite */
+    color: #333;
+}
+
+h2 {
+    margin-top: 20px;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+main {
+    padding: 20px;
+}
+
+.project-links, .team {
+    list-style-type: none;
+    padding: 0;
+}
+
+.project-links li, .team li {
+    background: #EDF4EC;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    background-color: #28a745;
+    color: #EDF4EC;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    float: right;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+.icon, .team-icon {
+    width: 20px; /* Ajustez la taille selon vos besoins */
+    height: 20px;
+    margin-right: 10px; /* Espace entre l'image et le texte */
+    vertical-align: middle; /* Aligne l'image avec le texte */
+}
