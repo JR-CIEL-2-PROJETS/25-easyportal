@@ -13,7 +13,7 @@
     </div>
 
     <div class="sidebar">
-        <a>Dashboard</a>
+        <a href="dashboard.html">Dashboard</a>
         <a href="user.html">Utilisateurs</a>
         <a href="admin.html" class="active">Admin</a>
         <a href="plaques.html">Plaques</a>
@@ -53,37 +53,43 @@
         // Récupérer les administrateurs depuis la base de données
         async function fetchAdmins() {
             try {
-                const response = await fetch('getAdmins.php'); // Appel au script PHP qui récupère les vrais admins
+                const response = await fetch('php/getAdmins.php');
                 if (!response.ok) throw new Error(`Erreur HTTP : ${response.status}`);
 
-                const data = await response.json();
-                adminsData = data.admins;
-                if (!Array.isArray(adminsData)) throw new Error("Format de réponse incorrect");
+                const textResponse = await response.text(); // Utilise .text() au lieu de .json() pour voir la réponse brute
+                console.log("Réponse brute :", textResponse); // Log pour voir la réponse
 
-                displayAdmins(adminsData);
+                const data = JSON.parse(textResponse); // Conversion en JSON
+                if (data.success && Array.isArray(data.admins)) {
+                    adminsData = data.admins;
+                    displayAdmins(adminsData);
+                } else {
+                    throw new Error("Format de réponse incorrect");
+                }
             } catch (error) {
                 console.error("Erreur :", error);
+                document.getElementById("alert-container").innerHTML = `<div class="alert alert-error">Impossible de charger les administrateurs.</div>`;
             }
         }
 
         // Afficher les administrateurs dans le tableau
         function displayAdmins(admins) {
             const tbody = document.getElementById("adminTableBody");
-            tbody.innerHTML = "";
+            tbody.innerHTML = ""; // Réinitialiser le contenu du tableau
 
             admins.forEach(admin => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
                     <td>${admin.prenom} ${admin.nom}</td>
                     <td>${admin.email}</td>
-                    <td><span class="badge">${admin.role}</span></td>
+                    <td><span class="badge ${admin.role === 'super_admin' ? 'badge-super' : 'badge-admin'}">${admin.role}</span></td>
                     <td>
                         ${admin.role !== "super_admin" 
-                            ? `<button class="delete-button" onclick="deleteAdmin('${admin.id}', '${admin.prenom}', '${admin.nom}')">Supprimer</button>` 
+                            ? `<button class="delete-button" onclick="deleteAdmin(${admin.id}, '${admin.prenom}', '${admin.nom}')">Supprimer</button>` 
                             : `<span style="color:gray;">Non supprimable</span>`}
                     </td>
                 `;
-                tbody.appendChild(row);
+                tbody.appendChild(row); // Ajouter la ligne au tableau
             });
         }
 
@@ -110,15 +116,13 @@
                     });
 
                     const result = await response.json();
-                    if (result.success) {
-                        document.getElementById("alert-container").innerHTML = `<div class="alert">Administrateur ${prenom} ${nom} supprimé !</div>`;
-                        setTimeout(() => document.getElementById("alert-container").innerHTML = "", 3000);
-                        fetchAdmins(); // Rafraîchir la liste des administrateurs
-                    } else {
-                        alert(result.message);
-                    }
+                    document.getElementById("alert-container").innerHTML = `<div class="alert ${result.success ? 'alert-success' : 'alert-error'}">${result.message}</div>`;
+                    setTimeout(() => document.getElementById("alert-container").innerHTML = "", 3000);
+
+                    if (result.success) fetchAdmins();
                 } catch (error) {
                     console.error("Erreur :", error);
+                    alert("Erreur lors de la suppression.");
                 }
             }
         }
@@ -126,5 +130,48 @@
         // Charger les administrateurs au démarrage
         document.addEventListener("DOMContentLoaded", fetchAdmins);
     </script>
+
+    <style>
+        .alert {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .badge {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .badge-admin {
+            background-color: #ffc107;
+            color: #333;
+        }
+        .badge-super {
+            background-color: #17a2b8;
+            color: white;
+        }
+        .delete-button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .delete-button:hover {
+            background-color: darkred;
+        }
+    </style>
 </body>
 </html>
