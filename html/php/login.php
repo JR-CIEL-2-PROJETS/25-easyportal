@@ -23,6 +23,7 @@ try {
         if ($user['role'] === 'admin' || $user['role'] === 'super_admin') {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['role'] = $user['role'];
+            $_SESSION['user_name'] = $user['prenom'] . ' ' . $user['nom']; // Stocker le nom complet
             echo json_encode(["success" => true, "role" => $user['role']]);
         } else {
             echo json_encode(["success" => false, "message" => "Accès refusé : vous devez être administrateur."]);
