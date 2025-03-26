@@ -69,42 +69,44 @@
         let usersData = [];
         let plaquesCount = 0;
 
-        // Fonction pour récupérer les utilisateurs depuis le fichier PHP
         async function fetchUsers() {
-            try {
-                const response = await fetch("php/fetchUsers.php"); // Récupère les utilisateurs depuis PHP
-                const data = await response.json();
-                if (data.error) {
-                    console.error("Erreur lors de la récupération des utilisateurs", data.error);
-                    return;
-                }
-                usersData = data;
-                displayUsers(usersData);
-            } catch (error) {
-                console.error("Erreur lors de la récupération des utilisateurs", error);
-            }
-        }
+    try {
+        // Requête pour récupérer les utilisateurs depuis getUsers.php
+        const response = await fetch("php/getUsers.php");
+        const data = await response.json();
 
-        // Fonction pour afficher les utilisateurs dans le tableau
-        function displayUsers(users) {
-            const tableBody = document.getElementById("userTableBody");
-            tableBody.innerHTML = "";
-            users.forEach(user => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${user.prenom}</td>
-                    <td>${user.nom}</td>
-                    <td>${user.email}</td>
-                    <td>${user.role}</td>
-                    <td>${user["Temps d'accès"]}</td>
-                    <td>
-                        <button class="delete-button" onclick="deleteUser('${user.prenom}', '${user.nom}')">Supprimer</button>
-                        <button class="plaques-button" onclick="viewPlaques('${user.email}')">Plaques</button>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
+        // Vérifier si la récupération des utilisateurs est un succès
+        if (data.success) {
+            usersData = data.users;
+            displayUsers(usersData); // Affiche les utilisateurs dans le tableau
+        } else {
+            console.error("Erreur:", data.message);
         }
+    } catch (error) {
+        console.error("Erreur lors de la récupération des utilisateurs:", error);
+    }
+}
+
+function displayUsers(users) {
+    const tableBody = document.getElementById("userTableBody");
+    tableBody.innerHTML = ""; // Réinitialise la table
+    users.forEach(user => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${user.prenom}</td>
+            <td>${user.nom}</td>
+            <td>${user.email}</td>
+            <td>${user.role}</td>
+            <td>${user.date_fin_acces || "Non défini"}</td>
+            <td>
+                <button class="delete-button" onclick="deleteUser('${user.prenom}', '${user.nom}')">Supprimer</button>
+                <button class="plaques-button" onclick="viewPlaques('${user.email}')">Plaques</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
 
         // Fonction pour supprimer un utilisateur
         function deleteUser(prenom, nom) {
