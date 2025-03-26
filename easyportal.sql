@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mysql
--- Généré le : jeu. 13 mars 2025 à 10:57
+-- Généré le : mer. 26 mars 2025 à 11:01
 -- Version du serveur : 8.4.4
 -- Version de PHP : 8.2.27
 
@@ -61,19 +61,20 @@ CREATE TABLE `users` (
   `prenom` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `mot_de_passe` varchar(255) NOT NULL,
-  `role` enum('utilisateur','admin','super_admin') NOT NULL DEFAULT 'utilisateur'
+  `role` enum('utilisateur','admin','super_admin','utilisateur-intervenant') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'utilisateur',
+  `date_fin` timestamp(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `nom`, `prenom`, `email`, `mot_de_passe`, `role`) VALUES
-(1, 'Ballet', 'Francois', 'francois.b@gmail.com', 'azerty1!', 'super_admin'),
-(2, 'Merdji', 'Marwan', 'merdji.m@gmail.com', 'djidji93', 'utilisateur'),
-(3, 'Surnin', 'Ivan', 'surnin.i@gmail.com', 'IvanMonkaOpp', 'utilisateur'),
-(4, 'Kalleche', 'Medy', 'kalleche.m@gmail.com', 'med12', 'utilisateur'),
-(5, 'Admin', 'Test', 'testadmin@gmail.com', 'motdepasse', 'admin');
+INSERT INTO `users` (`id`, `nom`, `prenom`, `email`, `mot_de_passe`, `role`, `date_fin`) VALUES
+(1, 'Ballet', 'Francois', 'francois.b@gmail.com', 'azerty1!', 'super_admin', '0000-00-00 00:00:00.000000'),
+(2, 'Merdji', 'Marwan', 'merdji.m@gmail.com', 'djidji93', 'utilisateur', '0000-00-00 00:00:00.000000'),
+(3, 'Surnin', 'Ivan', 'surnin.i@gmail.com', 'IvanMonkaOpp', 'utilisateur', '0000-00-00 00:00:00.000000'),
+(4, 'Kalleche', 'Medy', 'kalleche.m@gmail.com', 'med12', 'utilisateur', '0000-00-00 00:00:00.000000'),
+(11, 'Operateur', 'Internet', 'testv3.m@gmail.com', 'med1234', 'utilisateur-intervenant', '2025-03-26 10:48:38.000000');
 
 --
 -- Index pour les tables déchargées
@@ -121,7 +122,7 @@ ALTER TABLE `plaques`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Contraintes pour les tables déchargées

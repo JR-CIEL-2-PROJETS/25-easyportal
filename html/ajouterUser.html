@@ -18,9 +18,6 @@
             width: 600px;
             margin: 0 auto;
         }
-        #accessTimeGroup {
-            display: none;
-        }
         .logo {
             position: absolute;
             top: 10px;
@@ -31,7 +28,7 @@
         .eye-icon {
             cursor: pointer;
             font-size: 1.5rem;
-            padding: 0.0009rem;
+            padding: 0.3rem;
         }
     </style>
 </head>
@@ -63,19 +60,16 @@
                                     <span class="input-group-text eye-icon" id="togglePassword">👁️</span>
                                 </div>
                             </div>
-                            <small class="form-text text-muted">Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule et un caractère spécial.</small>
+                            <small class="form-text text-muted">
+                                Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule et un caractère spécial.
+                            </small>
                         </div>
                         <div class="form-group">
                             <label>Rôle</label>
-                            <select id="role" class="form-control" required>
-                                <option value="">Choisissez un rôle</option>
-                                <option value="personnel">Personnel</option>
-                                <option value="intervenant">Intervenant</option>
+                            <select name="role" id="role" class="form-control" required>
+                                <option value="utilisateur">personnel</option>
+                                <option value="utilisateur-intervenant">intervenant</option>
                             </select>
-                        </div>
-                        <div class="form-group" id="accessTimeGroup">
-                            <label>Temps d'accès</label>
-                            <input type="datetime-local" name="accessTime" id="accessTime" class="form-control">
                         </div>
                         <button type="submit" class="btn btn-success">Ajouter</button>
                         <a href="user.html" class="btn btn-secondary ml-2">Annuler</a>
@@ -87,62 +81,57 @@
     </div>
 
     <script>
-        document.getElementById("role").addEventListener("change", function() {
-            const accessTimeGroup = document.getElementById("accessTimeGroup");
-            if (this.value === "intervenant") {
-                accessTimeGroup.style.display = "block"; // Afficher le groupe de temps d'accès
-            } else {
-                accessTimeGroup.style.display = "none"; // Cacher le groupe de temps d'accès
-            }
-        });
-
-        document.getElementById("userForm").addEventListener("submit", function(event) {
+        document.getElementById("userForm").addEventListener("submit", async function(event) {
             event.preventDefault();
 
-            let nom = document.getElementById("nom").value;
-            let prenom = document.getElementById("prenom").value;
-            let email = document.getElementById("email").value;
+            let nom = document.getElementById("nom").value.trim();
+            let prenom = document.getElementById("prenom").value.trim();
+            let email = document.getElementById("email").value.trim();
             let password = document.getElementById("password").value;
             let role = document.getElementById("role").value;
-            let accessTime = role === "intervenant" ? document.getElementById("accessTime").value : null;
 
             // Validation du mot de passe
             const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
             if (!passwordPattern.test(password)) {
-                document.getElementById("message").innerHTML = `<div class="alert alert-danger">Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule et un caractère spécial.</div>`;
+                afficherMessage("Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule et un caractère spécial.", "danger");
                 return;
             }
 
-            let url = `https://4db7e0eb-4ed7-4f36-8568-cbdb4e93af75.mock.pstmn.io/connexion/register?nom=${nom}&prenom=${prenom}&email=${email}&password=${password}&role=${role}&accessTime=${accessTime}`;
+            try {
+                const response = await fetch("php/addUser.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ nom, prenom, email, password, role })
+                });
 
-            fetch(url, {
-                method: "GET",  // Changer la méthode en GET
-                headers: {
-                    "Content-Type": "application/json"
+                const result = await response.json();
+                if (result.success) {
+                    afficherMessage("Utilisateur ajouté avec succès !", "success");
+                    setTimeout(() => window.location.href = "user.html", 1500);
+                } else {
+                    afficherMessage(result.message, "danger");
                 }
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("message").innerHTML = `<div class="alert alert-success">Utilisateur ajouté avec succès !</div>`;
-                document.getElementById("userForm").reset();
-                document.getElementById("accessTimeGroup").style.display = "none"; // Réinitialiser l'affichage du groupe de temps d'accès
-            })
-            .catch(error => {
-                document.getElementById("message").innerHTML = `<div class="alert alert-danger">Erreur lors de l'ajout.</div>`;
+            } catch (error) {
                 console.error("Erreur :", error);
-            });
+                afficherMessage("Une erreur est survenue. Veuillez réessayer.", "danger");
+            }
         });
+
+        // Fonction pour afficher un message de succès ou d'erreur
+        function afficherMessage(message, type) {
+            document.getElementById("message").innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+        }
 
         // Fonction pour afficher/masquer le mot de passe
         document.getElementById("togglePassword").addEventListener("click", function() {
             const passwordField = document.getElementById("password");
-            const passwordFieldType = passwordField.getAttribute("type");
-
-            // Basculer entre 'password' et 'text'
-            if (passwordFieldType === "password") {
-                passwordField.setAttribute("type", "text");
+            const eyeIcon = this;
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                eyeIcon.innerHTML = "🙈"; // Icône de caché
             } else {
-                passwordField.setAttribute("type", "password");
+                passwordField.type = "password";
+                eyeIcon.innerHTML = "👁️"; // Icône d'affiché
             }
         });
     </script>
