@@ -6,13 +6,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         html, body {
-            height: 100%; /* Prendre toute la hauteur de la fenêtre */
-            margin: 0; /* Supprimer la marge par défaut */
+            height: 100%;
+            margin: 0;
             zoom: 0.99;
             overflow: hidden;
         }
         body {
-            background: linear-gradient(to bottom, #ffffff, #e0ffe0); /* Dégradé de blanc vers vert clair */
+            background: linear-gradient(to bottom, #ffffff, #e0ffe0);
         }
         .wrapper {
             width: 600px;
@@ -22,27 +22,29 @@
             margin-top: 20px;
         }
         .logo {
-            position: absolute; /* Positionner en haut à gauche */
-            top: 10px; /* Ajuster la distance du haut */
-            left: 10px; /* Ajuster la distance de la gauche */
-            font-size: 24px; /* Taille de la police */
-            font-weight: bold; /* Gras */
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            font-weight: bold;
         }
         .eye-icon {
             cursor: pointer;
-            font-size: 1.5rem; /* Taille de l'icône */
-            padding: 0.009rem; /* Espacement autour de l'icône */
+            font-size: 1.5rem;
+            padding: 0.2rem;
+        }
+        .eye-icon:hover {
+            color: #28a745;
         }
     </style>
 </head>
 <body>
-    <div class="logo">✦Easy Portal</div> <!-- Ajout de la marque en haut à gauche -->
+    <div class="logo">✦Easy Portal</div>
     <div class="wrapper">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     <h2 class="mt-5">Ajouter un nouvel Admin</h2>
-                    
                     <form id="adminForm">
                         <div class="form-group">
                             <label>Prénom</label>
@@ -59,18 +61,19 @@
                         <div class="form-group">
                             <label>Mot de passe</label>
                             <div class="input-group">
-                                <!-- Change le nom 'password' en 'mot_de_passe' -->
                                 <input type="password" name="mot_de_passe" id="password" class="form-control" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text eye-icon" id="togglePassword">👁️</span>
                                 </div>
                             </div>
-                            <small class="form-text text-muted">Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule et un caractère spécial.</small>
+                            <small class="form-text text-muted">
+                                Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule et un caractère spécial.
+                            </small>
                         </div>                        
                         <input type="submit" class="btn btn-success" value="Ajouter">
                         <a href="admin.html" class="btn btn-secondary ml-2">Annuler</a>
                     </form>
-                    <div id="message" class="message"></div> <!-- Élément pour afficher le message -->
+                    <div id="message" class="message"></div>
                 </div>
             </div>        
         </div>
@@ -80,67 +83,59 @@
         document.getElementById("adminForm").addEventListener("submit", async function(event) {
             event.preventDefault();
 
-            const prenom = document.getElementById("prenom").value;
-            const nom = document.getElementById("nom").value;
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+            const prenom = document.getElementById("prenom").value.trim();
+            const nom = document.getElementById("nom").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const motDePasse = document.getElementById("password").value;
 
             // Validation du mot de passe
             const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
-            if (!passwordPattern.test(password)) {
-                document.getElementById("message").innerHTML = "<div class='alert alert-danger'>Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule et un caractère spécial.</div>";
+            if (!passwordPattern.test(motDePasse)) {
+                afficherMessage("Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule et un caractère spécial.", "danger");
                 return;
             }
 
             const adminData = {
-                prenom: prenom,
-                nom: nom,
-                email: email,
-                password: password
+                prenom,
+                nom,
+                email,
+                mot_de_passe: motDePasse
             };
 
             try {
+                console.log("Données envoyées :", JSON.stringify(adminData));
+
                 const response = await fetch("php/addAdmin.php", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(adminData)
                 });
 
-                const responseText = await response.text();  // Lire la réponse sous forme de texte
-                console.log("Réponse brute du serveur : ", responseText);  // Afficher la réponse brute dans la console
+                const responseText = await response.text();
+                console.log("Réponse brute du serveur :", responseText);
 
-                const result = JSON.parse(responseText);  // Essayer de parser la réponse en JSON
-                const messageDiv = document.getElementById("message"); // Référence à l'élément message
-
+                const result = JSON.parse(responseText);
                 if (result.success) {
-                    messageDiv.innerHTML = "<div class='alert alert-success'>Admin ajouté avec succès !</div>";
-                    setTimeout(function() {
-                        // Rediriger vers admin.html après une courte pause pour afficher le message de succès
-                        window.location.href = "admin.html";
-                    }, 1500); // Délai de 1.5 seconde avant la redirection
+                    afficherMessage("Admin ajouté avec succès !", "success");
+                    setTimeout(() => window.location.href = "admin.html", 1500);
                 } else {
-                    messageDiv.innerHTML = `<div class='alert alert-danger'>${result.message}</div>`;
+                    afficherMessage(result.message, "danger");
                 }
             } catch (error) {
                 console.error("Erreur :", error);
-                const messageDiv = document.getElementById("message");
-                messageDiv.innerHTML = "<div class='alert alert-danger'>Une erreur est survenue. Veuillez réessayer.</div>";
+                afficherMessage("Une erreur est survenue. Veuillez réessayer.", "danger");
             }
         });
+
+        // Fonction pour afficher un message
+        function afficherMessage(message, type) {
+            document.getElementById("message").innerHTML = `<div class='alert alert-${type}'>${message}</div>`;
+        }
 
         // Fonction pour afficher/masquer le mot de passe
         document.getElementById("togglePassword").addEventListener("click", function() {
             const passwordField = document.getElementById("password");
-            const passwordFieldType = passwordField.getAttribute("type");
-
-            // Basculer entre 'password' et 'text'
-            if (passwordFieldType === "password") {
-                passwordField.setAttribute("type", "text");
-            } else {
-                passwordField.setAttribute("type", "password");
-            }
+            passwordField.type = passwordField.type === "password" ? "text" : "password";
         });
     </script>
 </body>
