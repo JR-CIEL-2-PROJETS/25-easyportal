@@ -1,25 +1,38 @@
 <?php
 header('Content-Type: application/json');
+session_start();
 require_once 'db.php';
 
+// Vérification des données reçues
 $data = json_decode(file_get_contents("php://input"), true);
 
+if (!isset($data['nom'], $data['prenom'], $data['email'], $data['password'], $data['role'])) {
+    echo json_encode(["success" => false, "message" => "Données manquantes"]);
+    exit;
+}
+
+$nom = trim($data['nom']);
+$prenom = trim($data['prenom']);
+$email = trim($data['email']);
+$password = trim($data['password']); 
+$role = trim($data['role']);
+
 try {
-    $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $stmt = $pdo->prepare("
+        INSERT INTO users (prenom, nom, email, role, mot_de_passe)
+        VALUES (:prenom, :nom, :email, :role, :mot_de_passe)
+    ");
 
-    $nom = $data['nom'] ?? '';
-    $prenom = $data['prenom'] ?? '';
-    $email = $data['email'] ?? '';
-    $mot_de_passe = password_hash($data['password'] ?? '', PASSWORD_DEFAULT);
-    $role = $data['role'] ?? 'utilisateur';
-    $date_fin = $data['date_fin'] ?? null;
+    $stmt->bindParam(':prenom', $prenom);
+    $stmt->bindParam(':nom', $nom);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':role', $role);
+    $stmt->bindParam(':mot_de_passe', $password);
 
-    $stmt = $pdo->prepare("INSERT INTO users (nom, prenom, email, mot_de_passe, 'role', date_fin) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$nom, $prenom, $email, $mot_de_passe, $role, $date_fin]);
+    $stmt->execute();
 
-    echo json_encode(["success" => true]);
+    echo json_encode(["success" => true, "message" => "Utilisateur ajouté avec succès"]);
 } catch (PDOException $e) {
-    echo json_encode(["error" => "Erreur lors de l'ajout de l'utilisateur : " . $e->getMessage()]);
+    echo json_encode(["success" => false, "message" => "Erreur lors de l'ajout de l'utilisateur : " . $e->getMessage()]);
 }
 ?>

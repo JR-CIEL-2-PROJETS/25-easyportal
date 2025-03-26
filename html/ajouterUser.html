@@ -67,10 +67,11 @@
                         <div class="form-group">
                             <label>Rôle</label>
                             <select name="role" id="role" class="form-control" required>
-                                <option value="utilisateur">personnel</option>
-                                <option value="utilisateur-intervenant">intervenant</option>
+                                <option value="utilisateur">Personnel</option>
+                                <option value="utilisateur-intervenant">Intervenant</option>
                             </select>
                         </div>
+
                         <button type="submit" class="btn btn-success">Ajouter</button>
                         <a href="user.html" class="btn btn-secondary ml-2">Annuler</a>
                     </form>
@@ -81,41 +82,39 @@
     </div>
 
     <script>
-        document.getElementById("userForm").addEventListener("submit", async function(event) {
-            event.preventDefault();
+        
+    document.getElementById("userForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
 
-            let nom = document.getElementById("nom").value.trim();
-            let prenom = document.getElementById("prenom").value.trim();
-            let email = document.getElementById("email").value.trim();
-            let password = document.getElementById("password").value;
-            let role = document.getElementById("role").value;
+    let nom = document.getElementById("nom").value.trim();
+    let prenom = document.getElementById("prenom").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let password = document.getElementById("password").value;
+    let role = document.getElementById("role").value;
 
-            // Validation du mot de passe
-            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
-            if (!passwordPattern.test(password)) {
-                afficherMessage("Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule et un caractère spécial.", "danger");
-                return;
-            }
+    console.log("Données envoyées :", { nom, prenom, email, password, role });
 
-            try {
-                const response = await fetch("php/addUser.php", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ nom, prenom, email, password, role })
-                });
-
-                const result = await response.json();
-                if (result.success) {
-                    afficherMessage("Utilisateur ajouté avec succès !", "success");
-                    setTimeout(() => window.location.href = "user.html", 1500);
-                } else {
-                    afficherMessage(result.message, "danger");
-                }
-            } catch (error) {
-                console.error("Erreur :", error);
-                afficherMessage("Une erreur est survenue. Veuillez réessayer.", "danger");
-            }
+    try {
+        const response = await fetch("php/addUser.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ nom, prenom, email, password, role })
         });
+
+        const result = await response.json();
+        console.log("Réponse du serveur :", result);
+
+        if (result.success) {
+            alert("Utilisateur ajouté !");
+            window.location.href = "user.html";
+        } else {
+            alert("Erreur : " + result.message);
+        }
+    } catch (error) {
+        console.error("Erreur :", error);
+        alert("Une erreur est survenue.");
+    }
+});
 
         // Fonction pour afficher un message de succès ou d'erreur
         function afficherMessage(message, type) {
@@ -128,10 +127,10 @@
             const eyeIcon = this;
             if (passwordField.type === "password") {
                 passwordField.type = "text";
-                eyeIcon.innerHTML = "🙈"; // Icône de caché
+                eyeIcon.innerHTML = "🙈"; // Icône cachée
             } else {
                 passwordField.type = "password";
-                eyeIcon.innerHTML = "👁️"; // Icône d'affiché
+                eyeIcon.innerHTML = "👁️"; // Icône affichée
             }
         });
     </script>

@@ -50,63 +50,93 @@
         </table>
     </div>
 
-    <!-- Modal for plaques -->
-    <div id="plaquesModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Modifier les plaques</h2>
-            <p>Vous pouvez ajouter jusqu'à 5 plaques.</p>
-            <form id="plaquesForm" onsubmit="submitPlaques(event)">
-                <div id="plaquesInputContainer"></div>
-                <button type="button" id="addPlaqueButton" class="btn-add" onclick="addPlaqueField()">Ajouter une plaque</button>
-                <button type="submit" class="btn-add">Valider</button>
-            </form>
-        </div>
-    </div>
-
     <script src="js/dejaconnecter.js"></script>
     <script>
         let usersData = [];
         let plaquesCount = 0;
 
         async function fetchUsers() {
-    try {
-        // Requête pour récupérer les utilisateurs depuis getUsers.php
-        const response = await fetch("php/getUsers.php");
-        const data = await response.json();
+            try {
+                // Requête pour récupérer les utilisateurs depuis getUsers.php
+                const response = await fetch("php/getUsers.php");
+                const data = await response.json();
 
-        // Vérifier si la récupération des utilisateurs est un succès
-        if (data.success) {
-            usersData = data.users;
-            displayUsers(usersData); // Affiche les utilisateurs dans le tableau
-        } else {
-            console.error("Erreur:", data.message);
+                // Vérifier si la récupération des utilisateurs est un succès
+                if (data.success) {
+                    usersData = data.users;
+                    displayUsers(usersData); // Affiche les utilisateurs dans le tableau
+                } else {
+                    console.error("Erreur:", data.message);
+                }
+            } catch (error) {
+                console.error("Erreur lors de la récupération des utilisateurs:", error);
+            }
         }
-    } catch (error) {
-        console.error("Erreur lors de la récupération des utilisateurs:", error);
-    }
-}
 
-function displayUsers(users) {
-    const tableBody = document.getElementById("userTableBody");
-    tableBody.innerHTML = ""; // Réinitialise la table
-    users.forEach(user => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${user.prenom}</td>
-            <td>${user.nom}</td>
-            <td>${user.email}</td>
-            <td>${user.role}</td>
-            <td>${user.date_fin_acces || "Non défini"}</td>
-            <td>
-                <button class="delete-button" onclick="deleteUser('${user.prenom}', '${user.nom}')">Supprimer</button>
-                <button class="plaques-button" onclick="viewPlaques('${user.email}')">Plaques</button>
-            </td>
-        `;
-        tableBody.appendChild(row);
-    });
-}
+        function displayUsers(users) {
+            const tableBody = document.getElementById("userTableBody");
+            tableBody.innerHTML = ""; // Réinitialise la table
+            users.forEach(user => {
+                const row = document.createElement("tr");
 
+                // Si l'utilisateur est un "utilisateur-intervenant", on ajoute un champ date et un bouton "Définir"
+                let dateFinCell = `<td>${user.date_fin ? user.date_fin : "Non défini"}</td>`;
+                let actionsCell = `
+                    <button class="delete-button" onclick="deleteUser('${user.prenom}', '${user.nom}')">Supprimer</button>
+                    <button class="plaques-button" onclick="viewPlaques('${user.email}')">Plaques</button>
+                `;
+                if (user.role === "utilisateur-intervenant" && !user.date_fin) {
+                    // Si l'utilisateur est un "utilisateur-intervenant" et n'a pas de date_fin, afficher un champ de sélection de date
+                    dateFinCell = `
+                        <td>
+                            <input type="datetime-local" id="date_fin_${user.email}" class="form-control" />
+                        </td>
+                    `;
+                    actionsCell += `<button class="btn-definir" onclick="defineDate('${user.email}')">Définir</button>`;
+                }
+
+                row.innerHTML = `
+                    <td>${user.prenom}</td>
+                    <td>${user.nom}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role}</td>
+                    <td>${dateFinCell}</td>
+                    <td>${actionsCell}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Fonction pour définir la date de fin d'un utilisateur
+        async function defineDate(email) {
+            const dateInput = document.getElementById(`date_fin_${email}`);
+            const dateFin = dateInput.value;
+
+            if (!dateFin) {
+                alert("Veuillez choisir une date et une heure.");
+                return;
+            }
+
+            try {
+                // Envoi de la date et de l'email à PHP pour mise à jour dans la base de données
+                const response = await fetch("php/updateDateFin.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, date_fin: dateFin })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert("Date limite définie !");
+                    fetchUsers(); // Recharger la liste des utilisateurs
+                } else {
+                    alert("Erreur : " + result.message);
+                }
+            } catch (error) {
+                console.error("Erreur lors de la mise à jour de la date :", error);
+                alert("Une erreur est survenue.");
+            }
+        }
 
         // Fonction pour supprimer un utilisateur
         function deleteUser(prenom, nom) {
@@ -115,56 +145,6 @@ function displayUsers(users) {
                 alertContainer.innerHTML = `<div class="alert">Utilisateur ${prenom} ${nom} supprimé !</div>`;
                 setTimeout(() => alertContainer.innerHTML = "", 3000);
             }
-        }
-
-        // Fonction pour afficher les plaques d'un utilisateur
-        function viewPlaques(email) {
-            const modal = document.getElementById("plaquesModal");
-            modal.style.display = "block";
-            plaquesCount = 0; // Réinitialiser le compteur à chaque ouverture du modal
-
-            // Réinitialiser les champs
-            const plaquesInputContainer = document.getElementById("plaquesInputContainer");
-            plaquesInputContainer.innerHTML = '';
-
-            // Supposons que les plaques soient récupérées avec les données de l'utilisateur
-            const user = usersData.find(user => user.email === email);
-            if (user && user.plaques && user.plaques.length > 0) {
-                user.plaques.forEach((plaque, index) => {
-                    addPlaqueField(plaque, index);
-                });
-            }
-        }
-
-        // Fonction pour ajouter un champ de plaque
-        function addPlaqueField(plaqueValue = '', index) {
-            if (plaquesCount < 5) {
-                plaquesCount++;
-                const inputContainer = document.getElementById("plaquesInputContainer");
-                const plaqueField = document.createElement("input");
-                plaqueField.type = "text";
-                plaqueField.name = `plaque${plaquesCount}`;
-                plaqueField.placeholder = `Plaque ${plaquesCount}`;
-                plaqueField.className = "plaque-input"; // Ajout de classe pour le style
-                plaqueField.value = plaqueValue; // Ajouter la valeur si elle est fournie
-                inputContainer.appendChild(plaqueField);
-            } else {
-                alert("Vous pouvez ajouter seulement 5 plaques.");
-            }
-        }
-
-        // Fonction pour soumettre les plaques (à adapter)
-        function submitPlaques(event) {
-            event.preventDefault();
-            // Traitement des plaques ici
-            alert("Plaques enregistrées !");
-            closeModal();
-        }
-
-        // Fonction pour fermer la modal des plaques
-        function closeModal() {
-            const modal = document.getElementById("plaquesModal");
-            modal.style.display = "none";
         }
 
         // Fonction pour filtrer les utilisateurs
