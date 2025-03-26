@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/user-admin.css">
     <title>Easy Portal - Utilisateurs</title>
 </head>
-
 <body>
     <div class="header">
         <div class="logo">✦Easy Portal</div>
@@ -15,7 +13,7 @@
     </div>
 
     <div class="sidebar">
-        <a>Dashboard</a>
+        <a href="#">Dashboard</a>
         <a href="user.html" class="active">Utilisateurs</a>
         <a href="admin.html">Admin</a>
         <a href="plaques.html">Plaques</a>
@@ -53,18 +51,15 @@
     <script src="js/dejaconnecter.js"></script>
     <script>
         let usersData = [];
-        let plaquesCount = 0;
 
         async function fetchUsers() {
             try {
-                // Requête pour récupérer les utilisateurs depuis getUsers.php
                 const response = await fetch("php/getUsers.php");
                 const data = await response.json();
 
-                // Vérifier si la récupération des utilisateurs est un succès
                 if (data.success) {
                     usersData = data.users;
-                    displayUsers(usersData); // Affiche les utilisateurs dans le tableau
+                    displayUsers(usersData);
                 } else {
                     console.error("Erreur:", data.message);
                 }
@@ -75,79 +70,35 @@
 
         function displayUsers(users) {
             const tableBody = document.getElementById("userTableBody");
-            tableBody.innerHTML = ""; // Réinitialise la table
+            tableBody.innerHTML = "";
             users.forEach(user => {
                 const row = document.createElement("tr");
-
-                // Si l'utilisateur est un "utilisateur-intervenant", on ajoute un champ date et un bouton "Définir"
-                let dateFinCell = `<td>${user.date_fin ? user.date_fin : "Non défini"}</td>`;
-                let actionsCell = `
-                    <button class="delete-button" onclick="deleteUser('${user.prenom}', '${user.nom}')">Supprimer</button>
-                    <button class="plaques-button" onclick="viewPlaques('${user.email}')">Plaques</button>
-                `;
-                if (user.role === "utilisateur-intervenant" && !user.date_fin) {
-                    // Si l'utilisateur est un "utilisateur-intervenant" et n'a pas de date_fin, afficher un champ de sélection de date
-                    dateFinCell = `
-                        <td>
-                            <input type="datetime-local" id="date_fin_${user.email}" class="form-control" />
-                        </td>
-                    `;
-                    actionsCell += `<button class="btn-definir" onclick="defineDate('${user.email}')">Définir</button>`;
-                }
-
                 row.innerHTML = `
                     <td>${user.prenom}</td>
                     <td>${user.nom}</td>
                     <td>${user.email}</td>
                     <td>${user.role}</td>
-                    <td>${dateFinCell}</td>
-                    <td>${actionsCell}</td>
+                    <td>
+                        ${user.role === "utilisateur" ? "Illimité" : `
+                        <input type="datetime-local" class="date-input" id="date-${user.id}">
+                        <button class="btn-set-date" onclick="setDate(${user.id})">Définir</button>
+                        `}
+                    </td>
+                    <td>
+                        <button class="delete-button" onclick="deleteUser('${user.prenom}', '${user.nom}')">Supprimer</button>
+                        <button class="plaques-button" onclick="viewPlaques('${user.email}')">Plaques</button>
+                    </td>
                 `;
                 tableBody.appendChild(row);
             });
         }
 
-        // Fonction pour définir la date de fin d'un utilisateur
-        async function defineDate(email) {
-            const dateInput = document.getElementById(`date_fin_${email}`);
-            const dateFin = dateInput.value;
-
-            if (!dateFin) {
-                alert("Veuillez choisir une date et une heure.");
-                return;
-            }
-
-            try {
-                // Envoi de la date et de l'email à PHP pour mise à jour dans la base de données
-                const response = await fetch("php/updateDateFin.php", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, date_fin: dateFin })
-                });
-
-                const result = await response.json();
-                if (result.success) {
-                    alert("Date limite définie !");
-                    fetchUsers(); // Recharger la liste des utilisateurs
-                } else {
-                    alert("Erreur : " + result.message);
-                }
-            } catch (error) {
-                console.error("Erreur lors de la mise à jour de la date :", error);
-                alert("Une erreur est survenue.");
-            }
-        }
-
-        // Fonction pour supprimer un utilisateur
         function deleteUser(prenom, nom) {
-            if (confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur ${prenom} ${nom} ?`)) {
-                const alertContainer = document.getElementById("alertContainer");
-                alertContainer.innerHTML = `<div class="alert">Utilisateur ${prenom} ${nom} supprimé !</div>`;
-                setTimeout(() => alertContainer.innerHTML = "", 3000);
+            if (confirm(`Êtes-vous sûr de vouloir supprimer ${prenom} ${nom} ?`)) {
+                alert(`Utilisateur ${prenom} ${nom} supprimé !`);
             }
         }
 
-        // Fonction pour filtrer les utilisateurs
         function filterUsers() {
             const searchInput = document.getElementById("searchInput").value.toLowerCase();
             displayUsers(usersData.filter(user => 
@@ -158,9 +109,14 @@
             ));
         }
 
-        // Appel de la fonction pour charger les utilisateurs au démarrage
+        function setDate(userId) {
+            const dateInput = document.getElementById(`date-${userId}`).value;
+            if (dateInput) {
+                alert(`Date définie : ${dateInput}`);
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", fetchUsers);
     </script>
 </body>
-
 </html>
