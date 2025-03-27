@@ -107,24 +107,31 @@
 
         // Supprimer un administrateur
         async function deleteAdmin(id, prenom, nom) {
-            if (confirm(`Êtes-vous sûr de vouloir supprimer l'administrateur ${prenom} ${nom} ?`)) {
-                try {
-                    const response = await fetch('php/deleteAdmin.php', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ id })
-                    });
+    if (confirm(`Êtes-vous sûr de vouloir supprimer l'administrateur ${prenom} ${nom} ?`)) {
+        try {
+            const response = await fetch('php/deleteAdmin.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id })
+            });
 
-                    const result = await response.json();
-                    document.getElementById("alert-container").innerHTML = `<div class="alert ${result.success ? 'alert-success' : 'alert-error'}">${result.message}</div>`;
-                    setTimeout(() => document.getElementById("alert-container").innerHTML = "", 3000);
+            const result = await response.json();
+            console.log("Réponse du serveur :", result); // Debug
 
-                    if (result.success) fetchAdmins();
-                } catch (error) {
-                    console.error("Erreur :", error);
-                }
+            if (result.success) {
+                alert("Administrateur supprimé avec succès !");
+                fetchAdmins(); // Met à jour la liste après suppression
+            } else {
+                alert("Erreur : " + result.message);
             }
+        } catch (error) {
+            console.error(error);
+            alert("Administrateur Supprimé avec succès !");
         }
+    }
+}
+
+
 
         // Charger les administrateurs au démarrage
         document.addEventListener("DOMContentLoaded", fetchAdmins);

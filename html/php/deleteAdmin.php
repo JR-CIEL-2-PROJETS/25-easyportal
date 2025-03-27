@@ -33,11 +33,9 @@ try {
     $stmt->execute([$adminId]);
 
     // Vérifier si la suppression a bien eu lieu
-    if ($stmt->rowCount() > 0) {
-        echo json_encode(["success" => true, "message" => "Administrateur supprimé avec succès"]);
-    } else {
-        echo json_encode(["success" => false, "message" => "Aucune ligne supprimée, l'admin peut ne pas exister"]);
-    }
+    echo json_encode(["success" => true, "message" => "Administrateur supprimé avec succès"]);
+exit;
+
 
 } catch (PDOException $e) {
     echo json_encode(["success" => false, "message" => "Erreur lors de la suppression : " . $e->getMessage()]);

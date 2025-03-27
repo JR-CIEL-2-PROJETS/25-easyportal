@@ -80,24 +80,51 @@
                     <td>${user.role}</td>
                     <td>
                         ${user.role === "utilisateur" ? "Illimité" : `
-                        <input type="datetime-local" class="date-input" id="date-${user.id}">
+                        <input type="datetime-local" class="date-input" id="date-${user.id}" value="${user.date_fin || ''}">
                         <button class="btn-set-date" onclick="setDate(${user.id})">Définir</button>
                         `}
                     </td>
                     <td>
-                        <button class="delete-button" onclick="deleteUser('${user.prenom}', '${user.nom}')">Supprimer</button>
-                        <button class="plaques-button" onclick="viewPlaques('${user.email}')">Plaques</button>
-                    </td>
+    <button class="delete-button" onclick="deleteUser(${user.id}, '${user.prenom}', '${user.nom}')">Supprimer</button>
+    <button class="plaques-button" onclick="viewPlaques('${user.email}')">Plaques</button>
+</td>
+
                 `;
                 tableBody.appendChild(row);
             });
         }
 
-        function deleteUser(prenom, nom) {
-            if (confirm(`Êtes-vous sûr de vouloir supprimer ${prenom} ${nom} ?`)) {
-                alert(`Utilisateur ${prenom} ${nom} supprimé !`);
+        // Supprimer un Utilisateur
+        async function deleteUser(id, prenom, nom) {
+    // S'assurer que 'prenom' et 'nom' sont bien échappés
+    prenom = prenom.replace(/['"\\]/g, '\\$&'); // Échapper les caractères spéciaux
+    nom = nom.replace(/['"\\]/g, '\\$&'); // Échapper les caractères spéciaux
+    
+    if (confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur ${prenom} ${nom} ?`)) {
+        try {
+            const response = await fetch('php/deleteUser.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id }) // Vérifier que l'objet JSON est valide
+            });
+
+            const result = await response.json();
+            console.log("Réponse du serveur :", result); // Debug
+
+            if (result.success) {
+                alert("Utilisateur supprimé avec succès !");
+                fetchUsers(); // Met à jour la liste après suppression
+            } else {
+                alert("Erreur : " + result.message);
             }
+        } catch (error) {
+            console.error(error);
+            alert("Erreur lors de la suppression !");
         }
+    }
+}
+
+
 
         function filterUsers() {
             const searchInput = document.getElementById("searchInput").value.toLowerCase();
@@ -111,9 +138,26 @@
 
         function setDate(userId) {
             const dateInput = document.getElementById(`date-${userId}`).value;
-            if (dateInput) {
-                alert(`Date définie : ${dateInput}`);
+            if (!dateInput) {
+                alert("Veuillez entrer une date valide.");
+                return;
             }
+
+            fetch("php/setDate.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: userId, date_fin: dateInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Date de fin mise à jour !");
+                    fetchUsers(); // Rafraîchir la liste
+                } else {
+                    alert("Erreur : " + data.message);
+                }
+            })
+            .catch(error => console.error("Erreur :", error));
         }
 
         document.addEventListener("DOMContentLoaded", fetchUsers);
