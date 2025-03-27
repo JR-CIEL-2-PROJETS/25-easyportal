@@ -3,6 +3,7 @@ require_once 'db.php'; // Connexion à la base de données
 
 header("Content-Type: application/json");
 
+// Lire les données JSON envoyées
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!isset($data["id"]) || !isset($data["date_fin"])) {
@@ -17,17 +18,15 @@ $date_fin = $data["date_fin"];
 if ($date_fin === null || $date_fin === "") {
     $date_fin = null;
 } else {
-    // Convertir la date du format 'YYYY-MM-DDTHH:MM' vers 'YYYY-MM-DD HH:MM:SS.000000'
-    // La chaîne "T" doit être remplacée par un espace et on ajoute les secondes et microsecondes
-    $date_fin = str_replace("T", " ", $date_fin) . ":00.000000";
+    // Vérifier si la date est valide au format 'YYYY-MM-DD'
+    $date_obj = DateTime::createFromFormat('Y-m-d', $date_fin);
+    if (!$date_obj || $date_obj->format('Y-m-d') !== $date_fin) {
+        echo json_encode(["success" => false, "message" => "Date invalide."]);
+        exit;
+    }
 }
 
-// Vérifier si la date est valide
-if ($date_fin !== null && strtotime($date_fin) === false) {
-    echo json_encode(["success" => false, "message" => "Date invalide."]);
-    exit;
-}
-
+// Préparer la requête de mise à jour
 $sql = "UPDATE utilisateurs SET date_fin = ? WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("si", $date_fin, $id);
