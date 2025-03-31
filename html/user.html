@@ -48,17 +48,6 @@
         </table>
     </div>
 
-    <!-- Modal pour plaques -->
-    <div id="plaquesModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close" onclick="closePlaquesModal()">&times;</span>
-            <h2>Plaques de l'utilisateur</h2>
-            <div id="plaquesInputContainer"></div>
-            <button onclick="addPlaqueField()">Ajouter une plaque</button>
-            <button onclick="savePlaques()">Enregistrer</button>
-        </div>
-    </div>
-
     <script src="js/dejaconnecter.js"></script>
     <script>
         let usersData = [];
@@ -90,14 +79,14 @@
                     <td>${user.email}</td>
                     <td>${user.role}</td>
                     <td>
-                        ${user.role === "utilisateur" ? "Illimité" : ` 
+                        ${user.role === "utilisateur" ? "Illimité" : `
                         <input type="date" class="date-input" id="date-${user.id}" value="${user.date_fin || ''}">
                         <button class="btn-set-date" onclick="setDate(${user.id})">Définir</button>
                         `}
                     </td>
                     <td>
                         <button class="delete-button" onclick="deleteUser(${user.id}, '${user.prenom}', '${user.nom}')">Supprimer</button>
-                        <button class="plaques-button" onclick="viewPlaques('${user.email}')">Plaques</button>
+                        <button class="plaques-button" onclick="viewPlaques('${user.email}')">Voir plaques</button>
                     </td>
                 `;
                 tableBody.appendChild(row);
@@ -105,42 +94,13 @@
         }
 
         function viewPlaques(email) {
-            const modal = document.getElementById("plaquesModal");
-            if (!modal) {
-                console.error("Le modal plaquesModal est introuvable");
-                return;
-            }
-            modal.style.display = "block";
-            const plaquesInputContainer = document.getElementById("plaquesInputContainer");
-            plaquesInputContainer.innerHTML = '';
-            const user = usersData.find(user => user.email === email);
-            if (user && user.plaques && user.plaques.length > 0) {
-                user.plaques.forEach((plaque, index) => {
-                    plaquesInputContainer.innerHTML += `
-                        <div class="plaque-item">
-                            <span>Plaque: ${plaque.numero}</span>
-                            <select>
-                                <option value="actif" ${plaque.etat === 'actif' ? 'selected' : ''}>Actif</option>
-                                <option value="bloque" ${plaque.etat === 'bloque' ? 'selected' : ''}>Bloqué</option>
-                            </select>
-                            <button onclick="deletePlaque(${plaque.id})">Supprimer</button>
-                        </div>
-                    `;
-                });
-            }
-        }
-
-        function closePlaquesModal() {
-            document.getElementById("plaquesModal").style.display = "none";
-        }
-
-        function deletePlaque(plaqueId) {
-            console.log("Suppression de la plaque", plaqueId);
+            // Redirection vers la page voir-plaques.html avec l'email de l'utilisateur
+            window.location.href = `voir-plaques.html?email=${encodeURIComponent(email)}`;
         }
 
         function filterUsers() {
             const searchInput = document.getElementById("searchInput").value.toLowerCase();
-            displayUsers(usersData.filter(user => 
+            displayUsers(usersData.filter(user =>
                 user.prenom.toLowerCase().includes(searchInput) ||
                 user.nom.toLowerCase().includes(searchInput) ||
                 user.email.toLowerCase().includes(searchInput) ||
