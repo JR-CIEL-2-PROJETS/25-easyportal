@@ -48,6 +48,17 @@
         </table>
     </div>
 
+    <!-- Modal pour plaques -->
+    <div id="plaquesModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closePlaquesModal()">&times;</span>
+            <h2>Plaques de l'utilisateur</h2>
+            <div id="plaquesInputContainer"></div>
+            <button onclick="addPlaqueField()">Ajouter une plaque</button>
+            <button onclick="savePlaques()">Enregistrer</button>
+        </div>
+    </div>
+
     <script src="js/dejaconnecter.js"></script>
     <script>
         let usersData = [];
@@ -93,33 +104,38 @@
             });
         }
 
-        // Supprimer un Utilisateur
-        async function deleteUser(id, prenom, nom) {
-            prenom = prenom.replace(/['"\\]/g, '\\$&'); // Échapper les caractères spéciaux
-            nom = nom.replace(/['"\\]/g, '\\$&'); // Échapper les caractères spéciaux
-            
-            if (confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur ${prenom} ${nom} ?`)) {
-                try {
-                    const response = await fetch('php/deleteUser.php', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ id }) // Vérifier que l'objet JSON est valide
-                    });
-
-                    const result = await response.json();
-                    console.log("Réponse du serveur :", result); // Debug
-
-                    if (result.success) {
-                        alert("Utilisateur supprimé avec succès !");
-                        fetchUsers(); // Met à jour la liste après suppression
-                    } else {
-                        alert("Erreur : " + result.message);
-                    }
-                } catch (error) {
-                    console.error(error);
-                    alert("Erreur lors de la suppression !");
-                }
+        function viewPlaques(email) {
+            const modal = document.getElementById("plaquesModal");
+            if (!modal) {
+                console.error("Le modal plaquesModal est introuvable");
+                return;
             }
+            modal.style.display = "block";
+            const plaquesInputContainer = document.getElementById("plaquesInputContainer");
+            plaquesInputContainer.innerHTML = '';
+            const user = usersData.find(user => user.email === email);
+            if (user && user.plaques && user.plaques.length > 0) {
+                user.plaques.forEach((plaque, index) => {
+                    plaquesInputContainer.innerHTML += `
+                        <div class="plaque-item">
+                            <span>Plaque: ${plaque.numero}</span>
+                            <select>
+                                <option value="actif" ${plaque.etat === 'actif' ? 'selected' : ''}>Actif</option>
+                                <option value="bloque" ${plaque.etat === 'bloque' ? 'selected' : ''}>Bloqué</option>
+                            </select>
+                            <button onclick="deletePlaque(${plaque.id})">Supprimer</button>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        function closePlaquesModal() {
+            document.getElementById("plaquesModal").style.display = "none";
+        }
+
+        function deletePlaque(plaqueId) {
+            console.log("Suppression de la plaque", plaqueId);
         }
 
         function filterUsers() {
@@ -130,29 +146,6 @@
                 user.email.toLowerCase().includes(searchInput) ||
                 user.role.toLowerCase().includes(searchInput)
             ));
-        }
-
-        function setDate(userId) {
-            const dateInput = document.getElementById(`date-${userId}`).value;
-            
-            // Si la date est vide, on envoie NULL
-            const dateToSend = dateInput || null; 
-
-            fetch("php/setDate.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ id: userId, date_fin: dateToSend })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("Date de fin mise à jour !");
-                    fetchUsers(); // Rafraîchir la liste
-                } else {
-                    alert("Erreur : " + data.message);
-                }
-            })
-            .catch(error => console.error("Erreur :", error));
         }
 
         document.addEventListener("DOMContentLoaded", fetchUsers);
