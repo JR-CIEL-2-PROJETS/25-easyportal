@@ -87,10 +87,16 @@
                         ${admin.role !== "super_admin" 
                             ? `<button class="delete-button" onclick="deleteAdmin(${admin.id}, '${admin.prenom}', '${admin.nom}')">Supprimer</button>` 
                             : `<span style="color:gray;">Non supprimable</span>`}
+                        <button class="plaques-button" onclick="viewPlaques('${admin.email}')">Voir plaques</button> <!-- Ajout du bouton Voir plaques -->
                     </td>
                 `;
                 tbody.appendChild(row); // Ajouter la ligne au tableau
             });
+        }
+
+        // Fonction pour rediriger vers la page voir-plaques.html avec l'email
+        function viewPlaques(email) {
+            window.location.href = `voir-plaques.html?email=${encodeURIComponent(email)}`;
         }
 
         // Filtrer les administrateurs en fonction de la recherche
@@ -107,31 +113,29 @@
 
         // Supprimer un administrateur
         async function deleteAdmin(id, prenom, nom) {
-    if (confirm(`Êtes-vous sûr de vouloir supprimer l'administrateur ${prenom} ${nom} ?`)) {
-        try {
-            const response = await fetch('php/deleteAdmin.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id })
-            });
+            if (confirm(`Êtes-vous sûr de vouloir supprimer l'administrateur ${prenom} ${nom} ?`)) {
+                try {
+                    const response = await fetch('php/deleteAdmin.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id })
+                    });
 
-            const result = await response.json();
-            console.log("Réponse du serveur :", result); // Debug
+                    const result = await response.json();
+                    console.log("Réponse du serveur :", result); // Debug
 
-            if (result.success) {
-                alert("Administrateur supprimé avec succès !");
-                fetchAdmins(); // Met à jour la liste après suppression
-            } else {
-                alert("Erreur : " + result.message);
+                    if (result.success) {
+                        alert("Administrateur supprimé avec succès !");
+                        fetchAdmins(); // Met à jour la liste après suppression
+                    } else {
+                        alert("Erreur : " + result.message);
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert("Administrateur Supprimé avec succès !");
+                }
             }
-        } catch (error) {
-            console.error(error);
-            alert("Administrateur Supprimé avec succès !");
         }
-    }
-}
-
-
 
         // Charger les administrateurs au démarrage
         document.addEventListener("DOMContentLoaded", fetchAdmins);
@@ -177,6 +181,17 @@
         }
         .delete-button:hover {
             background-color: darkred;
+        }
+        .plaques-button {
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .plaques-button:hover {
+            background-color: darkblue;
         }
     </style>
 </body>
