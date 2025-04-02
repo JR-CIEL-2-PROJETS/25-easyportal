@@ -236,3 +236,13 @@ body {
 .btn-add:hover {
     background-color: #5AD17D;
 }
+
+.logout-button {
+    display: block !important;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: red !important;
+    color: white !important;
+    padding: 10px;
+}

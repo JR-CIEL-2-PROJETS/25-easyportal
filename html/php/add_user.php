@@ -15,13 +15,23 @@ try {
     $prenom = $data['prenom'] ?? '';
     $email = $data['email'] ?? '';
     $mot_de_passe = password_hash($data['password'] ?? '', PASSWORD_DEFAULT);
-    $role = $data['role'] ?? 'utilisateur';
+    $role = $data['role'] ?? 'utilisateur'; // Assurez-vous que le rôle est défini
+
+    // Vérifier si l'email existe déjà
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+    $emailExists = $stmt->fetchColumn();
+
+    if ($emailExists) {
+        echo json_encode(["success" => false, "error" => "L'email existe déjà."]);
+        exit;
+    }
 
     $stmt = $pdo->prepare("INSERT INTO users (nom, prenom, email, mot_de_passe, role) VALUES (?, ?, ?, ?, ?)");
     $stmt->execute([$nom, $prenom, $email, $mot_de_passe, $role]);
 
     echo json_encode(["success" => true]);
 } catch (PDOException $e) {
-    echo json_encode(["error" => "Erreur de connexion à la base de données"]);
+    echo json_encode(["error" => "Erreur de connexion à la base de données: " . $e->getMessage()]);
 }
 ?>

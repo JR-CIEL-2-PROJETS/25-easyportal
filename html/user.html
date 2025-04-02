@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/user-admin.css">
     <title>Easy Portal - Utilisateurs</title>
+    <script src="js/dejaconnecter.js" defer></script>
 </head>
-<body>
-    <div class="header">
-        <div class="logo">✦Easy Portal</div>
-        <div class="user-name" id="userName"><?php session_start(); echo $_SESSION['user_name']; ?></div>
+
+<div class="header">
+    <div class="logo">✦Easy Portal</div>
+    <div class="user-name" id="userName">
+        <?php session_start(); echo $_SESSION['user_name']; ?>
     </div>
+    <a href="logout.php" class="logout-button">Déconnexion</a>
+</div>
+
 
     <div class="sidebar">
         <a>Dashboard</a>
@@ -23,7 +29,7 @@
 
     <div class="main">
         <div class="title">Utilisateurs</div>
-        <div id="alertContainer"></div>
+        <div id="alert-container"></div>
 
         <div class="search-container">
             <a href="ajouterUser.html" class="btn-add">Ajouter</a>
@@ -47,31 +53,20 @@
         </table>
     </div>
 
-    <div id="plaquesModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Modifier les plaques</h2>
-            <p>Vous pouvez ajouter jusqu'à 5 plaques.</p>
-            <form id="plaquesForm" onsubmit="submitPlaques(event)">
-                <div id="plaquesInputContainer"></div>
-                <button type="button" id="addPlaqueButton" class="btn-add" onclick="addPlaqueField()">Ajouter une plaque</button>
-                <button type="submit" class="btn-add">Valider</button>
-            </form>
-        </div>
-    </div>
-
     <script>
         let usersData = [];
-        let plaquesCount = 0;
 
         async function fetchUsers() {
             try {
                 const response = await fetch("php/get_users.php");
                 const data = await response.json();
-                usersData = data;
+                usersData = data.data;
                 displayUsers(usersData);
             } catch (error) {
                 console.error("Erreur lors de la récupération des utilisateurs", error);
+                document.getElementById("alert-container").innerHTML = 
+                    `<div class="alert alert-danger">Erreur lors de la récupération des utilisateurs.</div>`;
+                setTimeout(() => document.getElementById("alert-container").innerHTML = "", 5000);
             }
         }
 
@@ -86,7 +81,7 @@
                     <td>${user.email}</td>
                     <td>${user.role}</td>
                     <td>
-                        <button class="delete-button" onclick="deleteUser('${user.email}')">Supprimer</button>
+                        <button class="delete-button" onclick="deleteUser('${user.email}', '${user.prenom}', '${user.nom}')">Supprimer</button>
                         <button class="plaques-button" onclick="viewPlaques('${user.email}')">Plaques</button>
                     </td>
                 `;
@@ -94,8 +89,8 @@
             });
         }
 
-        async function deleteUser(email) {
-            if (confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur ?`)) {
+        async function deleteUser(email, prenom, nom) {
+            if (confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur ${prenom} ${nom} ?`)) {
                 try {
                     const response = await fetch("php/delete_user.php", {
                         method: "POST",
@@ -104,55 +99,17 @@
                     });
                     const data = await response.json();
                     if (data.success) {
-                        fetchUsers(); // Mettre à jour la liste des utilisateurs
+                        fetchUsers();
+                        document.getElementById("alert-container").innerHTML = 
+                            `<div class="alert alert-success">Utilisateur ${prenom} ${nom} supprimé avec succès.</div>`;
+                        setTimeout(() => document.getElementById("alert-container").innerHTML = "", 5000);
+                    } else {
+                        alert("Erreur lors de la suppression de l'utilisateur.");
                     }
                 } catch (error) {
                     console.error("Erreur lors de la suppression de l'utilisateur", error);
                 }
             }
-        }
-
-        function viewPlaques(email) {
-            const modal = document.getElementById("plaquesModal");
-            modal.style.display = "block";
-            plaquesCount = 0;
-
-            const plaquesInputContainer = document.getElementById("plaquesInputContainer");
-            plaquesInputContainer.innerHTML = '';
-
-            const user = usersData.find(user => user.email === email);
-            if (user && user.plaques && user.plaques.length > 0) {
-                user.plaques.forEach((plaque, index) => {
-                    addPlaqueField(plaque, index);
-                });
-            }
-        }
-
-        function addPlaqueField(plaqueValue = '', index) {
-            if (plaquesCount < 5) {
-                plaquesCount++;
-                const inputContainer = document.getElementById("plaquesInputContainer");
-                const plaqueField = document.createElement("input");
-                plaqueField.type = "text";
-                plaqueField.name = `plaque${plaquesCount}`;
-                plaqueField.placeholder = `Plaque ${plaquesCount}`;
-                plaqueField.className = "plaque-input";
-                plaqueField.value = plaqueValue;
-                inputContainer.appendChild(plaqueField);
-            } else {
-                alert("Vous pouvez ajouter seulement 5 plaques.");
-            }
-        }
-
-        function submitPlaques(event) {
-            event.preventDefault();
-            alert("Plaques enregistrées !");
-            closeModal();
-        }
-
-        function closeModal() {
-            const modal = document.getElementById("plaquesModal");
-            modal.style.display = "none";
         }
 
         function filterUsers() {
