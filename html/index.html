@@ -12,13 +12,13 @@
     </div>
 
     <div class="header">✦Easy Portal</div>
-    <div class="container">
+    <div class="container" style="display: none;"> <!-- Masquer par défaut jusqu'à ce que le chargement soit terminé -->
         <div class="title">Connexion</div>
         <div class="input-group">
-            <input id="email" type="text" placeholder="Email">
+            <input id="email" type="text" placeholder="Email" required>
         </div>
         <div class="input-group password">
-            <input id="password" class="mdp" type="password" placeholder="Mot de passe">
+            <input id="password" class="mdp" type="password" placeholder="Mot de passe" required>
             <span class="toggle-password" onclick="togglePassword()">👁</span>
         </div>
         <div><button class="btn" onclick="login()">Se connecter</button></div>
@@ -55,7 +55,7 @@
                 if (data.success) {
                     if (data.role === 'admin' || data.role === 'super_admin') {
                         displayMessage('Connexion réussie !', false);
-                        window.location.href = 'admin.html';
+                        window.location.href = 'admin.html'; // Rediriger vers admin.html
                     } else {
                         displayMessage('Accès refusé : vous devez être administrateur.');
                     }

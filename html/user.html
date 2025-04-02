@@ -47,7 +47,6 @@
         </table>
     </div>
 
-    <!-- Modal for plaques -->
     <div id="plaquesModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -116,13 +115,11 @@
         function viewPlaques(email) {
             const modal = document.getElementById("plaquesModal");
             modal.style.display = "block";
-            plaquesCount = 0; // Réinitialiser le compteur à chaque ouverture du modal
+            plaquesCount = 0;
 
-            // Réinitialiser les champs
             const plaquesInputContainer = document.getElementById("plaquesInputContainer");
             plaquesInputContainer.innerHTML = '';
 
-            // Supposons que les plaques soient récupérées avec les données de l'utilisateur
             const user = usersData.find(user => user.email === email);
             if (user && user.plaques && user.plaques.length > 0) {
                 user.plaques.forEach((plaque, index) => {
@@ -139,8 +136,8 @@
                 plaqueField.type = "text";
                 plaqueField.name = `plaque${plaquesCount}`;
                 plaqueField.placeholder = `Plaque ${plaquesCount}`;
-                plaqueField.className = "plaque-input"; // Ajout de classe pour le style
-                plaqueField.value = plaqueValue; // Ajouter la valeur si elle est fournie
+                plaqueField.className = "plaque-input";
+                plaqueField.value = plaqueValue;
                 inputContainer.appendChild(plaqueField);
             } else {
                 alert("Vous pouvez ajouter seulement 5 plaques.");
@@ -149,7 +146,6 @@
 
         function submitPlaques(event) {
             event.preventDefault();
-            // Traitement des plaques ici
             alert("Plaques enregistrées !");
             closeModal();
         }

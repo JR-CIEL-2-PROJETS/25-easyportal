@@ -2,10 +2,10 @@
 header('Content-Type: application/json');
 session_start();
 
-$servername = "mysql";
-$username = "user";
-$password = "password";
-$dbname = "easyportal";
+$servername = "51.210.151.13"; // IP de ton serveur OVH
+$username = "easyportal2025"; // Ton utilisateur MySQL
+$password = "EasyPortal2025!"; // Ton mot de passe MySQL
+$dbname = "easyportal2025"; // Le nom de ta base de données
 
 try {
     $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8mb4", $username, $password);
@@ -19,7 +19,7 @@ try {
     $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user && $mot_de_passe === $user['mot_de_passe']) {
+    if ($user && $mot_de_passe === $user['mot_de_passe']) { // Comparaison directe
         if ($user['role'] === 'admin' || $user['role'] === 'super_admin') {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['role'] = $user['role'];
