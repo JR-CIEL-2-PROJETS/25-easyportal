@@ -16,9 +16,10 @@
         <a href="#">Dashboard</a>
         <a href="user.html" class="active">Utilisateurs</a>
         <a href="admin.html">Admin</a>
-        <a href="plaques.html">Plaques</a>
+        <a href="plaques.html">Extraire/Importer</a>
         <a href="portail.html">Portail</a>
-        <a href="log.html">Logs</a>
+        <a href="logs.html">Logs</a>
+        <a href="voir-plaques.html">Plaques</a>
     </div>
 
     <div class="main">
@@ -86,7 +87,8 @@
                     </td>
                     <td>
                         <button class="delete-button" onclick="deleteUser(${user.id}, '${user.prenom}', '${user.nom}')">Supprimer</button>
-                        <button class="plaques-button" onclick="viewPlaques('${user.email}')">Voir plaques</button>
+                        <a href="voir-plaques.html" id="voirPlaquesButton">Voir Plaques</a>
+
                     </td>
                 `;
                 tableBody.appendChild(row);

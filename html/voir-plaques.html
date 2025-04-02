@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/log.css">
+    <title>Easy Portal - Voir Plaques</title>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">✦Easy Portal</div>
+    </div>
+
+    <div class="main">
+        <h2>Voir Plaques</h2>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Rechercher par nom" oninput="filterPlaques()" />
+        </div>
+        <div class="plaques-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <th>Plaque</th>
+                    </tr>
+                </thead>
+                <tbody id="plaquesTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let plaquesData = [];
+
+        // Fonction pour récupérer les plaques depuis le serveur
+        async function fetchPlaques() {
+            try {
+                const response = await fetch('php/getPlaquesByUser.php'); // Assurez-vous que ce fichier PHP renvoie toutes les plaques
+                const data = await response.json();
+
+                if (data.success) {
+                    plaquesData = data.plaques;
+                    displayPlaques(plaquesData);
+                } else {
+                    console.error("Erreur:", data.message);
+                }
+            } catch (error) {
+                console.error("Erreur lors de la récupération des plaques:", error);
+            }
+        }
+
+        // Fonction pour afficher les plaques
+        function displayPlaques(plaques) {
+            const tableBody = document.getElementById("plaquesTableBody");
+            tableBody.innerHTML = "";
+            plaques.forEach(plaque => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${plaque.nom} ${plaque.prenom}</td>
+                    <td>${plaque.plaque}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Fonction pour filtrer les plaques en fonction de la saisie
+        function filterPlaques() {
+            const searchInput = document.getElementById("searchInput").value.toLowerCase();
+            const filteredPlaques = plaquesData.filter(plaque =>
+                plaque.nom.toLowerCase().includes(searchInput) ||
+                plaque.prenom.toLowerCase().includes(searchInput)
+            );
+            displayPlaques(filteredPlaques);
+        }
+
+        // Charger les plaques au chargement de la page
+        document.addEventListener("DOMContentLoaded", fetchPlaques);
+    </script>
+</body>
+</html>

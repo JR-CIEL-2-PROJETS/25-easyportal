@@ -16,9 +16,10 @@
         <a href="dashboard.html">Dashboard</a>
         <a href="user.html">Utilisateurs</a>
         <a href="admin.html" class="active">Admin</a>
-        <a href="plaques.html">Plaques</a>
+        <a href="plaques.html">Extraire/Importer</a>
         <a href="portail.html">Portail</a>
-        <a href="log.html">Logs</a>
+        <a href="logs.html">Logs</a>
+        <a href="voir-plaques.html">Plaques</a>
     </div>
 
     <div class="main">
@@ -87,7 +88,8 @@
                         ${admin.role !== "super_admin" 
                             ? `<button class="delete-button" onclick="deleteAdmin(${admin.id}, '${admin.prenom}', '${admin.nom}')">Supprimer</button>` 
                             : `<span style="color:gray;">Non supprimable</span>`}
-                        <button class="plaques-button" onclick="viewPlaques('${admin.email}')">Voir plaques</button> <!-- Ajout du bouton Voir plaques -->
+                      
+
                     </td>
                 `;
                 tbody.appendChild(row); // Ajouter la ligne au tableau
@@ -183,7 +185,7 @@
             background-color: darkred;
         }
         .plaques-button {
-            background-color: blue;
+            background-color: rgb(137, 137, 226);
             color: white;
             border: none;
             padding: 5px 10px;
