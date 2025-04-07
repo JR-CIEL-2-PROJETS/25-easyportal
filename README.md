@@ -1,38 +1,53 @@
-# Easy Portal  
+# 🚪 EasyPortal Android App
 
-## Tâches pour l'Application Android  
-
-### 1. **Écran de connexion**  
-- Créer une interface permettant à l'utilisateur de saisir son nom d'utilisateur et son mot de passe.  
-- Intégrer une requête API (`GET /connexion/utilisateur`) pour vérifier les identifiants.  
-
-### 2. **Demande d'accès**  
-- Ajouter un formulaire pour qu'un visiteur puisse demander :  
-  - Un accès temporaire (limité dans le temps).  
-  - Un accès illimité (validé par un administrateur).  
-
-### 3. **Ouverture du portail**  
-- Implémenter un bouton ou une action pour envoyer une requête au serveur permettant d'ouvrir le portail.  
-
-### 4. **Gestion des utilisateurs**  
-- Afficher la liste des utilisateurs via l'API (`GET /Dashboard/GestionUser/liste_user`).  
-- Permettre à l'administrateur de modifier les rôles via l'API (`POST /role_user`).  
-
-### 5. **Intégration des APIs**  
-- Connecter l'application aux endpoints du serveur Mock et gérer les réponses JSON.  
-
-### 6. **Tests de l'application**  
-- Tester toutes les fonctionnalités (connexion, demande d'accès, ouverture du portail) avec Postman et l'application Android.  
-
-### 7. **Documentation utilisateur**  
-- Ajouter des instructions claires dans l'application :  
-  - Que faire en cas d'accès refusé.  
-  - Comment gérer une erreur réseau.  
+EasyPortal est une application Android développée dans le cadre d’un projet IoT permettant le contrôle d’un portail motorisé à distance. L’application communique avec un système embarqué (Raspberry Pi) pour autoriser ou refuser l’ouverture du portail en fonction de l'utilisateur connecté, de la plaque détectée, et des autorisations définies.
 
 ---
 
-## Liens Utiles  
-- [Trello](https://trello.com/b/0rJY5Std/easyportal-projet)  
-- [Cahier des charges](https://drive.google.com/file/d/1jTqu-DFb7wzD0Egm1XIkNRtG2iQ96qns/view)  
-- [Ressources UML/Étudiants](https://drive.google.com/drive/folders/113utU2sftZKCHBuI6aiLEg9IuT4zaUXk)  
-- [Figma](https://www.figma.com/proto/nLCbqOJC40aEosKBdooski/Untitled?node-id=1-2&p=f&t=kWOY56ctfhEp92Rq-0&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A2)  
+## 📱 Fonctionnalités
+
+### 🔐 Authentification
+- Connexion sécurisée via identifiants
+- Deux types d'utilisateurs :
+  - **Administrateur**
+  - **Utilisateur** (mode total ou réduit)
+
+---
+
+### 👤 Utilisateur
+- Peut **ouvrir le portail** si autorisé
+- En **mode total** : peut ouvrir même sans correspondance de plaque
+- En **mode réduit** : ouverture uniquement si plaque reconnue
+- Enregistrement automatique d’un **log** (date, heure, plaque, nom utilisateur)
+
+---
+
+### 🛠️ Administrateur
+- Ouvre le portail à tout moment
+- Visualise le **flux vidéo** d'une caméra IP
+- Gère la **base de données des plaques** :
+  - Ajouter/supprimer des plaques autorisées
+  - Ajouter des plaques interdites (**blacklist**)
+
+---
+
+## 🔗 Technologies utilisées
+
+- **Java / Kotlin** – Android Studio
+- **MySQL** – Base de données distante
+- **PHP / API REST** – Pour échanges avec le backend
+- **TCP/IP Socket Client** – Communication avec le Raspberry Pi
+- **Caméra IP** – Pour la visualisation en temps réel
+
+---
+
+## 🧪 Test & Déploiement
+
+- Testé via **émulateur Android** ou **tablette réelle**
+- Connecté au même réseau que le Raspberry Pi (ou via internet)
+- Base de données hébergée sur un serveur distant ou local
+
+---
+
+## 📂 Architecture de l'application
+
