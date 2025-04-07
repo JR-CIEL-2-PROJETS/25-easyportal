@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,15 +7,14 @@
     <title>Easy Portal - Utilisateurs</title>
     <script src="js/dejaconnecter.js" defer></script>
 </head>
-
-<div class="header">
-    <div class="logo">✦Easy Portal</div>
-    <div class="user-name" id="userName">
-        <?php session_start(); echo $_SESSION['user_name']; ?>
+<body>
+    <div class="header">
+        <div class="logo">✦Easy Portal</div>
+        <div class="user-name" id="userName">
+            <?php session_start(); echo $_SESSION['user_name']; ?>
+        </div>
+        <a href="logout.php" class="logout-button">Déconnexion</a>
     </div>
-    <a href="logout.php" class="logout-button">Déconnexion</a>
-</div>
-
 
     <div class="sidebar">
         <a>Dashboard</a>
@@ -82,7 +80,7 @@
                     <td>${user.role}</td>
                     <td>
                         <button class="delete-button" onclick="deleteUser('${user.email}', '${user.prenom}', '${user.nom}')">Supprimer</button>
-                        <button class="plaques-button" onclick="viewPlaques('${user.email}')">Plaques</button>
+                        <button class="plaques-button" onclick="window.location.href='voir-plaques.html?email=${user.email}'">Plaques</button>
                     </td>
                 `;
                 tableBody.appendChild(row);

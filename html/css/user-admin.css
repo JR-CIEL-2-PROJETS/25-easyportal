@@ -238,11 +238,23 @@ body {
 }
 
 .logout-button {
-    display: block !important;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: red !important;
-    color: white !important;
-    padding: 10px;
+    background-color: #ff4d4d; /* Couleur de fond rouge */
+    color: white; /* Couleur du texte */
+    border: none; /* Pas de bordure */
+    padding: 10px 20px; /* Espacement interne */
+    text-align: center; /* Centrer le texte */
+    text-decoration: none; /* Pas de soulignement */
+    display: inline-block; /* Permet de définir la largeur et la hauteur */
+    font-size: 16px; /* Taille de la police */
+    border-radius: 5px; /* Coins arrondis */
+    transition: background-color 0.3s, transform 0.3s; /* Animation pour le hover */
+}
+
+.logout-button:hover {
+    background-color: #ff1a1a; /* Couleur de fond rouge foncé au survol */
+    transform: scale(1.05); /* Légèrement agrandi au survol */
+}
+
+.logout-button:active {
+    transform: scale(0.95); /* Réduit légèrement la taille lors du clic */
 }
