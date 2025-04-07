@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/plaques.css"> <!-- Lien vers le CSS des plaques -->
+    <link rel="stylesheet" href="css/plaques.css">
     <title>Easy Portal - Voir Plaques</title>
 </head>
+
 <body>
     <div class="header">
         <div class="logo">✦Easy Portal</div>
@@ -13,16 +15,12 @@
 
     <div class="main">
         <h2>Voir Plaques</h2>
-        
+
         <div class="add-plaque-container">
             <input type="text" id="plaqueInput" placeholder="Ajouter une nouvelle plaque" />
             <button id="addPlaqueButton">Ajouter Plaque</button>
         </div>
 
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Rechercher par numéro" oninput="filterPlaques()" />
-        </div>
-        
         <div class="plaques-container">
             <table>
                 <thead>
@@ -45,18 +43,30 @@
         async function fetchPlaques() {
             try {
                 const response = await fetch(`php/getPlaquesByUser.php?email=${userEmail}`);
-                const data = await response.json();
 
-                if (data.success) {
-                    plaquesData = data.plaques;
-                    displayPlaques(plaquesData);
-                } else {
-                    console.error("Erreur:", data.message);
+                // Vérifie si la réponse est valide
+                if (!response.ok) {
+                    throw new Error("Erreur de réseau");
+                }
+
+                const text = await response.text(); // Récupère la réponse en texte brut
+                try {
+                    const data = JSON.parse(text); // Tente de parser en JSON
+                    if (data.success) {
+                        plaquesData = data.plaques;
+                        displayPlaques(plaquesData);
+                    } else {
+                        console.error("Erreur:", data.message);
+                    }
+                } catch (jsonError) {
+                    console.error("Erreur lors de l'analyse du JSON:", jsonError);
+                    console.error("Réponse non valide:", text);
                 }
             } catch (error) {
                 console.error("Erreur lors de la récupération des plaques:", error);
             }
         }
+
 
         function displayPlaques(plaques) {
             const tableBody = document.getElementById("plaquesTableBody");
@@ -64,16 +74,16 @@
             plaques.forEach(plaque => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                    <td>${plaque.nom} ${plaque.prenom}</td>
-                    <td>${plaque.numero}</td>
-                    <td>${plaque.status}</td>
-                    <td>
-                        <button onclick="toggleState('${plaque.id}', '${plaque.status}')">
-                            ${plaque.status === 'actif' ? 'Bloquer' : 'Activer'}
-                        </button>
-                        <button onclick="deletePlaque('${plaque.id}')">Supprimer</button>
-                    </td>
-                `;
+            <td>${plaque.nom} ${plaque.prenom}</td>
+            <td>${plaque.numero}</td>
+            <td>${plaque.statut}</td> <!-- Assure-toi que c'est "statut" et non "status" -->
+            <td>
+                <button onclick="toggleState('${plaque.id}', '${plaque.statut}')">
+                    ${plaque.statut === 'actif' ? 'Bloquer' : 'Activer'}
+                </button>
+                <button onclick="deletePlaque('${plaque.id}')">Supprimer</button>
+            </td>
+        `;
                 tableBody.appendChild(row);
             });
         }
@@ -98,14 +108,11 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email: userEmail, numero: plaqueValue })
                 });
-                
-                const text = await response.text(); // Obtenez la réponse en texte brut
-                console.log(text); // Affichez la réponse dans la console pour le débogage
 
-                const data = JSON.parse(text); // Convertissez le texte en JSON
+                const data = await response.json();
                 if (data.success) {
-                    plaqueInput.value = ""; // Réinitialiser le champ de saisie
-                    fetchPlaques(); // Récupérer à nouveau les plaques
+                    plaqueInput.value = "";
+                    fetchPlaques();
                 } else {
                     alert("Erreur lors de l'ajout de la plaque.");
                 }
@@ -122,11 +129,11 @@
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ id: plaqueId })
                     });
-                    const data = await response.json();
+                    const data = await response.json(); // Cela peut lever une erreur si la réponse n'est pas du JSON
                     if (data.success) {
-                        fetchPlaques(); // Récupérer à nouveau les plaques
+                        fetchPlaques(); // Recharger la liste des plaques
                     } else {
-                        alert("Erreur lors de la suppression de la plaque.");
+                        alert("Erreur lors de la suppression de la plaque : " + data.message);
                     }
                 } catch (error) {
                     console.error("Erreur lors de la suppression de la plaque:", error);
@@ -134,27 +141,36 @@
             }
         }
 
+
         async function toggleState(plaqueId, currentState) {
             try {
                 const newState = currentState === 'actif' ? 'bloqué' : 'actif';
                 const response = await fetch("php/toggle_plaque_state.php", {
-                    method: "POST",
+                    method: "POST", // Assure-toi que la méthode est POST
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ id: plaqueId, status: newState })
                 });
-                const data = await response.json();
+
+                // Vérifie si la réponse est valide
+                if (!response.ok) {
+                    throw new Error("Erreur de réseau");
+                }
+
+                const data = await response.json(); // Cela peut lever une erreur si la réponse n'est pas du JSON
                 if (data.success) {
-                    fetchPlaques(); // Récupérer à nouveau les plaques
+                    fetchPlaques(); // Recharger la liste des plaques
                 } else {
-                    alert("Erreur lors de la mise à jour de l'état de la plaque.");
+                    alert("Erreur lors de la mise à jour de l'état de la plaque : " + data.message);
                 }
             } catch (error) {
                 console.error("Erreur lors de la mise à jour de l'état de la plaque:", error);
             }
         }
 
+
         document.getElementById("addPlaqueButton").addEventListener("click", addPlaque);
         document.addEventListener("DOMContentLoaded", fetchPlaques);
     </script>
 </body>
+
 </html>

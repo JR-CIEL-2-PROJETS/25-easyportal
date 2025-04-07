@@ -2,10 +2,10 @@
 session_start();
 
 // Paramètres de connexion à la base de données
-$servername = "51.210.151.13"; // IP de votre serveur OVH
-$username = "easyportal2025"; // Votre utilisateur MySQL
-$password = "EasyPortal2025!"; // Votre mot de passe MySQL
-$dbname = "easyportal2025"; // Le nom de votre base de données
+$servername = "51.210.151.13"; 
+$username = "easyportal2025"; 
+$password = "EasyPortal2025!"; 
+$dbname = "easyportal2025"; 
 
 // Créer une connexion
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -34,15 +34,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($user) {
         $userId = $user['id'];
         
-        // Insérer la nouvelle plaque
-        $stmt = $conn->prepare("INSERT INTO plaques (user_id, numero, status) VALUES (?, ?, 'actif')");
-        $stmt->bind_param("is", $userId, $numero);
-        $success = $stmt->execute();
+        // Vérification du nombre de plaques existantes
+        $stmt = $conn->prepare("SELECT COUNT(*) AS count FROM plaques WHERE user_id = ?");
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $countResult = $stmt->get_result();
+        $count = $countResult->fetch_assoc()['count'];
 
-        if ($success) {
-            echo json_encode(['success' => true]);
+        if ($count < 5) {
+            // Insérer la nouvelle plaque
+            $stmt = $conn->prepare("INSERT INTO plaques (user_id, numero, statut) VALUES (?, ?, 'actif')");
+            $stmt->bind_param("is", $userId, $numero);
+            $success = $stmt->execute();
+
+            if ($success) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Erreur lors de l\'ajout de la plaque']);
+            }
         } else {
-            echo json_encode(['success' => false, 'message' => 'Erreur lors de l\'ajout de la plaque']);
+            echo json_encode(['success' => false, 'message' => 'Le nombre maximum de plaques (5) a été atteint.']);
         }
     } else {
         echo json_encode(['success' => false, 'message' => 'Utilisateur non trouvé']);
