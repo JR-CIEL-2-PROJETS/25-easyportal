@@ -13,19 +13,19 @@
     </div>
 
     <div class="sidebar">
-        <a href="#">Dashboard</a>
+        <a >Dashboard</a>
         <a href="user.html">Utilisateurs</a>
         <a href="admin.html">Admin</a>
         <a href="plaques.html">Plaques</a>
         <a href="portail.html">Portail</a>
-        <a href="logs.html" class="active">Logs</a>
+        <a href="log.html" class="active">Logs</a>
     </div>
 
     <div class="main">
         <h2>Logs</h2>
         <div class="logs-container">
             <div class="search-container">
-                <input type="text" id="searchInput" placeholder="Rechercher par email ou plaque" oninput="filterLogs()" />
+                <input type="text" id="searchInput" placeholder="Rechercher par email ou plaque" />
             </div>
             <table>
                 <thead>
@@ -43,27 +43,39 @@
 
     <script src="js/dejaconnecter.js"></script>
     <script>
-        let logsData = [];
-
+        // Fonction pour récupérer les logs depuis l'API PHP
         async function fetchLogs() {
             try {
-                const response = await fetch("php/getLogs.php");
-                const data = await response.json();
-
-                if (data.success) {
-                    logsData = data.logs;
-                    displayLogs(logsData);
-                } else {
-                    console.error("Erreur:", data.message);
+                const response = await fetch('php/get_logs.php');
+                
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP : ${response.status}`);
                 }
+
+                const logs = await response.json();
+                console.log(logs); // Affiche les logs dans la console
+                displayLogs(logs);
+
+                // Ajouter l'événement de recherche
+                document.getElementById('searchInput').addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    const filteredLogs = logs.filter(log => 
+                        log.email.toLowerCase().includes(searchTerm) || 
+                        log.plaque.toLowerCase().includes(searchTerm)
+                    );
+                    displayLogs(filteredLogs);
+                });
+
             } catch (error) {
-                console.error("Erreur lors de la récupération des logs:", error);
+                console.error("Erreur :", error);
             }
         }
 
+        // Fonction pour afficher les logs dans le tableau
         function displayLogs(logs) {
-            const tableBody = document.getElementById("logsTableBody");
-            tableBody.innerHTML = "";
+            const tbody = document.getElementById("logsTableBody");
+            tbody.innerHTML = ""; // Vider le tableau avant de le remplir
+
             logs.forEach(log => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
@@ -72,18 +84,11 @@
                     <td>${log.plaque}</td>
                     <td>${log.action}</td>
                 `;
-                tableBody.appendChild(row);
+                tbody.appendChild(row);
             });
         }
 
-        function filterLogs() {
-            const searchInput = document.getElementById("searchInput").value.toLowerCase();
-            displayLogs(logsData.filter(log =>
-                log.email.toLowerCase().includes(searchInput) || 
-                log.plaque.toLowerCase().includes(searchInput)
-            ));
-        }
-
+        // Charger les logs dès que la page est prête
         document.addEventListener("DOMContentLoaded", fetchLogs);
     </script>
 </body>

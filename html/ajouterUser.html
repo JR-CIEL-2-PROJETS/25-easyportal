@@ -28,7 +28,7 @@
         .eye-icon {
             cursor: pointer;
             font-size: 1.5rem;
-            padding: 0.3rem;
+            padding: 0.0009rem;
         }
     </style>
 </head>
@@ -60,18 +60,8 @@
                                     <span class="input-group-text eye-icon" id="togglePassword">👁️</span>
                                 </div>
                             </div>
-                            <small class="form-text text-muted">
-                                Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule et un caractère spécial.
-                            </small>
+                            <small class="form-text text-muted">Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule et un caractère spécial.</small>
                         </div>
-                        <div class="form-group">
-                            <label>Rôle</label>
-                            <select name="role" id="role" class="form-control" required>
-                                <option value="utilisateur">Personnel</option>
-                                <option value="utilisateur-intervenant">Intervenant</option>
-                            </select>
-                        </div>
-
                         <button type="submit" class="btn btn-success">Ajouter</button>
                         <a href="user.html" class="btn btn-secondary ml-2">Annuler</a>
                     </form>
@@ -82,55 +72,54 @@
     </div>
 
     <script>
-        
-    document.getElementById("userForm").addEventListener("submit", async function(event) {
-    event.preventDefault();
+        document.getElementById("userForm").addEventListener("submit", function(event) {
+            event.preventDefault();
 
-    let nom = document.getElementById("nom").value.trim();
-    let prenom = document.getElementById("prenom").value.trim();
-    let email = document.getElementById("email").value.trim();
-    let password = document.getElementById("password").value;
-    let role = document.getElementById("role").value;
+            let nom = document.getElementById("nom").value;
+            let prenom = document.getElementById("prenom").value;
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
 
-    console.log("Données envoyées :", { nom, prenom, email, password, role });
+            // Validation du mot de passe
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
+            if (!passwordPattern.test(password)) {
+                document.getElementById("message").innerHTML = `<div class="alert alert-danger">Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule et un caractère spécial.</div>`;
+                return;
+            }
 
-    try {
-        const response = await fetch("php/addUser.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ nom, prenom, email, password, role })
+            // Ajout de la requête POST pour ajouter l'utilisateur
+            fetch("php/add_user.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ nom, prenom, email, password, role: 'utilisateur' }) // Inclure le rôle ici
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById("message").innerHTML = `<div class="alert alert-success">Utilisateur ajouté avec succès !</div>`;
+                    document.getElementById("userForm").reset();
+                } else {
+                    document.getElementById("message").innerHTML = `<div class="alert alert-danger">Erreur lors de l'ajout de l'utilisateur : ${data.error || 'Erreur inconnue.'}</div>`;
+                }
+            })
+            .catch(error => {
+                document.getElementById("message").innerHTML = `<div class="alert alert-danger">Erreur lors de l'ajout de l'utilisateur.</div>`;
+                console.error("Erreur :", error);
+            });
         });
-
-        const result = await response.json();
-        console.log("Réponse du serveur :", result);
-
-        if (result.success) {
-            alert("Utilisateur ajouté !");
-            window.location.href = "user.html";
-        } else {
-            alert("Erreur : " + result.message);
-        }
-    } catch (error) {
-        console.error("Erreur :", error);
-        alert("Une erreur est survenue.");
-    }
-});
-
-        // Fonction pour afficher un message de succès ou d'erreur
-        function afficherMessage(message, type) {
-            document.getElementById("message").innerHTML = `<div class="alert alert-${type}">${message}</div>`;
-        }
 
         // Fonction pour afficher/masquer le mot de passe
         document.getElementById("togglePassword").addEventListener("click", function() {
             const passwordField = document.getElementById("password");
-            const eyeIcon = this;
-            if (passwordField.type === "password") {
-                passwordField.type = "text";
-                eyeIcon.innerHTML = "🙈"; // Icône cachée
+            const passwordFieldType = passwordField.getAttribute("type");
+
+            // Basculer entre 'password' et 'text'
+            if (passwordFieldType === "password") {
+                passwordField.setAttribute("type", "text");
             } else {
-                passwordField.type = "password";
-                eyeIcon.innerHTML = "👁️"; // Icône affichée
+                passwordField.setAttribute("type", "password");
             }
         });
     </script>

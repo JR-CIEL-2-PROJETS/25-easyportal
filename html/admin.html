@@ -13,13 +13,12 @@
     </div>
 
     <div class="sidebar">
-        <a href="dashboard.html">Dashboard</a>
+        <a>Dashboard</a>
         <a href="user.html">Utilisateurs</a>
         <a href="admin.html" class="active">Admin</a>
-        <a href="plaques.html">Extraire/Importer</a>
+        <a href="plaques.html">Plaques</a>
         <a href="portail.html">Portail</a>
-        <a href="logs.html">Logs</a>
-        <a href="voir-plaques.html">Plaques</a>
+        <a href="log.html">Logs</a>
     </div>
 
     <div class="main">
@@ -30,7 +29,7 @@
             <a href="ajoutAdmin.html" class="btn-add">Ajouter</a>
             <div class="search-bar">
                 <span>🔎</span>
-                <input type="text" id="searchInput" placeholder="Rechercher un utilisateur..." oninput="filterAdmin()">
+                <input type="text" id="searchInput" placeholder="Rechercher un administrateur..." oninput="filterAdmin()">
             </div>
         </div>
 
@@ -51,57 +50,41 @@
     <script>
         let adminsData = [];
 
-        // Récupérer les administrateurs depuis la base de données
         async function fetchAdmins() {
             try {
-                const response = await fetch('php/getAdmins.php');
+                const response = await fetch('php/get_admins.php'); // Utiliser get_admins.php
                 if (!response.ok) throw new Error(`Erreur HTTP : ${response.status}`);
 
-                const textResponse = await response.text(); // Utilise .text() au lieu de .json() pour voir la réponse brute
-                console.log("Réponse brute :", textResponse); // Log pour voir la réponse
+                const data = await response.json();
+                if (!data.success) throw new Error(data.error || "Erreur inconnue");
 
-                const data = JSON.parse(textResponse); // Conversion en JSON
-                if (data.success && Array.isArray(data.admins)) {
-                    adminsData = data.admins;
-                    displayAdmins(adminsData);
-                } else {
-                    throw new Error("Format de réponse incorrect");
-                }
+                adminsData = data.data || [];
+                displayAdmins(adminsData);
             } catch (error) {
                 console.error("Erreur :", error);
-                document.getElementById("alert-container").innerHTML = `<div class="alert alert-error">Impossible de charger les administrateurs.</div>`;
             }
         }
 
-        // Afficher les administrateurs dans le tableau
         function displayAdmins(admins) {
             const tbody = document.getElementById("adminTableBody");
-            tbody.innerHTML = ""; // Réinitialiser le contenu du tableau
+            tbody.innerHTML = "";
 
             admins.forEach(admin => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
                     <td>${admin.prenom} ${admin.nom}</td>
                     <td>${admin.email}</td>
-                    <td><span class="badge ${admin.role === 'super_admin' ? 'badge-super' : 'badge-admin'}">${admin.role}</span></td>
+                    <td><span class="badge">${admin.role}</span></td>
                     <td>
                         ${admin.role !== "super_admin" 
-                            ? `<button class="delete-button" onclick="deleteAdmin(${admin.id}, '${admin.prenom}', '${admin.nom}')">Supprimer</button>` 
+                            ? `<button class="delete-button" onclick="deleteAdmin('${admin.id}', '${admin.prenom}', '${admin.nom}')">Supprimer</button>` 
                             : `<span style="color:gray;">Non supprimable</span>`}
-                      
-
                     </td>
                 `;
-                tbody.appendChild(row); // Ajouter la ligne au tableau
+                tbody.appendChild(row);
             });
         }
 
-        // Fonction pour rediriger vers la page voir-plaques.html avec l'email
-        function viewPlaques(email) {
-            window.location.href = `voir-plaques.html?email=${encodeURIComponent(email)}`;
-        }
-
-        // Filtrer les administrateurs en fonction de la recherche
         function filterAdmin() {
             const searchInput = document.getElementById("searchInput").value.toLowerCase();
             const filteredAdmins = adminsData.filter(admin => {
@@ -113,88 +96,32 @@
             displayAdmins(filteredAdmins);
         }
 
-        // Supprimer un administrateur
         async function deleteAdmin(id, prenom, nom) {
             if (confirm(`Êtes-vous sûr de vouloir supprimer l'administrateur ${prenom} ${nom} ?`)) {
                 try {
-                    const response = await fetch('php/deleteAdmin.php', {
+                    const response = await fetch('php/delete_admin.php', {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
                         body: JSON.stringify({ id })
                     });
 
-                    const result = await response.json();
-                    console.log("Réponse du serveur :", result); // Debug
-
-                    if (result.success) {
-                        alert("Administrateur supprimé avec succès !");
-                        fetchAdmins(); // Met à jour la liste après suppression
+                    const data = await response.json();
+                    if (data.success) {
+                        document.getElementById("alert-container").innerHTML = `<div class="alert">Administrateur ${prenom} ${nom} supprimé !</div>`;
+                        setTimeout(() => document.getElementById("alert-container").innerHTML = "", 3000);
+                        fetchAdmins(); // Récupérer à nouveau la liste des admins
                     } else {
-                        alert("Erreur : " + result.message);
+                        alert(data.message || "Erreur lors de la suppression");
                     }
                 } catch (error) {
-                    console.error(error);
-                    alert("Administrateur Supprimé avec succès !");
+                    console.error("Erreur :", error);
                 }
             }
         }
 
-        // Charger les administrateurs au démarrage
         document.addEventListener("DOMContentLoaded", fetchAdmins);
     </script>
-
-    <style>
-        .alert {
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            text-align: center;
-            font-weight: bold;
-        }
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        .badge {
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .badge-admin {
-            background-color: #ffc107;
-            color: #333;
-        }
-        .badge-super {
-            background-color: #f7750a;
-            color: white;
-        }
-        .delete-button {
-            background-color: red;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .delete-button:hover {
-            background-color: darkred;
-        }
-        .plaques-button {
-            background-color: rgb(137, 137, 226);
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .plaques-button:hover {
-            background-color: darkblue;
-        }
-    </style>
 </body>
 </html>

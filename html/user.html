@@ -5,26 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/user-admin.css">
     <title>Easy Portal - Utilisateurs</title>
+    <script src="js/dejaconnecter.js" defer></script>
 </head>
 <body>
     <div class="header">
         <div class="logo">✦Easy Portal</div>
-        <div class="user-name" id="userName">Chargement...</div>
+        <div class="user-name" id="userName">
+            <?php session_start(); echo $_SESSION['user_name']; ?>
+        </div>
+        <a href="logout.php" class="logout-button">Déconnexion</a>
     </div>
 
     <div class="sidebar">
-        <a href="#">Dashboard</a>
+        <a>Dashboard</a>
         <a href="user.html" class="active">Utilisateurs</a>
         <a href="admin.html">Admin</a>
-        <a href="plaques.html">Extraire/Importer</a>
+        <a href="plaques.html">Plaques</a>
         <a href="portail.html">Portail</a>
-        <a href="logs.html">Logs</a>
-        <a href="voir-plaques.html">Plaques</a>
+        <a href="log.html">Logs</a>
     </div>
 
     <div class="main">
         <div class="title">Utilisateurs</div>
-        <div id="alertContainer"></div>
+        <div id="alert-container"></div>
 
         <div class="search-container">
             <a href="ajouterUser.html" class="btn-add">Ajouter</a>
@@ -41,7 +44,6 @@
                     <th>Nom</th>
                     <th>Email</th>
                     <th>Rôle</th>
-                    <th>Temps d'accès</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -49,23 +51,20 @@
         </table>
     </div>
 
-    <script src="js/dejaconnecter.js"></script>
     <script>
         let usersData = [];
 
         async function fetchUsers() {
             try {
-                const response = await fetch("php/getUsers.php");
+                const response = await fetch("php/get_users.php");
                 const data = await response.json();
-
-                if (data.success) {
-                    usersData = data.users;
-                    displayUsers(usersData);
-                } else {
-                    console.error("Erreur:", data.message);
-                }
+                usersData = data.data;
+                displayUsers(usersData);
             } catch (error) {
-                console.error("Erreur lors de la récupération des utilisateurs:", error);
+                console.error("Erreur lors de la récupération des utilisateurs", error);
+                document.getElementById("alert-container").innerHTML = 
+                    `<div class="alert alert-danger">Erreur lors de la récupération des utilisateurs.</div>`;
+                setTimeout(() => document.getElementById("alert-container").innerHTML = "", 5000);
             }
         }
 
@@ -80,24 +79,35 @@
                     <td>${user.email}</td>
                     <td>${user.role}</td>
                     <td>
-                        ${user.role === "utilisateur" ? "Illimité" : `
-                        <input type="date" class="date-input" id="date-${user.id}" value="${user.date_fin || ''}">
-                        <button class="btn-set-date" onclick="setDate(${user.id})">Définir</button>
-                        `}
-                    </td>
-                    <td>
-                        <button class="delete-button" onclick="deleteUser(${user.id}, '${user.prenom}', '${user.nom}')">Supprimer</button>
-                        <a href="voir-plaques.html" id="voirPlaquesButton">Voir Plaques</a>
-
+                        <button class="delete-button" onclick="deleteUser('${user.email}', '${user.prenom}', '${user.nom}')">Supprimer</button>
+                        <button class="plaques-button" onclick="window.location.href='voir-plaques.html?email=${user.email}'">Plaques</button>
                     </td>
                 `;
                 tableBody.appendChild(row);
             });
         }
 
-        function viewPlaques(email) {
-            // Redirection vers la page voir-plaques.html avec l'email de l'utilisateur
-            window.location.href = `voir-plaques.html?email=${encodeURIComponent(email)}`;
+        async function deleteUser(email, prenom, nom) {
+            if (confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur ${prenom} ${nom} ?`)) {
+                try {
+                    const response = await fetch("php/delete_user.php", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email })
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                        fetchUsers();
+                        document.getElementById("alert-container").innerHTML = 
+                            `<div class="alert alert-success">Utilisateur ${prenom} ${nom} supprimé avec succès.</div>`;
+                        setTimeout(() => document.getElementById("alert-container").innerHTML = "", 5000);
+                    } else {
+                        alert("Erreur lors de la suppression de l'utilisateur.");
+                    }
+                } catch (error) {
+                    console.error("Erreur lors de la suppression de l'utilisateur", error);
+                }
+            }
         }
 
         function filterUsers() {
