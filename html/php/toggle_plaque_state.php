@@ -1,16 +1,14 @@
 <?php
 session_start();
 
-// Paramètres de connexion à la base de données
-$servername = "51.210.151.13"; // IP de ton serveur MySQL
-$username = "easyportal2025"; // Ton utilisateur MySQL
-$password = "EasyPortal2025!"; // Ton mot de passe MySQL
-$dbname = "easyportal2025"; // Le nom de ta base de données
+// Connexion BDD
+$servername = "51.210.151.13";
+$username = "easyportal2025";
+$password = "EasyPortal2025!";
+$dbname = "easyportal2025";
 
-// Créer une connexion
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Vérifie la connexion
 if ($conn->connect_error) {
     echo json_encode(['success' => false, 'message' => 'Échec de la connexion: ' . $conn->connect_error]);
     exit;
@@ -18,29 +16,25 @@ if ($conn->connect_error) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"), true);
-    $plaqueId = $data['id'];
-    $status = $data['status'];
+    $plaqueId = $data['id'] ?? null;
+    $status = $data['status'] ?? null;
 
-    // Vérifie que l'ID et le statut sont fournis
-    if (!$plaqueId || !$status) {
-        echo json_encode(['success' => false, 'message' => 'ID de plaque ou statut non fournis.']);
+    if (!isset($plaqueId) || !isset($status)) {
+        echo json_encode(['success' => false, 'message' => 'ID ou statut manquant.']);
         exit;
     }
 
-    // Prépare et exécute la mise à jour
     $stmt = $conn->prepare("UPDATE plaques SET statut = ? WHERE id = ?");
     $stmt->bind_param("si", $status, $plaqueId);
-    $success = $stmt->execute();
 
-    if ($success) {
+    if ($stmt->execute()) {
         echo json_encode(['success' => true]);
     } else {
-        echo json_encode(['success' => false, 'message' => 'Erreur lors de la mise à jour de l\'état: ' . $conn->error]);
+        echo json_encode(['success' => false, 'message' => 'Erreur SQL: ' . $stmt->error]);
     }
 } else {
     echo json_encode(['success' => false, 'message' => 'Méthode non autorisée']);
 }
 
-// Fermer la connexion
 $conn->close();
 ?>
