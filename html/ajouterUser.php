@@ -1,6 +1,6 @@
 <?php
 // Inclure le fichier d'authentification pour vérifier la session
-include('auth.php'); 
+include('php/auth.php'); 
 ?>
 <!DOCTYPE html>
 <html lang="fr">
