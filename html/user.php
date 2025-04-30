@@ -1,3 +1,7 @@
+<?php
+// Inclure le fichier d'authentification pour vérifier si l'admin est connecté
+include('php/auth.php');
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -12,16 +16,16 @@
         <div class="logo">✦Easy Portal</div>
         <div class="user-name" id="userName">
         </div>
-        <a href="logout.php" class="logout-button">Déconnexion</a>
+        <a href="../php/logout.php" class="logout-button">Déconnexion</a>
     </div>
 
     <div class="sidebar">
         <a>Dashboard</a>
-        <a href="user.html" class="active">Utilisateurs</a>
-        <a href="admin.html">Admin</a>
-        <a href="plaques.html">Plaques</a>
-        <a href="portail.html">Portail</a>
-        <a href="log.html">Logs</a>
+        <a href="user.php" class="active">Utilisateurs</a>
+        <a href="admin.php">Admin</a>
+        <a href="plaques.php">Plaques</a>
+        <a href="portail.php">Portail</a>
+        <a href="log.php">Logs</a>
     </div>
 
     <div class="main">
@@ -29,7 +33,7 @@
         <div id="alert-container"></div>
 
         <div class="search-container">
-            <a href="ajouterUser.html" class="btn-add">Ajouter</a>
+            <a href="ajouterUser.php" class="btn-add">Ajouter</a>
             <div class="search-bar">
                 <span>🔎</span>
                 <input type="text" id="searchInput" placeholder="Rechercher un utilisateur..." oninput="filterUsers()">
@@ -79,7 +83,7 @@
                     <td>${user.role}</td>
                     <td>
                         <button class="delete-button" onclick="deleteUser('${user.email}', '${user.prenom}', '${user.nom}')">Supprimer</button>
-                        <button class="plaques-button" onclick="window.location.href='voir-plaques.html?email=${user.email}'">Plaques</button>
+                        <button class="plaques-button" onclick="window.location.href='voir-plaques.php?email=${user.email}'">Plaques</button>
                     </td>
                 `;
                 tableBody.appendChild(row);

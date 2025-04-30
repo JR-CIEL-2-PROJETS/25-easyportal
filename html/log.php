@@ -1,3 +1,7 @@
+<?php
+// Inclure le fichier d'authentification
+include('auth.php');
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -13,12 +17,12 @@
     </div>
 
     <div class="sidebar">
-        <a >Dashboard</a>
-        <a href="user.html">Utilisateurs</a>
-        <a href="admin.html">Admin</a>
-        <a href="plaques.html">Plaques</a>
-        <a href="portail.html">Portail</a>
-        <a href="log.html" class="active">Logs</a>
+        <a href="dashboard.php">Dashboard</a>
+        <a href="user.php">Utilisateurs</a>
+        <a href="admin.php">Admin</a>
+        <a href="plaques.php">Plaques</a>
+        <a href="portail.php">Portail</a>
+        <a href="log.php" class="active">Logs</a>
     </div>
 
     <div class="main">

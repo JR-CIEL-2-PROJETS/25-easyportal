@@ -1,3 +1,7 @@
+<?php
+// Inclure le fichier d'authentification pour vérifier si l'admin est connecté
+include('php/auth.php');
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -14,11 +18,11 @@
 
     <div class="sidebar">
         <a>Dashboard</a>
-        <a href="user.html">Utilisateurs</a>
-        <a href="admin.html" class="active">Admin</a>
-        <a href="plaques.html">Plaques</a>
-        <a href="portail.html">Portail</a>
-        <a href="log.html">Logs</a>
+        <a href="user.php">Utilisateurs</a>
+        <a href="admin.php" class="active">Admin</a>
+        <a href="plaques.php">Plaques</a>
+        <a href="portail.php">Portail</a>
+        <a href="log.php">Logs</a>
     </div>
 
     <div class="main">
@@ -26,7 +30,7 @@
         <div id="alert-container"></div>
 
         <div class="search-container">
-            <a href="ajoutAdmin.html" class="btn-add">Ajouter</a>
+            <a href="ajoutAdmin.php" class="btn-add">Ajouter</a>
             <div class="search-bar">
                 <span>🔎</span>
                 <input type="text" id="searchInput" placeholder="Rechercher un administrateur..." oninput="filterAdmin()">

@@ -1,3 +1,7 @@
+<?php
+// Inclure le fichier d'authentification pour vérifier si l'admin est connecté
+include('php/auth.php');
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -84,16 +88,15 @@
 
         async function toggleState(plaqueId, currentState) {
             try {
-                const newState = currentState === 'actif' ? 'bloqué' : 'actif';
                 const response = await fetch("php/toggle_plaque_state.php", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ id: plaqueId, status: newState })
+                    body: JSON.stringify({ id: plaqueId, status: currentState })  // ← on envoie l'état actuel
                 });
                 if (!response.ok) throw new Error("Erreur réseau");
                 const data = await response.json();
                 if (data.success) {
-                    fetchPlaques();
+                    fetchPlaques(); // recharger les plaques
                 } else {
                     alert("Erreur de changement d'état : " + data.message);
                 }

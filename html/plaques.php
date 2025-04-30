@@ -1,3 +1,8 @@
+<?php
+// Inclure le fichier d'authentification pour vérifier l'utilisateur
+include('php/auth.php');
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,16 +14,16 @@
 <body>
     <div class="header">
         <div class="logo">✦Easy Portal</div>
-        <div class="user-name" id="userName">Chargement...</div>
+        <div class="user-name" id="userName"><?php echo $_SESSION['user_name']; ?></div>
     </div>
 
     <div class="sidebar">
         <a>Dashboard</a>
-        <a href="user.html">Utilisateurs</a>
-        <a href="admin.html">Admin</a>
-        <a href="plaques.html" class="active">Plaques</a>
-        <a href="portail.html">Portail</a>
-        <a href="log.html">Logs</a>
+        <a href="user.php">Utilisateurs</a>
+        <a href="admin.php">Admin</a>
+        <a href="plaques.php" class="active">Plaques</a>
+        <a href="portail.php">Portail</a>
+        <a href="log.php">Logs</a>
     </div>
 
     <div class="main">
@@ -28,16 +33,23 @@
             <img src="image/plaque.png" alt="Plaque d'immatriculation" class="plate-image">
 
             <div class="file-input">
-                <input type="file" id="csvFileInput" accept=".csv">
-                <button onclick="importCSV()">Importer des plaques📤</button>
+                <form action="php/import_plaques.php" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="csvFile" accept=".csv">
+                    <button type="submit">Importer des plaques📤</button>
+                </form>
             </div>
 
-            <button class="btn" id="downloadAuthorized">📥 Télécharger les plaques autorisées</button>
-            <button class="btn" id="downloadUnauthorized">📥 Télécharger les plaques non-autorisées</button>
+            <form action="php/export_authorized_plaques.php" method="get">
+                <button type="submit" class="btn">📥 Télécharger les plaques autorisées</button>
+            </form>
+
+            <form action="php/export_unauthorized_plaques.php" method="get">
+                <button type="submit" class="btn">📥 Télécharger les plaques non-autorisées</button>
+            </form>
         </div>
     </div>
 
-    <!-- Modal for managing plates -->
+    <!-- Modal pour la gestion des plaques -->
     <div id="plaquesModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -47,6 +59,7 @@
             <button onclick="addPlaque()">Ajouter</button>
         </div>
     </div>
+
     <script src="js/dejaconnecter.js"></script>
     <script>
         let currentUserEmail = '';
@@ -120,57 +133,6 @@
         function closeModal() {
             const modal = document.getElementById("plaquesModal");
             modal.style.display = "none";
-        }
-
-        document.getElementById('downloadAuthorized').addEventListener('click', function() {
-            fetch('php/export_authorized_plaques.php')
-                .then(response => response.blob())
-                .then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'plaques_autorisees.csv';
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                })
-                .catch(error => console.error('Erreur lors du téléchargement des plaques autorisées:', error));
-        });
-
-        document.getElementById('downloadUnauthorized').addEventListener('click', function() {
-            fetch('php/export_unauthorized_plaques.php')
-                .then(response => response.blob())
-                .then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'plaques_non_autorisees.csv';
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                })
-                .catch(error => console.error('Erreur lors du téléchargement des plaques non autorisées:', error));
-        });
-
-        function importCSV() {
-            const fileInput = document.getElementById('csvFileInput');
-            const file = fileInput.files[0];
-            if (file) {
-                const formData = new FormData();
-                formData.append('file', file);
-
-                fetch("php/import_plaques.php", {
-                    method: "POST",
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Importation réussie:', data);
-                })
-                .catch(error => console.error('Erreur lors de l\'importation:', error));
-            } else {
-                alert('Veuillez sélectionner un fichier CSV à importer.');
-            }
         }
     </script>
 </body>

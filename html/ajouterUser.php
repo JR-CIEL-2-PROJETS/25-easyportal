@@ -1,3 +1,7 @@
+<?php
+// Inclure le fichier d'authentification pour vérifier la session
+include('auth.php'); 
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -63,7 +67,7 @@
                             <small class="form-text text-muted">Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule et un caractère spécial.</small>
                         </div>
                         <button type="submit" class="btn btn-success">Ajouter</button>
-                        <a href="user.html" class="btn btn-secondary ml-2">Annuler</a>
+                        <a href="user.php" class="btn btn-secondary ml-2">Annuler</a>
                     </form>
                     <div id="message" class="mt-3"></div>
                 </div>

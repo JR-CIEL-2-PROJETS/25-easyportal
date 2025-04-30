@@ -24,8 +24,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    // Vérifier que le statut est valide
+    if ($status !== 'actif' && $status !== 'bloqué') {
+        echo json_encode(['success' => false, 'message' => 'Statut invalide']);
+        exit;
+    }
+
+    // Inverser l'état de la plaque
+    $newStatus = ($status === 'actif') ? 'bloqué' : 'actif';
+
     $stmt = $conn->prepare("UPDATE plaques SET statut = ? WHERE id = ?");
-    $stmt->bind_param("si", $status, $plaqueId);
+    $stmt->bind_param("si", $newStatus, $plaqueId);
 
     if ($stmt->execute()) {
         echo json_encode(['success' => true]);

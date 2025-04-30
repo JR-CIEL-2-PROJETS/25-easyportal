@@ -1,11 +1,10 @@
 <?php
-ob_start(); // Éviter tout output avant le JSON
+session_start();
+ob_start();
 header('Content-Type: application/json');
-header("Cache-Control: no-cache, no-store, must-revalidate"); // Évite le cache
+header("Cache-Control: no-cache, no-store, must-revalidate");
 header("Pragma: no-cache");
 header("Expires: 0");
-
-session_start();
 
 $servername = "51.210.151.13";
 $username = "easyportal2025";
@@ -28,12 +27,9 @@ try {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['role'] = $user['role'];
         $_SESSION['user_name'] = $user['prenom'] . ' ' . $user['nom'];
-        error_log("Session mise à jour: " . $_SESSION['user_name']);
 
-        // Répondre avec succès
-        echo json_encode(["success" => true, "role" => $user['role']]);
+        echo json_encode(["success" => true, "message" => "Connexion réussie!"]);
     } else {
-        // Répondre avec une erreur
         echo json_encode(["success" => false, "message" => "Email ou mot de passe incorrect"]);
     }
 } catch (PDOException $e) {
