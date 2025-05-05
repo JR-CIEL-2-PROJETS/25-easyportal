@@ -1,23 +1,175 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-<title>Welcome to nginx!</title>
-<style>
-html { color-scheme: light dark; }
-body { width: 35em; margin: 0 auto;
-font-family: Tahoma, Verdana, Arial, sans-serif; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>✦Easy Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+
+    /* Animation fade-in */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Couleurs personnalisées */
+    :root {
+      --main-green: #c8ddc8;
+    }
+
+    header, footer {
+      background-color: var(--main-green);
+    }
+
+    .border-accent {
+      border-color: var(--main-green);
+    }
+
+    .bg-accent {
+      background-color: var(--main-green);
+    }
+
+    .text-accent {
+      color: var(--main-green);
+    }
+
+    footer {
+      background: linear-gradient(135deg, #c8ddc8, #a5c9a5);
+    }
+  </style>
 </head>
-<body>
-<h1>Welcome to nginx!</h1>
-<p>If you see this page, the nginx web server is successfully installed and
-working. Further configuration is required.</p>
+<body class="bg-gray-100 text-gray-800">
 
-<p>For online documentation and support please refer to
-<a href="http://nginx.org/">nginx.org</a>.<br/>
-Commercial support is available at
-<a href="http://nginx.com/">nginx.com</a>.</p>
+  <!-- Header stylisé -->
+  <header class="text-gray-800 shadow-md bg-gradient-to-r from-green-200 to-green-400">
+    <div class="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
+      <h1 class="text-3xl font-bold text-white hover:text-green-800 transition duration-300">✦Easy Portal</h1>
+      <nav>
+        <ul class="flex gap-8 items-center">
+          <li>
+            <a href="#liens" class="text-white hover:text-green-800 transition duration-300 flex items-center">
+              <span class="material-icons mr-2">link</span> Liens du projet
+            </a>
+          </li>
+          <li>
+            <a href="#equipe" class="text-white hover:text-green-800 transition duration-300 flex items-center">
+              <span class="material-icons mr-2">group</span> Équipe
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-<p><em>Thank you for using nginx.</em></p>
+  <section class="max-w-4xl mx-auto mt-10 px-6 text-center fade-in-up">
+    <h2 class="text-3xl font-bold mb-4">Bienvenue sur EasyPortal</h2>
+    <p class="text-lg text-gray-600">Un portail moderne pour centraliser tous les outils, ressources et membres de notre projet étudiant.</p>
+  </section>
+
+  <!-- Liens du projet -->
+  <section id="liens" class="max-w-6xl mx-auto mt-16 px-6 fade-in-up">
+    <h3 class="text-2xl font-semibold mb-6 border-l-4 border-accent pl-4">🔗 Liens du projet</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <a href="https://easyportal.example.com" target="_blank" class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+        <h4 class="text-lg font-bold mb-2">🌐 Site Web</h4>
+        <p class="text-sm text-gray-500">Accédez au portail EasyPortal en ligne</p>
+      </a>
+      <a href="https://example.com/easyportal.apk" target="_blank" class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+        <h4 class="text-lg font-bold mb-2">📱 Application Android (APK)</h4>
+        <p class="text-sm text-gray-500">Téléchargez notre application mobile</p>
+      </a>
+      <a href="https://github.com/JR-CIEL-2-PROJETS/25-easyportal" target="_blank" class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+        <h4 class="text-lg font-bold mb-2">💻 GitHub</h4>
+        <p class="text-sm text-gray-500">Code source du projet</p>
+      </a>
+      <a href="https://trello.com/b/0rJY5Std/easyportal-projet" target="_blank" class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+        <h4 class="text-lg font-bold mb-2">🗂️ Trello</h4>
+        <p class="text-sm text-gray-500">Suivi de l’avancement</p>
+      </a>
+      <a href="https://easy-portal.postman.co/workspace/Easyportal~e4b681cc-a7b6-4c02-993b-f2c442c1de2a/overview" target="_blank" class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+        <h4 class="text-lg font-bold mb-2">📬 Postman</h4>
+        <p class="text-sm text-gray-500">Tester les APIs du projet</p>
+      </a>
+      <a href="docs/rapport.pdf" target="_blank" class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+        <h4 class="text-lg font-bold mb-2">📄 Rapport PDF</h4>
+        <p class="text-sm text-gray-500">Consultez le rapport final</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Équipe -->
+  <section id="equipe" class="max-w-6xl mx-auto mt-20 px-6 fade-in-up">
+    <h3 class="text-2xl font-semibold mb-6 border-l-4 border-accent pl-4">👥 L’équipe EasyPortal</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+        <img src="https://ui-avatars.com/api/?name=Marwan+Merdji&background=28a745&color=fff" class="w-20 h-20 rounded-full mx-auto mb-4" />
+        <h4 class="font-bold text-lg">Marwan Merdji</h4>
+        <p class="text-sm text-gray-500 mb-2">Site Web</p>
+        <div class="flex justify-center gap-4">
+          <a href="https://github.com/merdjiMarwan" target="_blank">GitHub</a>
+          <a href="https://www.linkedin.com/in/marwan-m" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+        <img src="https://ui-avatars.com/api/?name=Medy+Kalleche&background=28a745&color=fff" class="w-20 h-20 rounded-full mx-auto mb-4" />
+        <h4 class="font-bold text-lg">Medy Kalleche</h4>
+        <p class="text-sm text-gray-500 mb-2">Application Android</p>
+        <div class="flex justify-center gap-4">
+          <a href="https://github.com/kallechem" target="_blank">GitHub</a>
+          <a href="https://www.linkedin.com/in/medykalleche" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+        <img src="https://ui-avatars.com/api/?name=Ivan+Surnin&background=28a745&color=fff" class="w-20 h-20 rounded-full mx-auto mb-4" />
+        <h4 class="font-bold text-lg">Ivan Surnin</h4>
+        <p class="text-sm text-gray-500 mb-2">Partie opérative du portail</p>
+        <div class="flex justify-center gap-4">
+          <a href="https://github.com/surninIvan1" target="_blank">GitHub</a>
+          <a href="https://www.linkedin.com/in/ivan-surnin-b550412a5/" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+        <img src="https://ui-avatars.com/api/?name=François+Ballet&background=28a745&color=fff" class="w-20 h-20 rounded-full mx-auto mb-4" />
+        <h4 class="font-bold text-lg">François Ballet</h4>
+        <p class="text-sm text-gray-500 mb-2">API & Base de données</p>
+        <div class="flex justify-center gap-4">
+          <a href="https://github.com/balletFrancois18" target="_blank">GitHub</a>
+          <a href="https://www.linkedin.com/in/francois-ballet-754a572b4/" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-20 py-6 text-gray-800 text-center bg-gradient-to-r from-green-200 to-green-400">
+    <p class="text-white">&copy; 2025 EasyPortal</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const fadeInSections = document.querySelectorAll('.fade-in-up');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.2 });
+
+      fadeInSections.forEach(section => {
+        observer.observe(section);
+      });
+    });
+  </script>
 </body>
 </html>
