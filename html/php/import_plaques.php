@@ -1,26 +1,70 @@
 <?php
+header('Content-Type: application/json');
+
+$inserted = 0;
+$skipped = 0;
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $file = $_FILES['file']['tmp_name'];
-    $handle = fopen($file, "r");
+    if (isset($_FILES['csvFile']) && $_FILES['csvFile']['error'] === 0) {
+        $file = $_FILES['csvFile']['tmp_name'];
+        $handle = fopen($file, "r");
 
-    $servername = "51.210.151.13"; // IP de ton serveur OVH
-    $username = "easyportal2025"; // Ton utilisateur MySQL
-    $password = "EasyPortal2025!"; // Ton mot de passe MySQL
-    $dbname = "easyportal2025"; // Le nom de ta base de données
-
-    try {
-        $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8mb4", $username, $password);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-            $stmt = $pdo->prepare("INSERT INTO plaques (numero) VALUES (?)");
-            $stmt->execute([$data[0]]);
+        if ($handle === false) {
+            echo json_encode(["success" => false, "message" => "Erreur lors de l'ouverture du fichier."]);
+            exit;
         }
 
-        fclose($handle);
-        echo json_encode(["success" => true]);
-    } catch (PDOException $e) {
-        echo json_encode(["error" => "Erreur de connexion à la base de données"]);
+        $servername = "51.210.151.13";
+        $username = "easyportal2025";
+        $password = "EasyPortal2025!";
+        $dbname = "easyportal2025";
+
+        try {
+            $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8mb4", $username, $password);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $isFirstLine = true;
+
+            while (($data = fgetcsv($handle, 1000, ",")) !== false) {
+                if ($isFirstLine) {
+                    $isFirstLine = false;
+                    continue;
+                }
+
+                $nom = trim($data[0] ?? '');
+                $plaque = substr(trim($data[1] ?? ''), 0, 20);
+                $dateAjout = trim($data[2] ?? '');
+
+                if (empty($plaque) || empty($dateAjout)) {
+                    $skipped++;
+                    continue;
+                }
+
+                $stmt = $pdo->prepare("SELECT COUNT(*) FROM plaques WHERE numero = ?");
+                $stmt->execute([$plaque]);
+                $exists = $stmt->fetchColumn();
+
+                if (!$exists) {
+                    $stmt = $pdo->prepare("INSERT INTO plaques (numero, statut, date_ajout) VALUES (?, 'actif', ?)");
+                    $stmt->execute([$plaque, $dateAjout]);
+                    $inserted++;
+                } else {
+                    $skipped++;
+                }
+            }
+
+            fclose($handle);
+            echo json_encode([
+                "success" => true,
+                "message" => "{$inserted} plaque(s) importée(s), {$skipped} ignorée(s) (doublons ou données invalides)."
+            ]);
+        } catch (PDOException $e) {
+            echo json_encode(["success" => false, "message" => "Erreur BDD : " . $e->getMessage()]);
+        }
+    } else {
+        echo json_encode(["success" => false, "message" => "Aucun fichier sélectionné ou erreur lors de l'envoi."]);
     }
+} else {
+    echo json_encode(["success" => false, "message" => "Requête invalide."]);
 }
 ?>

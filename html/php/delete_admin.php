@@ -13,7 +13,7 @@ try {
     $data = json_decode(file_get_contents("php://input"), true);
     $id = $data['id'] ?? '';
 
-    // Supprimer l'utilisateur
+    // Supprimer l'administrateur
     $stmt = $pdo->prepare("DELETE FROM users WHERE id = ? AND role != 'super_admin'");
     $stmt->execute([$id]);
 

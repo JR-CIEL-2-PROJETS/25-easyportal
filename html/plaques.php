@@ -32,13 +32,16 @@ include('php/auth.php');
         <div class="plate-container">
             <img src="image/plaque.png" alt="Plaque d'immatriculation" class="plate-image">
 
+            <!-- FORMULAIRE D'IMPORT CSV -->
             <div class="file-input">
-                <form action="php/import_plaques.php" method="POST" enctype="multipart/form-data">
-                    <input type="file" name="csvFile" accept=".csv">
+                <form id="importForm" enctype="multipart/form-data">
+                    <input type="file" name="csvFile" accept=".csv" required>
                     <button type="submit">Importer des plaques📤</button>
                 </form>
+                <div id="importResult" style="margin-top: 10px; font-weight: bold;"></div>
             </div>
 
+            <!-- BOUTONS EXPORT -->
             <form action="php/export_authorized_plaques.php" method="get">
                 <button type="submit" class="btn">📥 Télécharger les plaques autorisées</button>
             </form>
@@ -61,6 +64,7 @@ include('php/auth.php');
     </div>
 
     <script src="js/dejaconnecter.js"></script>
+
     <script>
         let currentUserEmail = '';
 
@@ -134,6 +138,38 @@ include('php/auth.php');
             const modal = document.getElementById("plaquesModal");
             modal.style.display = "none";
         }
+
+        // Script pour gérer l'import AJAX
+        document.getElementById('importForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+            const resultDiv = document.getElementById('importResult');
+
+            try {
+                const response = await fetch('php/import_plaques.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    resultDiv.textContent = `✅ ${result.imported} plaque(s) importée(s), ${result.skipped} ignorée(s) (doublons).`;
+                    resultDiv.style.color = 'green';
+                } else if (result.error) {
+                    resultDiv.textContent = `❌ Erreur : ${result.error}`;
+                    resultDiv.style.color = 'red';
+                } else {
+                    resultDiv.textContent = `❌ Une erreur inconnue s’est produite.`;
+                    resultDiv.style.color = 'red';
+                }
+            } catch (err) {
+                resultDiv.textContent = `❌ Erreur réseau ou serveur : ${err.message}`;
+                resultDiv.style.color = 'red';
+            }
+        });
     </script>
 </body>
 </html>
