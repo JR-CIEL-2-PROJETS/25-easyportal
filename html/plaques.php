@@ -36,7 +36,7 @@ include('php/auth.php');
             <div class="file-input">
                 <form id="importForm" enctype="multipart/form-data">
                     <input type="file" name="csvFile" accept=".csv" required>
-                    <button type="submit">Importer des plaques📤</button>
+                    <button type="submit">Importer des plaques 📤</button>
                 </form>
                 <div id="importResult" style="margin-top: 10px; font-weight: bold;"></div>
             </div>
@@ -139,7 +139,7 @@ include('php/auth.php');
             modal.style.display = "none";
         }
 
-        // Script pour gérer l'import AJAX
+        // Script pour gérer l'import CSV via AJAX
         document.getElementById('importForm').addEventListener('submit', async function (e) {
             e.preventDefault();
 
@@ -156,7 +156,7 @@ include('php/auth.php');
                 const result = await response.json();
 
                 if (result.success) {
-                    resultDiv.textContent = `✅ ${result.imported} plaque(s) importée(s), ${result.skipped} ignorée(s) (doublons).`;
+                    resultDiv.textContent = `✅ ${result.imported} plaque(s) importée(s), ${result.skipped} ignorée(s) (doublons ou données invalides).`;
                     resultDiv.style.color = 'green';
                 } else if (result.error) {
                     resultDiv.textContent = `❌ Erreur : ${result.error}`;

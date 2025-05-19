@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $handle = fopen($file, "r");
 
         if ($handle === false) {
-            echo json_encode(["success" => false, "message" => "Erreur lors de l'ouverture du fichier."]);
+            echo json_encode(["success" => false, "error" => "Erreur lors de l'ouverture du fichier."]);
             exit;
         }
 
@@ -56,15 +56,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             fclose($handle);
             echo json_encode([
                 "success" => true,
-                "message" => "{$inserted} plaque(s) importée(s), {$skipped} ignorée(s) (doublons ou données invalides)."
+                "imported" => $inserted,
+                "skipped" => $skipped
             ]);
         } catch (PDOException $e) {
-            echo json_encode(["success" => false, "message" => "Erreur BDD : " . $e->getMessage()]);
+            echo json_encode(["success" => false, "error" => "Erreur BDD : " . $e->getMessage()]);
         }
     } else {
-        echo json_encode(["success" => false, "message" => "Aucun fichier sélectionné ou erreur lors de l'envoi."]);
+        echo json_encode(["success" => false, "error" => "Aucun fichier sélectionné ou erreur lors de l'envoi."]);
     }
 } else {
-    echo json_encode(["success" => false, "message" => "Requête invalide."]);
+    echo json_encode(["success" => false, "error" => "Requête invalide."]);
 }
-?>
