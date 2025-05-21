@@ -109,6 +109,37 @@
       .grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-4 {
         grid-template-columns: 1fr; /* Single column layout for smaller screens */
       }
+
+      /* Ajoutez ces règles pour le header */
+      header {
+        padding: 1rem;
+      }
+
+      nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      nav ul li a {
+        padding: 0.5rem;
+      }
+    }
+
+    /* Additional responsive adjustments for very small screens */
+    @media (max-width: 480px) {
+      .text-3xl {
+        font-size: 1.25rem; /* Further adjust font size for very small screens */
+      }
+
+      .px-6 {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+      }
+
+      .py-6 {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+      }
     }
   </style>
 </head>
@@ -118,7 +149,10 @@
   <header class="text-gray-800 shadow-md bg-gradient-to-r from-green-200 to-green-400">
     <div class="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
       <h1 class="text-3xl font-bold text-white hover:text-green-800 transition duration-300">✦Easy Portal</h1>
-      <nav>
+      <button class="md:hidden" id="menu-toggle">
+        <span class="material-icons">menu</span>
+      </button>
+      <nav id="nav-menu" class="hidden md:block">
         <ul class="flex gap-8 items-center">
           <li>
             <a href="#liens" class="text-white hover:text-green-800 transition duration-300 flex items-center">
@@ -248,6 +282,16 @@
 
       fadeInSections.forEach(section => {
         observer.observe(section);
+      });
+
+      // Script pour le menu hamburger
+      document.getElementById('menu-toggle').addEventListener('click', function() {
+        const navMenu = document.getElementById('nav-menu');
+        if (navMenu.classList.contains('hidden')) {
+          navMenu.classList.remove('hidden');
+        } else {
+          navMenu.classList.add('hidden');
+        }
       });
     });
   </script>
