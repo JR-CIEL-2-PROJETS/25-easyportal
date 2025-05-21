@@ -47,6 +47,69 @@
     footer {
       background: linear-gradient(135deg, #c8ddc8, #a5c9a5);
     }
+
+    /* Fixer le header en haut */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    /* Ajuster le padding pour le contenu principal */
+    body {
+      padding-top: 80px; /* Ajustez cette valeur en fonction de la hauteur de votre header */
+    }
+
+    /* Style pour les liens de navigation */
+    nav ul {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li a {
+      color: white;
+      padding: 10px 15px;
+      text-decoration: none;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    nav ul li a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #2c3e50;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .text-3xl {
+        font-size: 1.5rem; /* Adjust font size for smaller screens */
+      }
+
+      .gap-8 {
+        gap: 0.5rem; /* Reduce gap for smaller screens */
+      }
+
+      .px-6 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .py-6 {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
+
+      .grid-cols-1.md\:grid-cols-2 {
+        grid-template-columns: 1fr; /* Single column layout for smaller screens */
+      }
+
+      .grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-4 {
+        grid-template-columns: 1fr; /* Single column layout for smaller screens */
+      }
+    }
   </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
