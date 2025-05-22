@@ -5,7 +5,7 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     background-color: #EDF4EC;
 }
 
@@ -20,25 +20,30 @@ body {
     margin-top: 8%;
     display: none;
     /* Cacher le contenu par défaut */
+    width: 100%;
+    max-width: 400px;
+    padding: 0 20px;
 }
 
 .title {
     font-weight: bold;
     font-size: 1.5rem;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
 }
 
 .input-group {
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
+    position: relative;
 }
 
 input {
-    width: 300px;
+    width: 100%;
     padding: 0.75rem;
     border: 1px solid #dcdcdc;
     border-radius: 0.5rem;
     font-size: 1rem;
     outline: none;
+    box-sizing: border-box;
 }
 
 .input-group.password {
@@ -59,7 +64,7 @@ input {
 
 .btn {
     background-color: #6AE38C;
-    width: 370px;
+    width: 100%;
     color: white;
     border: none;
     padding: 0.75rem 2rem;
@@ -67,21 +72,11 @@ input {
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-top: 2rem;
-    margin-left: 5px;
+    margin-top: 1rem;
 }
 
 .btn:hover {
     background-color: #5AD17D;
-}
-
-#password {
-    width: 280px;
-    margin-left: 25px;
-}
-
-#email {
-    margin-left: 20px;
 }
 
 .message {
@@ -104,7 +99,31 @@ input {
 }
 
 #loading-screen img {
-    width: 1500px;
-    /* Ajustez la taille selon vos besoins, par exemple 150px */
-    /* Vous pouvez aussi utiliser height si vous voulez garder un ratio */
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    transform: scale(2.0); /* Augmentez la valeur pour zoomer davantage */
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 480px) {
+    .title {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .input-group {
+        margin-bottom: 1rem;
+    }
+
+    .btn {
+        padding: 0.75rem 1rem;
+    }
+
+    #loading-screen img {
+        max-width: 95vw;
+        max-height: 95vh;
+        transform: scale(2.5); /* Ajustez la valeur pour les petits écrans */
+    }
 }

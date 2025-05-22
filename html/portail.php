@@ -1,15 +1,10 @@
-<?php
-// Inclure le fichier d'authentification pour vérifier l'utilisateur
-include('php/auth.php');
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styles.css">
     <title>Easy Portal - Portail</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <div class="header">
@@ -30,7 +25,10 @@ include('php/auth.php');
         <div class="title">Flux Caméra Ip</div>
 
         <div class="portal-container">
-            <div class="video-frame" id="cameraFeed">Chargement...</div>
+            <div class="video-frame" id="cameraFeed">
+                <!-- Remplacez l'image de la caméra par un texte cliquable -->
+                <div id="cameraLink">Cliquer pour visualiser le flux</div>
+            </div>
             <button class="btn" id="openPortalBtn">OUVRIR</button>
             <div id="portalAlert" class="alert"></div> <!-- Élément pour afficher le message du portail -->
         </div>
@@ -38,35 +36,19 @@ include('php/auth.php');
 
     <script src="js/dejaconnecter.js"></script>
     <script>
-        async function fetchCameraFeed() {
-            try {
-                const response = await fetch('https://aa8ef8d1-a278-416a-9cc9-85baa14b5d59.mock.pstmn.io/Dashboard/Camera');
-
-                if (!response.ok) {
-                    throw new Error(`Erreur HTTP : ${response.status}`);
-                }
-
-                const cameraData = await response.json(); // Utilisez .json() directement
-                const cameraStatus = cameraData.map(item => item.Camera).join(', ');
-
-                // Affichez le statut des caméras (pour le débogage)
-                console.log("Statut des caméras :", cameraStatus);
-
-                // Changer le texte si la requête réussit
-                document.getElementById('cameraFeed').textContent = "Flux Caméra en direct";
-
-            } catch (error) {
-                console.error("Erreur :", error);
-                document.getElementById('cameraFeed').textContent = "Erreur lors de la récupération de l'état de la caméra.";
-            }
-        }
-
         async function openPortal() {
+            const apiKey = 'ysfLf35lq4i87oHbHNLKKxGjnXPRuTPP';
+            const raspberryPiUrl = 'http://172.16.15.39:5000/open_gate';
+
             try {
-                const response = await fetch('https://aa8ef8d1-a278-416a-9cc9-85baa14b5d59.mock.pstmn.io/Dashboard/Portail', {
+                const response = await fetch(raspberryPiUrl, {
                     method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json'
+                    }
                 });
-                
+
                 if (!response.ok) {
                     throw new Error(`Erreur HTTP : ${response.status}`);
                 }
@@ -77,7 +59,7 @@ include('php/auth.php');
                 alertMessage.className = 'alert'; // Appliquer la classe d'alerte
                 document.getElementById('portalAlert').innerHTML = ''; // Effacer les anciens messages
                 document.getElementById('portalAlert').appendChild(alertMessage);
-                
+
                 // Faire disparaître le message après 3 secondes
                 setTimeout(() => {
                     alertMessage.remove();
@@ -90,7 +72,7 @@ include('php/auth.php');
                 alertMessage.className = 'alert'; // Appliquer la classe d'alerte
                 document.getElementById('portalAlert').innerHTML = ''; // Effacer les anciens messages
                 document.getElementById('portalAlert').appendChild(alertMessage);
-                
+
                 // Faire disparaître le message après 3 secondes
                 setTimeout(() => {
                     alertMessage.remove();
@@ -99,7 +81,11 @@ include('php/auth.php');
         }
 
         document.getElementById("openPortalBtn").addEventListener("click", openPortal);
-        document.addEventListener("DOMContentLoaded", fetchCameraFeed);
+
+        // Ajoutez un gestionnaire d'événements pour le clic sur le texte de la caméra
+        document.getElementById("cameraLink").addEventListener("click", function() {
+            window.open("http://172.16.15.39:5000/video", "_blank");
+        });
     </script>
 </body>
 </html>

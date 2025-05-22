@@ -14,7 +14,6 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     height: 60px;
     border: 2px solid #A3E4A0;
-
 }
 
 .header .logo {
@@ -33,6 +32,7 @@ body {
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     margin-top: 30px;
     border: 2px solid #A3E4A0;
+    transition: transform 0.3s ease;
 }
 
 .sidebar a {
@@ -56,6 +56,7 @@ body {
 .main {
     margin-left: 240px;
     padding: 1rem;
+    transition: margin-left 0.3s ease;
 }
 
 .logs-container {
@@ -70,8 +71,6 @@ table {
     width: 100%;
     border-collapse: collapse;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
-
 }
 
 th,
@@ -79,7 +78,6 @@ td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
     text-align: left;
-
 }
 
 th {
@@ -95,4 +93,19 @@ th {
     width: 100%;
     border-radius: 5px;
     border: 1px solid #ddd;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .main {
+        margin-left: 0;
+    }
 }

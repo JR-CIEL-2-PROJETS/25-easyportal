@@ -30,6 +30,7 @@ body {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 .add-plaque-container input {
@@ -37,15 +38,18 @@ body {
     padding: 0.6rem;
     border-radius: 8px;
     border: 1px solid #ccc;
+    min-width: 200px;
 }
 
-.button-primary, .button-secondary, .button-danger {
+.button-primary, .button-secondary, .button-danger, .button-return {
     padding: 8px 12px;
     border-radius: 6px;
     border: none;
     cursor: pointer;
     font-size: 0.9rem;
     transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
 }
 
 .button-primary {
@@ -75,18 +79,30 @@ body {
     background-color: #d32f2f;
 }
 
+.button-return {
+    background-color: #2E8B57;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.button-return:hover {
+    background-color: #287D4F;
+}
+
 .plaques-container {
     background: white;
     padding: 1.5rem;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     border: 2px solid #A3E4A0;
+    overflow-x: auto;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    min-width: 600px;
 }
 
 th, td {
@@ -121,4 +137,38 @@ tbody tr:hover {
 .status-bloque {
     background-color: #F44336;
     color: white;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        height: auto;
+        padding: 1rem;
+    }
+
+    .add-plaque-container {
+        flex-direction: column;
+    }
+
+    .add-plaque-container input {
+        width: 100%;
+    }
+
+    .button-primary, .button-secondary, .button-danger, .button-return {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .plaques-container {
+        padding: 1rem;
+    }
+
+    table {
+        font-size: 0.8rem;
+    }
+
+    th, td {
+        padding: 8px;
+    }
 }

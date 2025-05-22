@@ -18,6 +18,11 @@ include('php/auth.php');
     <div class="main">
         <h2>Voir Plaques</h2>
 
+        <!-- Bouton Retour -->
+        <div class="return-button-container">
+            <a href="user.php" class="button-return">Retour</a>
+        </div>
+
         <div class="add-plaque-container">
             <input type="text" id="plaqueInput" placeholder="Ajouter une nouvelle plaque" />
             <button id="addPlaqueButton" class="button-primary">Ajouter Plaque</button>

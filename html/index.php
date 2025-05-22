@@ -8,7 +8,7 @@
 </head>
 <body>
   <div id="loading-screen">
-    <img src="image/logo.jpg" alt="Chargement..." />
+    <img src="image/logo.png" alt="Chargement..." />
   </div>
 
   <div class="header">✦Easy Portal</div>
