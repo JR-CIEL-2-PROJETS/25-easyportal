@@ -18,11 +18,11 @@ include('php/auth.php');
 
     <div class="sidebar">
         <a>Dashboard</a>
-        <a href="user.php">Utilisateurs</a>
-        <a href="admin.php" class="active">Admin</a>
-        <a href="plaques.php">Plaques</a>
-        <a href="portail.php">Portail</a>
-        <a href="log.php">Logs</a>
+        <a href="user">Utilisateurs</a>
+        <a href="admin" class="active">Admin</a>
+        <a href="plaques">Plaques</a>
+        <a href="portail">Portail</a>
+        <a href="log">Logs</a>
     </div>
 
     <div class="main">
@@ -30,7 +30,7 @@ include('php/auth.php');
         <div id="alert-container"></div>
 
         <div class="search-container">
-            <a href="ajoutAdmin.php" class="btn-add">Ajouter</a>
+            <a href="ajoutAdmin" class="btn-add">Ajouter</a>
             <div class="search-bar">
                 <span>🔎</span>
                 <input type="text" id="searchInput" placeholder="Rechercher un administrateur..." oninput="filterAdmin()">

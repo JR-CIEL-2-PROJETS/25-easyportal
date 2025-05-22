@@ -17,12 +17,12 @@ include('php/auth.php');
     </div>
 
     <div class="sidebar">
-        <a href="dashboard.php">Dashboard</a>
-        <a href="user.php">Utilisateurs</a>
-        <a href="admin.php">Admin</a>
-        <a href="plaques.php">Plaques</a>
-        <a href="portail.php">Portail</a>
-        <a href="log.php" class="active">Logs</a>
+        <a href="dashboard">Dashboard</a>
+        <a href="user">Utilisateurs</a>
+        <a href="admin">Admin</a>
+        <a href="plaques">Plaques</a>
+        <a href="portail">Portail</a>
+        <a href="log" class="active">Logs</a>
     </div>
 
     <div class="main">

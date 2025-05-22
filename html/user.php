@@ -21,11 +21,11 @@ include('php/auth.php');
 
     <div class="sidebar">
         <a>Dashboard</a>
-        <a href="user.php" class="active">Utilisateurs</a>
-        <a href="admin.php">Admin</a>
-        <a href="plaques.php">Plaques</a>
-        <a href="portail.php">Portail</a>
-        <a href="log.php">Logs</a>
+        <a href="user" class="active">Utilisateurs</a>
+        <a href="admin">Admin</a>
+        <a href="plaques">Plaques</a>
+        <a href="portail">Portail</a>
+        <a href="log">Logs</a>
     </div>
 
     <div class="main">
@@ -33,7 +33,7 @@ include('php/auth.php');
         <div id="alert-container"></div>
 
         <div class="search-container">
-            <a href="ajouterUser.php" class="btn-add">Ajouter</a>
+            <a href="ajouterUser" class="btn-add">Ajouter</a>
             <div class="search-bar">
                 <span>🔎</span>
                 <input type="text" id="searchInput" placeholder="Rechercher un utilisateur..." oninput="filterUsers()">
@@ -83,7 +83,7 @@ include('php/auth.php');
                     <td>${user.role}</td>
                     <td>
                         <button class="delete-button" onclick="deleteUser('${user.email}', '${user.prenom}', '${user.nom}')">Supprimer</button>
-                        <button class="plaques-button" onclick="window.location.href='voir-plaques.php?email=${user.email}'">Plaques</button>
+                        <button class="plaques-button" onclick="window.location.href='voir-plaques?email=${user.email}'">Plaques</button>
                     </td>
                 `;
                 tableBody.appendChild(row);

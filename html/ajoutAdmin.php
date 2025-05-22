@@ -1,3 +1,7 @@
+<?php
+// Inclure le fichier d'authentification pour vérifier si l'admin est connecté
+include('php/auth.php');
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -66,7 +70,7 @@
                             <small class="form-text text-muted">Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule et un caractère spécial.</small>
                         </div>
                         <input type="submit" class="btn btn-success" value="Ajouter">
-                        <a href="admin.html" class="btn btn-secondary ml-2">Annuler</a>
+                        <a href="admin" class="btn btn-secondary ml-2">Annuler</a>
                     </form>
                     <div id="message" class="message"></div>
                 </div>

@@ -1,3 +1,7 @@
+<?php
+// Inclure le fichier d'authentification pour vérifier si l'admin est connecté
+include('php/auth.php');
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -14,11 +18,11 @@
 
     <div class="sidebar">
         <a>Dashboard</a>
-        <a href="user.php">Utilisateurs</a>
-        <a href="admin.php">Admin</a>
-        <a href="plaques.php">Plaques</a>
-        <a href="portail.php" class="active">Portail</a>
-        <a href="log.php">Logs</a>
+        <a href="user">Utilisateurs</a>
+        <a href="admin">Admin</a>
+        <a href="plaques">Plaques</a>
+        <a href="portail" class="active">Portail</a>
+        <a href="log">Logs</a>
     </div>
 
     <div class="main">
