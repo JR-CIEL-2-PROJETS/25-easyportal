@@ -142,3 +142,4 @@ class LoginActivity : AppCompatActivity() {
         finish()  // Facultatif : terminer l'activité de connexion pour éviter de revenir en arrière
     }
 }
+

@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "EasyPortal"
 include(":app")
+

@@ -3,3 +3,4 @@
     <solid android:color="#f8fbf9" />  <!-- Fond du bouton Register -->
     <corners android:radius="30dp" />  <!-- Coins arrondis -->
 </shape>
+
