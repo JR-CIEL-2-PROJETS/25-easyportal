@@ -1,4 +1,4 @@
-# Projet de Gestion de Parking - Lycée Jean Rostand
+# EasyPortal
 
 ## Description
 Ce projet vise à faciliter l'accès au parking du lycée Jean Rostand pour les personnels de l'établissement et les intervenants extérieurs. Il comprend une application Android, un site web de supervision et un système embarqué de reconnaissance de plaques d'immatriculation.
@@ -7,11 +7,11 @@ Ce projet vise à faciliter l'accès au parking du lycée Jean Rostand pour les 
 - Docker
 - Docker Compose
 
-## Installation et Mise en Service
+## Installation et Mise en Service du Site Web et de l'API
 
 ### Cloner le dépôt
 ```bash
-git clone https://github.com/JR-CIEL-2-PROJETS/25-easyportal.git
+git clone -b Marwan https://github.com/JR-CIEL-2-PROJETS/25-easyportal.git
 cd 25-easyportal
 
 ### Pour démarrer l'API et le site web, utilisez Docker Compose :
