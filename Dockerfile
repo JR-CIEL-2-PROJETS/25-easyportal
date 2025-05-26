@@ -8,7 +8,7 @@ RUN docker-php-ext-install pdo pdo_mysql mysqli
 WORKDIR /var/www/html
 
 # Copier les fichiers HTML, CSS, JS et PHP dans le conteneur
-COPY ./html /var/www/html
+COPY ./php /var/www/html
 
 # Donner les bons droits (évite les problèmes de permissions)
 RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html

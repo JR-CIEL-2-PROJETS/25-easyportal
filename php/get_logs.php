@@ -13,7 +13,12 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['role']) || ($_SESSION['rol
 
 try {
     // Requête pour récupérer les logs avec les emails des utilisateurs
-    $stmt = $pdo->prepare("SELECT users.email, logs.date_entree, logs.plaque, logs.action FROM logs INNER JOIN users ON logs.user_id = users.id ORDER BY logs.date_entree DESC");
+    $stmt = $pdo->prepare("
+        SELECT users.email, logs.date_entree, logs.plaque, logs.action
+        FROM logs 
+        INNER JOIN users ON logs.user_id = users.id
+        ORDER BY logs.date_entree DESC
+    ");
     $stmt->execute();
     
     $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
