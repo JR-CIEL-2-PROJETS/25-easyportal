@@ -8,10 +8,10 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
-import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONException
+import org.json.JSONObject
 
 class LoginActivity : AppCompatActivity() {
 
@@ -28,118 +28,85 @@ class LoginActivity : AppCompatActivity() {
         passwordEditText = findViewById(R.id.password)
         showPasswordImageView = findViewById(R.id.show_password)
 
-        // Handle password visibility toggle
         showPasswordImageView.setOnClickListener {
             togglePasswordVisibility()
         }
 
-        // When login button is clicked
         val loginButton = findViewById<View>(R.id.login_button)
         loginButton.setOnClickListener {
-            val email = emailEditText.text.toString()
-            val password = passwordEditText.text.toString()
+            val email = emailEditText.text.toString().trim()
+            val password = passwordEditText.text.toString().trim()
             loginUser(email, password)
         }
 
-        // Handle back button
         val backButton = findViewById<ImageView>(R.id.back_button)
         backButton.setOnClickListener {
-            onBackPressed()  // Go back to the previous screen
+            onBackPressed()
         }
     }
 
     private fun togglePasswordVisibility() {
         if (isPasswordVisible) {
-            // Hide password
             passwordEditText.transformationMethod = android.text.method.PasswordTransformationMethod.getInstance()
-            showPasswordImageView.setImageResource(R.drawable.oeil)  // Change image to eye closed
+            showPasswordImageView.setImageResource(R.drawable.oeil) // icône œil fermé
         } else {
-            // Show password
             passwordEditText.transformationMethod = null
-            showPasswordImageView.setImageResource(R.drawable.oeil)  // Change image to eye open
+            showPasswordImageView.setImageResource(R.drawable.oeil) // icône œil ouvert
         }
         isPasswordVisible = !isPasswordVisible
     }
 
     private fun loginUser(email: String, password: String) {
-        // Tentative de connexion pour les utilisateurs
-        val urlUser = "https://4db7e0eb-4ed7-4f36-8568-cbdb4e93af75.mock.pstmn.io/connexion/user1?email=$email&password=$password"
-        // Tentative de connexion pour l'admin
-        val urlAdmin = "https://4db7e0eb-4ed7-4f36-8568-cbdb4e93af75.mock.pstmn.io/connexion/admin1?email=admin@gmail.com&password=admin"
+        // ⚠️ Change l'URL si tu testes sur un téléphone réel !
+        val url = "http://192.168.1.185:8080/login1.php"
 
         val requestQueue = Volley.newRequestQueue(this)
 
-        // Connexion pour utilisateur normal
-        val jsonObjectRequestUser = JsonObjectRequest(Request.Method.GET, urlUser, null,
-            Response.Listener { response ->
-                try {
-                    val userArray = response.getJSONArray("user")
-                    if (userArray.length() > 0) {
-                        val user = userArray.getJSONObject(0)
-                        val userEmail = user.getString("email")
-                        val userPassword = user.getString("password")
+        val jsonBody = JSONObject()
+        jsonBody.put("email", email)
+        jsonBody.put("password", password)
 
-                        if (email == userEmail && password == userPassword) {
-                            // Connexion réussie pour un utilisateur
-                            navigateToUserDashboard()
-                        } else {
-                            Toast.makeText(this, "Identifiants utilisateur invalides.", Toast.LENGTH_SHORT).show()
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.POST, url, jsonBody,
+            { response ->
+                try {
+                    val success = response.getBoolean("success")
+                    val message = response.getString("message")
+
+                    if (success) {
+                        val role = response.getString("role")
+                        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                        when (role) {
+                            "utilisateur" -> navigateToUserDashboard()
+                            "admin", "super_admin" -> navigateToAdminDashboard()
+                            else -> Toast.makeText(this, "Rôle inconnu: $role", Toast.LENGTH_SHORT).show()
                         }
                     } else {
-                        Toast.makeText(this, "Utilisateur non trouvé.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: JSONException) {
-                    Toast.makeText(this, "Erreur de connexion.", Toast.LENGTH_SHORT).show()
+                    e.printStackTrace()
+                    Toast.makeText(this, "Erreur JSON: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             },
-            Response.ErrorListener { error ->
-                Toast.makeText(this, "Erreur: ${error.message}", Toast.LENGTH_SHORT).show()
+            { error ->
+                error.printStackTrace()
+                Toast.makeText(this, "Erreur réseau: ${error.message}", Toast.LENGTH_LONG).show()
             }
         )
 
-        // Connexion pour admin
-        val jsonObjectRequestAdmin = JsonObjectRequest(Request.Method.GET, urlAdmin, null,
-            Response.Listener { response ->
-                try {
-                    val adminArray = response.getJSONArray("administrateur")
-                    if (adminArray.length() > 0) {
-                        val admin = adminArray.getJSONObject(0)
-                        val adminEmail = admin.getString("email")
-                        val adminPassword = admin.getString("password")
-
-                        if (email == adminEmail && password == adminPassword) {
-                            // Connexion réussie pour l'admin
-                            navigateToAdminDashboard()
-                        } else {
-                            Toast.makeText(this, "Identifiants admin invalides.", Toast.LENGTH_SHORT).show()
-                        }
-                    } else {
-                        Toast.makeText(this, "Admin non trouvé.", Toast.LENGTH_SHORT).show()
-                    }
-                } catch (e: JSONException) {
-                    Toast.makeText(this, "Erreur de connexion pour admin.", Toast.LENGTH_SHORT).show()
-                }
-            },
-            Response.ErrorListener { error ->
-                Toast.makeText(this, "Erreur: ${error.message}", Toast.LENGTH_SHORT).show()
-            }
-        )
-
-        // Ajout des requêtes à la queue
-        requestQueue.add(jsonObjectRequestUser)
-        requestQueue.add(jsonObjectRequestAdmin)
+        requestQueue.add(jsonObjectRequest)
     }
 
     private fun navigateToUserDashboard() {
         val intent = Intent(this, UserDashboardActivity::class.java)
         startActivity(intent)
-        finish()  // Facultatif : terminer l'activité de connexion pour éviter de revenir en arrière
+        finish()
     }
 
     private fun navigateToAdminDashboard() {
         val intent = Intent(this, AdminDashboardActivity::class.java)
         startActivity(intent)
-        finish()  // Facultatif : terminer l'activité de connexion pour éviter de revenir en arrière
+        finish()
     }
 }
-
