@@ -11,7 +11,7 @@ Ce projet vise à faciliter l'accès au parking du lycée Jean Rostand pour les 
 
 ### Cloner le dépôt
 ```bash
-git clone -b Marwan https://github.com/JR-CIEL-2-PROJETS/25-easyportal.git
+git clone -b SiteWeb/API https://github.com/JR-CIEL-2-PROJETS/25-easyportal.git
 cd 25-easyportal
 
 ### Pour démarrer l'API et le site web, utilisez Docker Compose :
