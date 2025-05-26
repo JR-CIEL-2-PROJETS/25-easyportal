@@ -11,7 +11,7 @@ Drive Ressource du Groupe (Diagramme UML/Objectifs Etudiants) : https://drive.go
 # Easy Portal
 
 ## Description du Projet
-Easy Portal est un projet de gestion et de contrôle d’accès pour un portail automatisé. Il permet aux utilisateurs, visiteurs et administrateurs de gérer les accès de manière fluide et sécurisée via une application Android connectée à un serveur mock.
+Easy Portal est un projet de gestion et de contrôle d’accès pour un portail automatisé. Il permet aux utilisateurs et administrateurs de gérer les accès de manière fluide et sécurisée via une application Android connectée à un serveur mock.
 
 ---
 
@@ -19,10 +19,9 @@ Easy Portal est un projet de gestion et de contrôle d’accès pour un portail 
 
 1. **Gestion des utilisateurs** :
    - Ajouter, supprimer et modifier les informations des utilisateurs.
-   - Différencier les rôles (administrateur, utilisateur, visiteur).
+   - Différencier les rôles (administrateur, utilisateur).
 
 2. **Gestion des accès** :
-   - Accorder des accès temporaires aux visiteurs.
    - Gérer des accès permanents pour les utilisateurs et administrateurs.
 
 3. **Connexion sécurisée** :
