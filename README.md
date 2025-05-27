@@ -72,7 +72,7 @@ http://{ip-machine}:433/
 ---
 
 ### 5. Installer et configurer l’application mobile
-[⚠️ D'abord suivre (#2-lancer-les-services-backend-et-frontend) pour lancer l'API et que les requêtes soit fonctionnel]
+⚠️ D'abord suivre [2. Lancer les services backend et frontend](#2-lancer-les-services-backend-et-frontend) pour lancer l'API et que les requêtes soit fonctionnel
 
 Depuis un téléphone Android :
 
