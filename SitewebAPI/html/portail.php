@@ -41,17 +41,15 @@ include('php/auth.php');
     <script src="js/dejaconnecter.js"></script>
     <script>
         async function openPortal() {
-            const apiKey = 'ysfLf35lq4i87oHbHNLKKxGjnXPRuTPP';
-            const raspberryPiUrl = 'http://172.16.15.39:5000/open_gate';
+            const raspberryPiUrl = 'http://172.16.15.39:5050/open_gate';
 
-            try {
-                const response = await fetch(raspberryPiUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${apiKey}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
+try {
+    const response = await fetch(raspberryPiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
 
                 if (!response.ok) {
                     throw new Error(`Erreur HTTP : ${response.status}`);
