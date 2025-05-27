@@ -1,122 +1,79 @@
-Voici le repos de l'étudiant 2 !
+ Objectif
+Assurer le contrôle automatique du portail en analysant les plaques d’immatriculation et en interagissant avec une base de données distante pour autoriser ou refuser l’ouverture. Cette logique est embarquée sur un Raspberry Pi, qui communique avec un Arduino pour commander le moteur.
 
-Voici le repos du groupe pour le projet Final EasyPortal !
+ Fonctionnalités
+ Détection de plaques
 
-Trello : https://trello.com/b/0rJY5Std/easyportal-projet
+Analyse d’un flux vidéo en temps réel via caméra Pi ou USB
 
-Cahier des charges : https://drive.google.com/file/d/1jTqu-DFb7wzD0Egm1XIkNRtG2iQ96qns/view
+Utilisation de EasyOCR pour détecter les caractères
 
-Drive Ressource du Groupe (Diagramme UML/Objectifs Etudiants) : https://drive.google.com/drive/folders/113utU2sftZKCHBuI6aiLEg9IuT4zaUXk
+Nettoyage et formatage du texte détecté
 
-# Easy Portal
+ Vérification des autorisations
 
-## Description du Projet
-Easy Portal est un projet de gestion et de contrôle d’accès pour un portail automatisé. Il permet aux utilisateurs, visiteurs et administrateurs de gérer les accès de manière fluide et sécurisée via une application Android connectée à un serveur mock.
+Envoi de la plaque au serveur via une requête API REST
 
----
+Réception de la décision (autorisé, refusé, blacklist)
 
-## Objectifs
+Log de chaque tentative (plaque, date, heure, statut)
 
-1. **Gestion des utilisateurs** :
-   - Ajouter, supprimer et modifier les informations des utilisateurs.
-   - Différencier les rôles (administrateur, utilisateur, visiteur).
+ Contrôle matériel du portail
 
-2. **Gestion des accès** :
-   - Accorder des accès temporaires aux visiteurs.
-   - Gérer des accès permanents pour les utilisateurs et administrateurs.
+Commande d’un moteur DC via un L298N et un Arduino UNO
 
-3. **Connexion sécurisée** :
-   - Authentification via un serveur (Mock Server) avec gestion des identifiants.
-   - Validation des rôles pour attribuer les permissions.
+Ouverture/fermeture du portail sur signal validé via socket TCP/IP
 
-4. **Automatisation** :
-   - Lecture automatique des plaques d’immatriculation pour l’ouverture du portail.
-   - Demande d’ouverture via l’application Android.
+Clignotement d’un signal lumineux (LED) lors des mouvements du portail
 
----
+ Communication réseau
 
-## Fonctionnalités Principales
+Serveur TCP/IP pour recevoir les ordres de l’app Android
 
-1. **Connexion Utilisateur** :
-   - Authentification via identifiant et mot de passe.
+Client REST pour interroger la base de données distante
 
-2. **Gestion des utilisateurs** :
-   - Consultation de la liste des utilisateurs via une API REST.
-   - Ajout, suppression et modification des comptes.
+Possibilité d’utiliser un tunnel (ex. ngrok) pour usage hors LAN
 
-3. **Ouverture du portail** :
-   - Demande d’ouverture via l’application Android.
-   - Lecture des plaques pour une ouverture intelligente.
+Technologies utilisées
+Raspberry Pi 3 B+ – Système embarqué
 
-4. **Gestion des accès visiteurs** :
-   - Accès temporaire demandé par l’application.
-   - Validation des accès illimités par un administrateur.
+Python 3 – Langage principal
 
----
+EasyOCR – Détection de texte sur les plaques
 
-## Structure Technique
+OpenCV – Capture vidéo et traitement d’image
 
-1. **Application Android** :
-   - Interface utilisateur pour les accès et la gestion des utilisateurs.
-   - Langages utilisés : Kotlin/Java.
+Flask / Socket – API REST et serveur TCP
 
-2. **Mock Server** :
-   - Serveur simulé pour tester les API REST.
-   - Fonctionnalités :
-     - Liste des utilisateurs.
-     - Authentification.
-     - Gestion des rôles.
+Arduino UNO + L298N – Contrôle du moteur à courant continu
 
-3. **Exemples d’API REST** :
-   - Connexion utilisateur :
-     ```
-     GET /connexion/utilisateur?username=medy&password=medy77230
-     ```
-   - Liste des utilisateurs :
-     ```
-     GET /Dashboard/GestionUser/liste_user
-     ```
+Caméra Raspberry Pi ou USB – Entrée vidéo
 
----
+Tests & Déploiement
+Testé sur Raspberry Pi OS 64 bits
 
-## Organisation Collaborative
+Communication testée en réseau local et à distance
 
-- **Branches Git** :
-  - Une branche par membre de l’équipe pour isoler les travaux.
-  - Pull requests et revue de code pour valider les contributions.
+Intégration avec base de données distante (MySQL)
 
-- **Gestion des Tâches** :
-  - Tableau Kanban pour suivre l’état des tâches.
-  - Priorisation des développements.
+Arduino programmé via IDE Arduino (C++)
 
----
 
-## Membres de l’Équipe
-- **Chef de projet** : Coordination et suivi du projet.
-- **Développeur Android** : Création de l’application mobile.
-- **Backend Engineer** : Gestion du serveur mock et des APIs.
 
----
 
-## Comment Lancer le Projet
+ Sécurité
+Communication API via HTTP (HTTPS recommandé pour déploiement réel)
 
-1. Clonez le dépôt :
-   ```bash
-   git clone <url-du-depot>
-   ```
+Authentification gérée côté serveur 
+Possibilité de filtrer les IP autorisées sur le réseau local
 
-2. Installez les dépendances nécessaires (selon la stack technique).
+ À venir
+Ajout d’alertes en cas de tentative non autorisée
 
-3. Lancez le Mock Server pour tester les fonctionnalités API.
+Système de reconnaissance améliorée (Deep Learning)
 
-4. Exécutez l’application Android via Android Studio.
+Intégration d’une batterie de secours pour la motorisation
 
----
-
-## Améliorations Futures
-
-- Ajout de notifications pour les accès refusés.
-- Intégration d’un système de logs pour suivre les demandes d’accès.
-- Mise en production sur un serveur cloud.
-
----
+Auteur
+Ivan Surnin
+Développement de la partie opérationnelle (Raspberry Pi, Arduino, détection OCR, contrôle du portail)
