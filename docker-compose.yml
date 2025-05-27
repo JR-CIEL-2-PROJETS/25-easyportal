@@ -4,7 +4,7 @@ services:
   nginx:
     image: nginx:1.22-alpine
     ports:
-      - "8080:80"
+      - "8110:80"
       - "8443:443"
     volumes:
       - ./html:/var/www/html
@@ -31,15 +31,9 @@ services:
     volumes:
       - dbdata:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "3386:3386"
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      PMA_HOST: mysql
-      MYSQL_ROOT_PASSWORD: root
-    ports:
-      - "8081:80"
+ 
 
 volumes:
   dbdata:
