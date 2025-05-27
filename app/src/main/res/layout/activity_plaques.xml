@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E8F2E8"
+    android:padding="16dp">
+
+    <!-- Barre du haut avec fond blanc -->
+    <RelativeLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#FFFFFF"
+        android:padding="8dp">
+
+        <!-- Bouton Retour -->
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/fleche" />
+
+        <!-- Titre Mes Plaques -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="✦ Mes Plaques"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+    </RelativeLayout>
+
+    <!-- Sous-titre -->
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_bar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Liste de vos plaques"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-medium" />
+
+    <!-- RecyclerView pour afficher les plaques -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/subtitle"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="80dp"
+        android:scrollbars="vertical"
+        android:background="#FFFFFF"
+        android:layout_alignParentBottom="true"/>
+
+    <!-- Bouton pour ajouter une plaque -->
+    <Button
+        android:id="@+id/addPlaqueButton"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_button1"
+        android:text="Ajouter une Plaque"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:drawableLeft="@drawable/ic_add_white"
+        android:drawablePadding="8dp" />
+
+</RelativeLayout>

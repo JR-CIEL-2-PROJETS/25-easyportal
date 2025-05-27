@@ -1,3 +1,4 @@
+// LoginActivity.kt
 package com.example.easyportal
 
 import android.content.Context
@@ -84,7 +85,7 @@ class LoginActivity : AppCompatActivity() {
                         val role = response.getString("role")
                         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                         when (role) {
-                            "utilisateur" -> navigateToUserDashboard()
+                            "utilisateur" -> navigateToUserDashboard(email)
                             "admin", "super_admin" -> navigateToAdminDashboard()
                             else -> Toast.makeText(this, "Rôle inconnu: $role", Toast.LENGTH_SHORT).show()
                         }
@@ -105,8 +106,10 @@ class LoginActivity : AppCompatActivity() {
         requestQueue.add(jsonObjectRequest)
     }
 
-    private fun navigateToUserDashboard() {
-        startActivity(Intent(this, UserDashboardActivity::class.java))
+    private fun navigateToUserDashboard(email: String) {
+        val intent = Intent(this, UserDashboardActivity::class.java)
+        intent.putExtra("email", email)
+        startActivity(intent)
         finish()
     }
 

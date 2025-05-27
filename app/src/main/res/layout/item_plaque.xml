@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <!-- TextView pour le numéro de plaque -->
+    <TextView
+        android:id="@+id/numeroTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Numéro Plaque"
+        android:textSize="16sp"
+        android:paddingEnd="16dp"/>
+
+    <!-- TextView pour le statut de la plaque -->
+    <TextView
+        android:id="@+id/statutTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Statut"
+        android:textSize="16sp"
+        android:clickable="false"
+        android:focusable="false"/>
+
+    <!-- Bouton pour supprimer la plaque -->
+    <ImageButton
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_delete"
+        android:contentDescription="Supprimer plaque"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:padding="8dp"/>
+
+</LinearLayout>

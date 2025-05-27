@@ -55,7 +55,7 @@
             android:columnCount="2"
             android:gravity="center"
             android:padding="16dp"
-            android:rowCount="2">
+            android:rowCount="3">
 
             <!-- Camera Button -->
             <LinearLayout
@@ -154,4 +154,3 @@
     </LinearLayout>
 
 </android.widget.ScrollView>
-

@@ -59,6 +59,12 @@
         <activity android:name=".LogActivity"
             android:exported="true"
             android:theme="@style/Theme.EasyPortal"/>
+        <activity android:name=".PlaquesActivity">
+            <!-- Tu peux aussi ajouter d'autres configurations ici si nécessaire -->
+        </activity>
+
     </application>
+
+
 
 </manifest>
