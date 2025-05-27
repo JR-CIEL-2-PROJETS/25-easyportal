@@ -1,53 +1,56 @@
- Objectif
+Objectif
+
+
+
 Assurer le contrôle automatique du portail en analysant les plaques d’immatriculation et en interagissant avec une base de données distante pour autoriser ou refuser l’ouverture. Cette logique est embarquée sur un Raspberry Pi, qui communique avec un Arduino pour commander le moteur.
 
- Fonctionnalités
- Détection de plaques
+Fonctionnalités
+-Détection de plaques
 
-Analyse d’un flux vidéo en temps réel via caméra Pi ou USB
+-Analyse d’un flux vidéo en temps réel via caméra Pi ou USB
 
-Utilisation de EasyOCR pour détecter les caractères
+-Utilisation de EasyOCR pour détecter les caractères
 
-Nettoyage et formatage du texte détecté
+-Nettoyage et formatage du texte détecté
 
- Vérification des autorisations
+-Vérification des autorisations
 
-Envoi de la plaque au serveur via une requête API REST
+-Envoi de la plaque au serveur via une requête API REST
 
-Réception de la décision (autorisé, refusé, blacklist)
+-Réception de la décision (autorisé, refusé, blacklist)
 
-Log de chaque tentative (plaque, date, heure, statut)
+-Log de chaque tentative (plaque, date, heure, statut)
 
- Contrôle matériel du portail
+-Contrôle matériel du portail
 
-Commande d’un moteur DC via un L298N et un Arduino UNO
+-Commande d’un moteur DC via un L298N et un Arduino UNO
 
-Ouverture/fermeture du portail sur signal validé via socket TCP/IP
+-Ouverture/fermeture du portail sur signal validé via socket TCP/IP
 
-Clignotement d’un signal lumineux (LED) lors des mouvements du portail
+-Clignotement d’un signal lumineux (LED) lors des mouvements du portail
 
- Communication réseau
+-Communication réseau
 
-Serveur TCP/IP pour recevoir les ordres de l’app Android
+-Serveur TCP/IP pour recevoir les ordres de l’app Android
 
-Client REST pour interroger la base de données distante
+-Client REST pour interroger la base de données distante
 
-Possibilité d’utiliser un tunnel (ex. ngrok) pour usage hors LAN
+-Possibilité d’utiliser un tunnel (ex. ngrok) pour usage hors LAN
 
-Technologies utilisées
-Raspberry Pi 3 B+ – Système embarqué
+-Technologies utilisées
+-Raspberry Pi 3 B+ – Système embarqué
 
-Python 3 – Langage principal
+-Python 3 – Langage principal
 
-EasyOCR – Détection de texte sur les plaques
+-EasyOCR – Détection de texte sur les plaques
 
-OpenCV – Capture vidéo et traitement d’image
+-OpenCV – Capture vidéo et traitement d’image
 
-Flask / Socket – API REST et serveur TCP
+-Flask / Socket – API REST et serveur TCP
 
-Arduino UNO + L298N – Contrôle du moteur à courant continu
+-Arduino UNO + L298N – Contrôle du moteur à courant continu
 
-Caméra Raspberry Pi ou USB – Entrée vidéo
+-Caméra Raspberry Pi ou USB – Entrée vidéo
 
 Tests & Déploiement
 Testé sur Raspberry Pi OS 64 bits
@@ -61,7 +64,10 @@ Arduino programmé via IDE Arduino (C++)
 
 
 
- Sécurité
+Sécurité
+
+
+
 Communication API via HTTP (HTTPS recommandé pour déploiement réel)
 
 Authentification gérée côté serveur 
