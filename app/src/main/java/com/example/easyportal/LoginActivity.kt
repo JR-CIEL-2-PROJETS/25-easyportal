@@ -1,5 +1,6 @@
 package com.example.easyportal
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -48,23 +49,30 @@ class LoginActivity : AppCompatActivity() {
     private fun togglePasswordVisibility() {
         if (isPasswordVisible) {
             passwordEditText.transformationMethod = android.text.method.PasswordTransformationMethod.getInstance()
-            showPasswordImageView.setImageResource(R.drawable.oeil) // icône œil fermé
+            showPasswordImageView.setImageResource(R.drawable.oeil)
         } else {
             passwordEditText.transformationMethod = null
-            showPasswordImageView.setImageResource(R.drawable.oeil) // icône œil ouvert
+            showPasswordImageView.setImageResource(R.drawable.oeil)
         }
         isPasswordVisible = !isPasswordVisible
     }
 
     private fun loginUser(email: String, password: String) {
-        // ⚠️ Change l'URL si tu testes sur un téléphone réel !
-        val url = "http://192.168.1.185:8080/login1.php"
+        val sharedPref = getSharedPreferences("app_config", Context.MODE_PRIVATE)
+        val baseUrl = sharedPref.getString("api_url", null)
+
+        if (baseUrl.isNullOrEmpty()) {
+            Toast.makeText(this, "Adresse API non configurée", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        val url = "$baseUrl/login1.php"
 
         val requestQueue = Volley.newRequestQueue(this)
-
-        val jsonBody = JSONObject()
-        jsonBody.put("email", email)
-        jsonBody.put("password", password)
+        val jsonBody = JSONObject().apply {
+            put("email", email)
+            put("password", password)
+        }
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, url, jsonBody,
@@ -72,7 +80,6 @@ class LoginActivity : AppCompatActivity() {
                 try {
                     val success = response.getBoolean("success")
                     val message = response.getString("message")
-
                     if (success) {
                         val role = response.getString("role")
                         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -99,14 +106,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToUserDashboard() {
-        val intent = Intent(this, UserDashboardActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, UserDashboardActivity::class.java))
         finish()
     }
 
     private fun navigateToAdminDashboard() {
-        val intent = Intent(this, AdminDashboardActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, AdminDashboardActivity::class.java))
         finish()
     }
 }
