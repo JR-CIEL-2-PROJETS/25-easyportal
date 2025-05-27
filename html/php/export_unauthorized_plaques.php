@@ -10,13 +10,13 @@ try {
 
     // Requête SQL pour les plaques bloquées
     $stmt = $pdo->prepare("
-        SELECT 
+        SELECT
             CONCAT(COALESCE(u.prenom, ''), ' ', COALESCE(u.nom, '')) AS nom_utilisateur,
             p.numero,
             p.date_ajout
         FROM plaques p
         LEFT JOIN users u ON p.user_id = u.id
-        WHERE p.statut = 'bloqué'
+        WHERE p.statut = 'bloque'
     ");
     $stmt->execute();
 
@@ -26,7 +26,7 @@ try {
 
     $output = fopen('php://output', 'w');
 
-    // En-têtes
+    // En-têtes CSV
     fputcsv($output, ['Nom utilisateur', 'Numéro de plaque', 'Date d\'ajout']);
 
     // Lignes CSV

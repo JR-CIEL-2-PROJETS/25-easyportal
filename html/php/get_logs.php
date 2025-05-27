@@ -1,17 +1,16 @@
 <?php
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *'); // Ajoutez ceci si nécessaire pour les requêtes CORS
 
-$servername = "51.210.151.13"; // IP de ton serveur OVH
-$username = "easyportal2025"; // Ton utilisateur MySQL
-$password = "EasyPortal2025!"; // Ton mot de passe MySQL
-$dbname = "easyportal2025"; // Le nom de ta base de données
+$servername = "51.210.151.13";
+$username = "easyportal2025";
+$password = "EasyPortal2025!";
+$dbname = "easyportal2025";
 
 try {
-    // Connexion à la base de données
     $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8mb4", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Récupération des logs avec les informations de l'utilisateur
     $stmt = $pdo->prepare("
         SELECT u.email, l.date_entree, l.plaque, l.action
         FROM logs l

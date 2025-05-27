@@ -51,22 +51,23 @@ include('php/auth.php');
         async function fetchLogs() {
             try {
                 const response = await fetch('php/get_logs.php');
-                
+
                 if (!response.ok) {
                     throw new Error(`Erreur HTTP : ${response.status}`);
                 }
 
                 const logs = await response.json();
-                console.log(logs); // Affiche les logs dans la console
+                console.log("Logs reçus :", logs); // Affiche les logs dans la console
                 displayLogs(logs);
 
                 // Ajouter l'événement de recherche
                 document.getElementById('searchInput').addEventListener('input', function() {
                     const searchTerm = this.value.toLowerCase();
-                    const filteredLogs = logs.filter(log => 
-                        log.email.toLowerCase().includes(searchTerm) || 
+                    const filteredLogs = logs.filter(log =>
+                        log.email.toLowerCase().includes(searchTerm) ||
                         log.plaque.toLowerCase().includes(searchTerm)
                     );
+                    console.log("Logs filtrés :", filteredLogs); // Affiche les logs filtrés dans la console
                     displayLogs(filteredLogs);
                 });
 
