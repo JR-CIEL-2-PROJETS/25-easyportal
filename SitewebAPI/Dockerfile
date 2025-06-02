@@ -1,10 +1,7 @@
 # Utiliser l'image officielle PHP avec FPM et Alpine
 FROM php:8.3-fpm-alpine
 
-# Mettre à jour les dépôts obsolètes si nécessaire
-RUN sed -i 's/dl-cdn.alpinelinux.org/old.alpinelinux.org/g' /etc/apk/repositories
-
-# Installer les paquets requis pour compiler les extensions PHP
+# Mettre à jour les dépôts (en gardant les dépôts officiels, pas old.alpinelinux.org)
 RUN apk update && apk add --no-cache \
     ca-certificates \
     libxml2-dev \
