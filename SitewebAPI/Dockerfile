@@ -1,9 +1,11 @@
 # Utiliser l'image officielle PHP avec FPM et Alpine
 FROM php:8.3-fpm-alpine
 
-# Mettre à jour les dépôts (en gardant les dépôts officiels, pas old.alpinelinux.org)
+# Installer les certificats SSL avant de faire quoi que ce soit d'autre
+RUN apk add --no-cache ca-certificates && update-ca-certificates
+
+# Mettre à jour les paquets et installer les dépendances
 RUN apk update && apk add --no-cache \
-    ca-certificates \
     libxml2-dev \
     oniguruma-dev \
     autoconf \
@@ -13,8 +15,7 @@ RUN apk update && apk add --no-cache \
     libc-dev \
     pkgconf \
     re2c \
-    file \
-    && update-ca-certificates
+    file
 
 # Installer les extensions PHP nécessaires
 RUN docker-php-ext-install pdo pdo_mysql mysqli
