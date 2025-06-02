@@ -1,12 +1,10 @@
 FROM php:8.3-fpm-alpine
 
-# 🔐 Certificats SSL à jour
-RUN apk --no-cache add ca-certificates curl \
- && curl -o /etc/ssl/certs/ca-certificates.crt https://curl.se/ca/cacert.pem \
- && update-ca-certificates
+# 🔐 Installer les certificats SSL et curl
+RUN apk --no-cache add ca-certificates curl && update-ca-certificates
 
-# 📦 Paquets nécessaires
-RUN apk update && apk add --no-cache \
+# 📦 Installer les dépendances système
+RUN apk add --no-cache \
     libxml2-dev \
     oniguruma-dev \
     autoconf \
@@ -18,12 +16,20 @@ RUN apk update && apk add --no-cache \
     re2c \
     file
 
-# 📦 Extensions PHP
+# 🧩 Installer les extensions PHP nécessaires
 RUN docker-php-ext-install pdo pdo_mysql mysqli
 
+# 📁 Définir le dossier de travail
 WORKDIR /var/www/html
+
+# 📂 Copier les fichiers de l'application
 COPY ./html /var/www/html
+
+# 🔐 Définir les permissions
 RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
 
+# 🌐 Exposer le port FPM
 EXPOSE 9000
+
+# ▶️ Lancer PHP-FPM
 CMD ["php-fpm"]
