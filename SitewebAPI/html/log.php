@@ -17,7 +17,7 @@ include('php/auth.php');
     </div>
 
     <div class="sidebar">
-        <a href="dashboard">Dashboard</a>
+        <a >Dashboard</a>
         <a href="user">Utilisateurs</a>
         <a href="admin">Admin</a>
         <a href="plaques">Plaques</a>
