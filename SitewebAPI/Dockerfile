@@ -1,5 +1,8 @@
 FROM php:8.3-fpm-alpine
 
+# ⚠️ Remplacer HTTPS par HTTP pour éviter les erreurs SSL
+RUN sed -i 's|https://dl-cdn.alpinelinux.org|http://dl-cdn.alpinelinux.org|g' /etc/apk/repositories
+
 # 🔐 Installer les certificats SSL et curl
 RUN apk --no-cache add ca-certificates curl && update-ca-certificates
 
