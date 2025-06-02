@@ -41,7 +41,7 @@ include('php/auth.php');
     <script src="js/dejaconnecter.js"></script>
     <script>
         async function openPortal() {
-            const raspberryPiUrl = 'http://172.16.15.39:5050/open_gate';
+            const raspberryPiUrl = 'http://172.16.15.39:5051/open_gate';
 
 try {
     const response = await fetch(raspberryPiUrl, {
