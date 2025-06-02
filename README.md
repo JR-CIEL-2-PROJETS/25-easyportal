@@ -45,7 +45,7 @@ Depuis la racine du projet, allez dans le dossier suivant et lancez la commande 
 
 ```bash
 cd SitewebAPI
-docker-compose up -d
+sudo docker-compose up -d
 ```
 
 Cette commande va démarrer les services du Site Web et de l'API
@@ -55,7 +55,7 @@ Cette commande va démarrer les services du Site Web et de l'API
 Depuis un navigateur :
 
 ```url
-http://{ip-machine}:433/
+http://{ip-machine}:8849/
 ```
 
 **Note :** Une alerte peut apparaître si le certificat est auto-signé. Acceptez l’exception de sécurité.
