@@ -63,6 +63,19 @@
             <!-- Tu peux aussi ajouter d'autres configurations ici si nécessaire -->
         </activity>
 
+        <activity android:name=".SuperAdminPlaquesActivity"
+            android:exported="true"
+            android:theme="@style/Theme.EasyPortal"/>
+        <activity
+            android:name=".AdminPlaquesActivity"
+            android:exported="true"
+            android:theme="@style/Theme.EasyPortal" />
+
+
+
+
+
+
     </application>
 
 

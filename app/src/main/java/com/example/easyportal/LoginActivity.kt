@@ -1,4 +1,3 @@
-// LoginActivity.kt
 package com.example.easyportal
 
 import android.content.Context
@@ -49,7 +48,8 @@ class LoginActivity : AppCompatActivity() {
 
     private fun togglePasswordVisibility() {
         if (isPasswordVisible) {
-            passwordEditText.transformationMethod = android.text.method.PasswordTransformationMethod.getInstance()
+            passwordEditText.transformationMethod =
+                android.text.method.PasswordTransformationMethod.getInstance()
             showPasswordImageView.setImageResource(R.drawable.oeil)
         } else {
             passwordEditText.transformationMethod = null
@@ -86,8 +86,12 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                         when (role) {
                             "utilisateur" -> navigateToUserDashboard(email)
-                            "admin", "super_admin" -> navigateToAdminDashboard()
-                            else -> Toast.makeText(this, "Rôle inconnu: $role", Toast.LENGTH_SHORT).show()
+                            "admin", "super_admin" -> navigateToAdminDashboard(email, role)
+                            else -> Toast.makeText(
+                                this,
+                                "Rôle inconnu: $role",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     } else {
                         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -99,7 +103,11 @@ class LoginActivity : AppCompatActivity() {
             },
             { error ->
                 error.printStackTrace()
-                Toast.makeText(this, "Erreur réseau: ${error.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this,
+                    "Erreur réseau: ${error.message ?: "inconnue"}",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         )
 
@@ -113,8 +121,11 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun navigateToAdminDashboard() {
-        startActivity(Intent(this, AdminDashboardActivity::class.java))
+    private fun navigateToAdminDashboard(email: String, role: String) {
+        val intent = Intent(this, AdminDashboardActivity::class.java)
+        intent.putExtra("email", email)
+        intent.putExtra("role", role) // <-- ajout du rôle ici
+        startActivity(intent)
         finish()
     }
 }

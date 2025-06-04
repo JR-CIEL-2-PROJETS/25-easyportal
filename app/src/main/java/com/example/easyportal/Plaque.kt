@@ -1,4 +1,3 @@
-// Data class Plaque
 package com.example.easyportal
 
 data class Plaque(
@@ -6,5 +5,6 @@ data class Plaque(
     val numero: String,
     val statut: String,
     val nom: String,
-    val prenom: String
+    val prenom: String,
+    val email: String
 )

@@ -14,27 +14,23 @@ class LogAdapter(
     private val logs: List<LogEntry>
 ) : RecyclerView.Adapter<LogAdapter.LogViewHolder>() {
 
-    // ViewHolder pour l'adaptateur
     class LogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val userName: TextView = itemView.findViewById(R.id.user_name)
         val logMessage: TextView = itemView.findViewById(R.id.log_message)
+        val logDate: TextView = itemView.findViewById(R.id.log_date)
     }
 
-    // Créer un nouveau ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LogViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.log_item, parent, false)
         return LogViewHolder(view)
     }
 
-    // Lier les données à la vue
     override fun onBindViewHolder(holder: LogViewHolder, position: Int) {
         val log = logs[position]
         holder.userName.text = log.userName
         holder.logMessage.text = log.logMessage
+        holder.logDate.text = log.logDate
     }
 
-    // Retourner la taille de la liste
-    override fun getItemCount(): Int {
-        return logs.size
-    }
+    override fun getItemCount(): Int = logs.size
 }

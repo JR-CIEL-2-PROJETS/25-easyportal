@@ -4,34 +4,27 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp"
-    android:layout_marginBottom="8dp"
     android:background="?android:attr/selectableItemBackground">
 
-    <!-- Email utilisateur -->
     <TextView
-        android:id="@+id/user_name"
+        android:id="@+id/nomPrenomText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="User Name"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:text="Nom Prénom"
+        android:textStyle="bold"
+        android:textSize="16sp" />
 
-    <!-- Date du log -->
     <TextView
-        android:id="@+id/log_date"
+        android:id="@+id/emailText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2025-06-01 15:34:00"
-        android:textSize="13sp"
-        android:textColor="#666666"
-        android:layout_marginTop="4dp" />
+        android:text="email@example.com"
+        android:textColor="#666666" />
 
-    <!-- Message -->
     <TextView
-        android:id="@+id/log_message"
+        android:id="@+id/roleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log Message"
-        android:textSize="14sp"
-        android:layout_marginTop="4dp" />
+        android:text="Role"
+        android:textColor="#888888" />
 </LinearLayout>

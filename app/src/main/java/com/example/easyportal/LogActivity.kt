@@ -1,6 +1,8 @@
 package com.example.easyportal
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,24 +18,30 @@ class LogActivity : AppCompatActivity() {
 
     private lateinit var logRecyclerView: RecyclerView
     private lateinit var logAdapter: LogAdapter
-    private var logs = mutableListOf<LogEntry>()
+    private val logs = mutableListOf<LogEntry>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.log_activity)
 
-        // Initialisation du RecyclerView
-        logRecyclerView = findViewById(R.id.log_list_view)
+        val email = intent.getStringExtra("email") // Email de l'admin
 
-        // Configuration du RecyclerView (LinearLayoutManager)
+        logRecyclerView = findViewById(R.id.log_list_view)
         logRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Charger les logs depuis le serveur
-        fetchLogs()
+        findViewById<ImageView>(R.id.back_button).setOnClickListener {
+            val intent = Intent(this, AdminDashboardActivity::class.java)
+            intent.putExtra("email", email)
+            startActivity(intent)
+            finish()
+        }
+
+        fetchLogs(email)
     }
 
-    private fun fetchLogs() {
-        val url = "http://192.168.1.185/get_logs.php"  // Remplace par l'IP de ton serveur ou localhost si sur émulateur
+    private fun fetchLogs(email: String?) {
+        val baseUrl = ApiManager.getBaseUrl()
+        val url = "$baseUrl/get_logs_mobile.php?email=$email"
 
         val requestQueue = Volley.newRequestQueue(this)
 
@@ -41,32 +49,31 @@ class LogActivity : AppCompatActivity() {
             Request.Method.GET, url, null,
             { response ->
                 try {
-                    val success = response.getBoolean("success")
-                    if (success) {
-                        val logsArray = response.getJSONArray("logs")
+                    if (response.getBoolean("success")) {
+                        val logsArray: JSONArray = response.getJSONArray("logs")
+                        logs.clear()
                         for (i in 0 until logsArray.length()) {
                             val logObject = logsArray.getJSONObject(i)
                             val log = LogEntry(
                                 userName = logObject.getString("email"),
-                                logMessage = logObject.getString("action")
+                                logMessage = logObject.getString("action"),
+                                logDate = logObject.getString("date_entree") // ✅ ajoute la date ici
                             )
                             logs.add(log)
                         }
-
-                        // Mettre à jour l'adapter avec les logs récupérés
                         logAdapter = LogAdapter(this, logs)
                         logRecyclerView.adapter = logAdapter
                     } else {
-                        Toast.makeText(this, "Aucun log trouvé", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, response.getString("message"), Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
-                    e.printStackTrace()
-                    Toast.makeText(this, "Erreur lors du chargement des logs", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Erreur lors du traitement JSON", Toast.LENGTH_SHORT).show()
                 }
             },
             { error ->
+                val responseData = error.networkResponse?.data?.let { String(it) } ?: "Réponse inconnue"
+                Toast.makeText(this, "Erreur réseau: ${error.message}\n$responseData", Toast.LENGTH_LONG).show()
                 error.printStackTrace()
-                Toast.makeText(this, "Erreur de connexion: ${error.message}", Toast.LENGTH_SHORT).show()
             })
 
         requestQueue.add(jsonObjectRequest)

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E8F2E8"
+    android:padding="16dp">
+
+    <!-- Barre supérieure -->
+    <RelativeLayout
+        android:id="@+id/top_bar_super"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#FFFFFF"
+        android:padding="8dp">
+
+        <!-- Bouton retour -->
+        <ImageView
+            android:id="@+id/back_button_super"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/fleche" />
+
+        <!-- Titre -->
+        <TextView
+            android:id="@+id/title_super"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="✦ Gestion des Plaques"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+    </RelativeLayout>
+
+    <!-- RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSuper"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/top_bar_super"
+        android:layout_above="@id/addPlaqueButtonSuper"
+        android:layout_marginTop="8dp"
+        android:background="#FFFFFF"
+        android:scrollbars="vertical" />
+
+    <!-- Bouton Ajouter -->
+    <Button
+        android:id="@+id/addPlaqueButtonSuper"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_button1"
+        android:text="Ajouter une Plaque"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:drawableLeft="@drawable/ic_add_white"
+        android:drawablePadding="8dp" />
+</RelativeLayout>

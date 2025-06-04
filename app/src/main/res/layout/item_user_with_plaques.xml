@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#FFFFFF"
+    android:layout_marginBottom="8dp"
+    android:elevation="2dp">
+
+    <!-- Nom et prénom -->
+    <TextView
+        android:id="@+id/nomPrenomTextViewUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nom Prénom"
+        android:textStyle="bold"
+        android:textSize="16sp" />
+
+    <!-- Email -->
+    <TextView
+        android:id="@+id/emailTextViewUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="email@example.com"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Bouton ajouter une plaque -->
+    <Button
+        android:id="@+id/btnAddPlaque"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ajouter une plaque"
+        android:textColor="#000000"
+        android:background="@drawable/rounded_button1"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Message aucune plaque -->
+    <TextView
+        android:id="@+id/noPlaquesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aucune plaque enregistrée"
+        android:textSize="14sp"
+        android:textColor="#888888"
+        android:visibility="gone"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Liste des plaques -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewPlaques"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"
+        android:visibility="visible" />
+</LinearLayout>

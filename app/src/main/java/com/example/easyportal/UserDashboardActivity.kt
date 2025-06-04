@@ -22,6 +22,9 @@ class UserDashboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user_dashboard)
 
         userEmail = intent.getStringExtra("email") ?: ""
+        val email = intent.getStringExtra("email")
+
+
 
         val openGateButton = findViewById<Button>(R.id.open_gate_button)
         openGateButton.setOnClickListener {
