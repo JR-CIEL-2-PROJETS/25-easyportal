@@ -29,16 +29,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
         android:layout_alignTop="@id/background_image"
         android:layout_alignBottom="@id/background_image"
         android:translationY="25dp"
-    android:fontFamily="@font/noto_sans"
-    android:gravity="center"
-    android:text="Welcome to \nEasyPortal"
-    android:textColor="#FFFFFF"
-    android:textSize="28sp"
-    android:textStyle="bold" />
+        android:fontFamily="@font/noto_sans"
+        android:gravity="center"
+        android:text="Welcome to \nEasyPortal"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"
+        android:textStyle="bold" />
 
     <!-- Section de texte pour connexion ou inscription -->
     <TextView
@@ -67,7 +66,7 @@
         <!-- Bouton Login -->
         <Button
             android:id="@+id/login_button"
-            android:layout_width="329dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_button"
@@ -80,7 +79,7 @@
         <!-- Bouton Register -->
         <Button
             android:id="@+id/register_button"
-            android:layout_width="333dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button_register"
             android:backgroundTint="#FFFFFF"
@@ -92,7 +91,7 @@
         <!-- Bouton Configuration API -->
         <Button
             android:id="@+id/configure_api_button"
-            android:layout_width="333dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/logo"
@@ -104,4 +103,3 @@
     </LinearLayout>
 
 </RelativeLayout>
-

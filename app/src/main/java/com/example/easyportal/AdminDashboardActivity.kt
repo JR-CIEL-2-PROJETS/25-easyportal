@@ -61,7 +61,7 @@ class AdminDashboardActivity : AppCompatActivity() {
     }
 
     private fun openPortal() {
-        val raspberryPiUrl = "http://172.16.15.39:5050/open_gate"
+        val raspberryPiUrl = "http://172.16.15.39:5051/open_gate"
 
         val requestQueue = Volley.newRequestQueue(this)
         val jsonObjectRequest = JsonObjectRequest(

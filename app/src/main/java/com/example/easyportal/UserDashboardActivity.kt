@@ -45,7 +45,7 @@ class UserDashboardActivity : AppCompatActivity() {
     }
 
     private fun openGate() {
-        val url = "http://172.16.15.39:5050/open_gate"
+        val url = "http://172.16.15.39:5051/open_gate"
 
         val requestQueue = Volley.newRequestQueue(this)
 

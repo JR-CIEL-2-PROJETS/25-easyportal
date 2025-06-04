@@ -16,6 +16,8 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONException
 import org.json.JSONObject
+import android.util.Log
+
 
 class PlaquesActivity : AppCompatActivity() {
 
@@ -176,6 +178,8 @@ class PlaquesActivity : AppCompatActivity() {
 
     private fun loadPlaques(baseUrl: String, email: String?) {
         val url = "$baseUrl/getPlaquesByUser.php?email=$email"
+        Log.d("API_REQUEST", "URL de la requête : $url")
+
         val requestQueue = Volley.newRequestQueue(this)
 
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,

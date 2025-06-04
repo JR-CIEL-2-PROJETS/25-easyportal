@@ -4,10 +4,24 @@
     android:layout_height="match_parent"
     android:background="#E8F2E8">
 
+    <!-- Bouton de retour (ImageView) en haut à gauche -->
+    <ImageView
+        android:id="@+id/back_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/fleche"
+         />
+
+    <!-- WebView pour afficher le flux vidéo, centré et en plein écran si nécessaire -->
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"/>
+        android:layout_below="@id/back_button"
+        android:layout_marginTop="16dp"/>
+
 </RelativeLayout>
