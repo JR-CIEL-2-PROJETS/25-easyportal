@@ -1,38 +1,59 @@
 <?php
-header('Content-Type: application/json');
 session_start();
-require_once 'db.php';
+header('Content-Type: application/json');
 
-// Vérification des données reçues
-$data = json_decode(file_get_contents("php://input"), true);
+// Connexion à la base
+$servername = "51.210.151.13";
+$username = "easyportal2025";
+$password = "EasyPortal2025!";
+$dbname = "easyportal2025";
 
-if (!isset($data['nom'], $data['prenom'], $data['email'], $data['password'], $data['role'])) {
-    echo json_encode(["success" => false, "message" => "Données manquantes"]);
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    echo json_encode(['success' => false, 'message' => 'Erreur connexion: ' . $conn->connect_error]);
     exit;
 }
 
-$nom = trim($data['nom']);
-$prenom = trim($data['prenom']);
-$email = trim($data['email']);
-$password = trim($data['password']); 
-$role = trim($data['role']);
+$data = json_decode(file_get_contents("php://input"), true);
+$email = $data['email'] ?? '';
+$numero = $data['numero'] ?? '';
+$statut = $data['statut'] ?? '';
 
-try {
-    $stmt = $pdo->prepare("
-        INSERT INTO users (prenom, nom, email, role, mot_de_passe)
-        VALUES (:prenom, :nom, :email, :role, :mot_de_passe)
-    ");
-
-    $stmt->bindParam(':prenom', $prenom);
-    $stmt->bindParam(':nom', $nom);
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':role', $role);
-    $stmt->bindParam(':mot_de_passe', $password);
-
-    $stmt->execute();
-
-    echo json_encode(["success" => true, "message" => "Utilisateur ajouté avec succès"]);
-} catch (PDOException $e) {
-    echo json_encode(["success" => false, "message" => "Erreur lors de l'ajout de l'utilisateur : " . $e->getMessage()]);
+if (!$email || !$numero || !$statut) {
+    echo json_encode(['success' => false, 'message' => 'Données manquantes']);
+    exit;
 }
+
+// Récupère l'ID de l'utilisateur
+$stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($user = $result->fetch_assoc()) {
+    $userId = $user['id'];
+
+    // Vérifie s'il a déjà 5 plaques
+    $countStmt = $conn->prepare("SELECT COUNT(*) AS count FROM plaques WHERE user_id = ?");
+    $countStmt->bind_param("i", $userId);
+    $countStmt->execute();
+    $countResult = $countStmt->get_result();
+    $count = $countResult->fetch_assoc()['count'];
+
+    if ($count >= 5) {
+        echo json_encode(['success' => false, 'message' => 'Nombre maximal de plaques atteint (5).']);
+    } else {
+        $insert = $conn->prepare("INSERT INTO plaques (user_id, numero, statut) VALUES (?, ?, ?)");
+        $insert->bind_param("iss", $userId, $numero, $statut);
+        if ($insert->execute()) {
+            echo json_encode(['success' => true, 'message' => 'Plaque ajoutée.']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Erreur insertion: ' . $insert->error]);
+        }
+    }
+} else {
+    echo json_encode(['success' => false, 'message' => 'Utilisateur non trouvé']);
+}
+
+$conn->close();
 ?>
