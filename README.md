@@ -55,7 +55,7 @@ Cette commande va démarrer les services du Site Web et de l'API
 Depuis un navigateur :
 
 ```url
-http://{ip-machine}:8849/
+http://{ip-machine}:8110/
 ```
 
 **Note :** Une alerte peut apparaître si le certificat est auto-signé. Acceptez l’exception de sécurité.
