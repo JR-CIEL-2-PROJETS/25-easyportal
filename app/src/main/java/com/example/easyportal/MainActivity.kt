@@ -37,9 +37,8 @@ class MainActivity : AppCompatActivity() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_api_config, null)
         val editText = dialogView.findViewById<EditText>(R.id.api_edit_text)
 
-        // Pré-remplir avec la valeur existante
-        val sharedPref = getSharedPreferences("app_config", Context.MODE_PRIVATE)
-        editText.setText(sharedPref.getString("api_url", ""))
+        // Pré-remplir avec l'URL actuelle via ApiManager
+        editText.setText(ApiManager.getBaseUrl(this))
 
         val dialog = AlertDialog.Builder(this)
             .setTitle("Configurer l'API")
@@ -50,8 +49,16 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "L'adresse ne peut pas être vide", Toast.LENGTH_SHORT).show()
                     return@setPositiveButton
                 }
-                sharedPref.edit().putString("api_url", input).apply()
-                Toast.makeText(this, "Adresse API enregistrée", Toast.LENGTH_SHORT).show()
+
+                // Ajoute http:// si manquant
+                val finalUrl = if (!input.startsWith("http://") && !input.startsWith("https://")) {
+                    "http://$input"
+                } else input
+
+                // Enregistre via ApiManager (ce qui synchronise avec SharedPreferences)
+                ApiManager.setBaseUrl(this, finalUrl)
+
+                Toast.makeText(this, "Adresse API enregistrée : $finalUrl", Toast.LENGTH_SHORT).show()
             }
             .setNegativeButton("Annuler", null)
             .create()

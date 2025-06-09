@@ -67,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        val url = "$baseUrl/login1.php"
+        val url = "$baseUrl/php/login1.php"
 
         val requestQueue = Volley.newRequestQueue(this)
         val jsonBody = JSONObject().apply {

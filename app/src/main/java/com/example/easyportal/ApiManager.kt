@@ -1,13 +1,21 @@
 package com.example.easyportal
 
-object ApiManager {
-    private var baseUrl: String = "http://192.168.131.129:8080"
+import android.content.Context
 
-    fun getBaseUrl(): String {
-        return baseUrl
+object ApiManager {
+    private var baseUrl: String? = null
+
+    fun getBaseUrl(context: Context): String {
+        if (baseUrl == null) {
+            val sharedPref = context.getSharedPreferences("app_config", Context.MODE_PRIVATE)
+            baseUrl = sharedPref.getString("api_url", "http://192.168.131.129:8080")
+        }
+        return baseUrl!!
     }
 
-    fun setBaseUrl(url: String) {
+    fun setBaseUrl(context: Context, url: String) {
         baseUrl = url
+        val sharedPref = context.getSharedPreferences("app_config", Context.MODE_PRIVATE)
+        sharedPref.edit().putString("api_url", url).apply()
     }
 }

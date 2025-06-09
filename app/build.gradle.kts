@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.volley)
     implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -62,5 +63,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
     implementation ("com.android.volley:volley:1.2.1")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
+    implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
+
 }
 

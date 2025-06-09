@@ -41,8 +41,8 @@ class AdminPlaquesActivity : AppCompatActivity() {
     }
 
     private fun loadOnlyUsersPlaques() {
-        val baseUrl = ApiManager.getBaseUrl()
-        val url = "$baseUrl/getAllPlaques.php"
+        val baseUrl = ApiManager.getBaseUrl(this)
+        val url = "$baseUrl/php/getAllPlaques.php"
         val requestQueue = Volley.newRequestQueue(this)
 
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
@@ -150,8 +150,8 @@ class AdminPlaquesActivity : AppCompatActivity() {
     }
 
     private fun addPlaque(email: String, numero: String, statut: String) {
-        val baseUrl = ApiManager.getBaseUrl()
-        val url = "$baseUrl/add_plaque.php"
+        val baseUrl = ApiManager.getBaseUrl(this)
+        val url = "$baseUrl/php/add_plaque.php"
         val jsonBody = JSONObject().apply {
             put("email", email)
             put("numero", numero)
@@ -176,7 +176,7 @@ class AdminPlaquesActivity : AppCompatActivity() {
     }
 
     private fun onPlaqueEdit(plaque: Plaque) {
-        val baseUrl = ApiManager.getBaseUrl()
+        val baseUrl = ApiManager.getBaseUrl(this)
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_edit_plaque_admin, null)
         val numeroEditText = dialogView.findViewById<EditText>(R.id.numeroEditTextAdmin)
         val emailSpinner = dialogView.findViewById<Spinner>(R.id.emailSpinner)
@@ -203,7 +203,7 @@ class AdminPlaquesActivity : AppCompatActivity() {
     }
 
     private fun updatePlaque(baseUrl: String, id: Int, numero: String, statut: String) {
-        val url = "$baseUrl/update_plaque.php"
+        val url = "$baseUrl/php/update_plaque.php"
         val jsonBody = JSONObject().apply {
             put("id", id)
             put("numero", numero)
@@ -228,8 +228,8 @@ class AdminPlaquesActivity : AppCompatActivity() {
     }
 
     private fun onPlaqueDelete(plaque: Plaque) {
-        val baseUrl = ApiManager.getBaseUrl()
-        val url = "$baseUrl/delete_plaque.php"
+        val baseUrl = ApiManager.getBaseUrl(this)
+        val url = "$baseUrl/php/delete_plaque.php"
         val jsonBody = JSONObject().apply {
             put("id", plaque.id)
         }

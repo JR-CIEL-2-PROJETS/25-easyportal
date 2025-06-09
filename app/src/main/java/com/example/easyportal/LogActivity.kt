@@ -40,8 +40,8 @@ class LogActivity : AppCompatActivity() {
     }
 
     private fun fetchLogs(email: String?) {
-        val baseUrl = ApiManager.getBaseUrl()
-        val url = "$baseUrl/get_logs_mobile.php?email=$email"
+        val baseUrl = ApiManager.getBaseUrl(this)
+        val url = "$baseUrl/php/get_logs_mobile.php?email=$email"
 
         val requestQueue = Volley.newRequestQueue(this)
 

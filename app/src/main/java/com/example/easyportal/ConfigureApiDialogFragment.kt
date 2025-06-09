@@ -19,24 +19,25 @@ class ConfigureApiDialogFragment : DialogFragment() {
 
         val apiEditText: EditText = dialogView.findViewById(R.id.api_edit_text)
 
+        // Pré-remplir avec l’URL actuelle
+        apiEditText.setText(ApiManager.getBaseUrl(requireContext()))
+
         builder.setView(dialogView)
             .setTitle("Configurer l'API")
             .setPositiveButton("Enregistrer") { _, _ ->
                 var enteredUrl = apiEditText.text.toString().trim()
 
-                // Ajoute http:// si manquant
+                // Ajoute http:// si nécessaire
                 if (!enteredUrl.startsWith("http://") && !enteredUrl.startsWith("https://")) {
                     enteredUrl = "http://$enteredUrl"
                 }
 
-                // Validation simple
                 if (!Patterns.WEB_URL.matcher(enteredUrl).matches()) {
                     Toast.makeText(requireContext(), "URL invalide", Toast.LENGTH_SHORT).show()
                     return@setPositiveButton
                 }
 
-                // Sauvegarde l'URL dans un singleton ou sharedPreferences
-                ApiManager.setBaseUrl(enteredUrl)
+                ApiManager.setBaseUrl(requireContext(), enteredUrl)
                 Toast.makeText(requireContext(), "API configurée : $enteredUrl", Toast.LENGTH_SHORT).show()
             }
             .setNegativeButton("Annuler") { dialog, _ ->

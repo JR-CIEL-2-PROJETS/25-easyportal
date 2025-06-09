@@ -34,7 +34,7 @@ class PlaquesActivity : AppCompatActivity() {
         adapter = PlaqueAdapter(plaquesList, ::onPlaqueEdit, ::onPlaqueDelete)
         recyclerView.adapter = adapter
 
-        val baseUrl = ApiManager.getBaseUrl()
+        val baseUrl = ApiManager.getBaseUrl(this)
         val email = intent.getStringExtra("email")
 
         if (email.isNullOrEmpty()) {
@@ -88,7 +88,7 @@ class PlaquesActivity : AppCompatActivity() {
             put("statut", statut)
         }
 
-        val url = "$baseUrl/add_plaque.php"
+        val url = "$baseUrl/php/add_plaque.php"
         val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, url, jsonBody,
             { response ->
                 try {
@@ -112,7 +112,7 @@ class PlaquesActivity : AppCompatActivity() {
     }
 
     private fun updatePlaque(plaqueId: Int, numero: String, statut: String, email: String) {
-        val baseUrl = ApiManager.getBaseUrl()
+        val baseUrl = ApiManager.getBaseUrl(this)
         val requestQueue = Volley.newRequestQueue(this)
 
         val jsonBody = JSONObject().apply {
@@ -121,7 +121,7 @@ class PlaquesActivity : AppCompatActivity() {
             put("statut", statut)
         }
 
-        val url = "$baseUrl/update_plaque.php"
+        val url = "$baseUrl/php/update_plaque.php"
         val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, url, jsonBody,
             { response ->
                 try {
@@ -145,7 +145,7 @@ class PlaquesActivity : AppCompatActivity() {
     }
 
     private fun deletePlaque(plaqueId: Int) {
-        val baseUrl = ApiManager.getBaseUrl()
+        val baseUrl = ApiManager.getBaseUrl(this)
         val email = intent.getStringExtra("email") ?: return
         val requestQueue = Volley.newRequestQueue(this)
 
@@ -153,7 +153,7 @@ class PlaquesActivity : AppCompatActivity() {
             put("id", plaqueId)
         }
 
-        val url = "$baseUrl/delete_plaque.php"
+        val url = "$baseUrl/php/delete_plaque.php"
         val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, url, jsonBody,
             { response ->
                 try {
@@ -177,7 +177,7 @@ class PlaquesActivity : AppCompatActivity() {
     }
 
     private fun loadPlaques(baseUrl: String, email: String?) {
-        val url = "$baseUrl/getPlaquesByUser.php?email=$email"
+        val url = "$baseUrl/php/getPlaquesByUser.php?email=$email"
         Log.d("API_REQUEST", "URL de la requête : $url")
 
         val requestQueue = Volley.newRequestQueue(this)
